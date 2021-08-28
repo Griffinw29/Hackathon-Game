@@ -51,6 +51,7 @@
           frameWidth: 32,
           frameHeight: 48,
         });
+        this.load.audio('zombie-dance', ['assets/audio/zombie-dance.mp3', 'assets/audio/zombie-dance.ogg'])
       }
 
       function create() {
@@ -61,6 +62,9 @@
         this.add.image(700, 175, "houses");
         this.add.image(700, 300, "ground");
 
+        this.backgroundMusic = this.sound.add('zombie-dance', { volume: 0.8, loop: true });
+        this.backgroundMusic.play();
+        
         platforms = this.physics.add.staticGroup();
 
         //platforms.create(400, 568, "ground").setScale(2).refreshBody();
