@@ -8,26 +8,20 @@
     <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
     <style type="text/css">
       body {
-        margin: auto;
+        margin: 0;
       }
     </style>
   </head>
   <body>
     <script type="text/javascript">
-      let config = {
+      var config = {
         type: Phaser.AUTO,
-        width: 800,
+        width: 1500,
         height: 600,
-        scale: {
-          parent: "body",
-          mode: Phaser.Scale.FIT,
-          width: 800,
-          height: 600,
-        },
         physics: {
           default: "arcade",
           arcade: {
-            gravity: { y: 500 },
+            gravity: { y: 300 },
             debug: false,
           },
         },
@@ -39,18 +33,86 @@
       };
 
       let player;
-      let zombies;
-      let obstacles;
+      let platforms;
 
-      const game = new Phaser.Game(config);
+      var game = new Phaser.Game(config);
 
       function preload() {
-        this.load.image("sky", "assets/sky.png");
-        this.load.image();
-        this.load.image();
+        this.load.image("sky", "assets/png/2/layers/l1_background.png");
+        this.load.image("hills", "assets/png/2/layers/l2_hills.png");
+        this.load.image("clouds", "assets/png/2/layers/l3_clouds.png");
+        this.load.image("ruin", "assets/png/2/layers/l4_ruin.png");
+        this.load.image("ground", "assets/png/2/layers/l5_ground.png");
+        this.load.image("houses", "assets/png/2/layers/l6_houses.png");
+        this.load.image("ground", "assets/platform.png");
+        this.load.image("star", "assets/star.png");
+        this.load.image("bomb", "assets/bomb/png");
+        this.load.spritesheet("dude", "assets/dude.png", {
+          frameWidth: 32,
+          frameHeight: 48,
+        });
       }
 
-      function create() {}
+      function create() {
+        this.add.image(700, 300, "sky");
+        this.add.image(700, 700, "hills");
+        this.add.image(700, 300, "clouds");
+        this.add.image(700, 300, "ruin");
+        this.add.image(700, 175, "houses");
+        this.add.image(700, 300, "ground");
+
+        platforms = this.physics.add.staticGroup();
+
+        //platforms.create(400, 568, "ground").setScale(2).refreshBody();
+
+        // platforms.create(600, 400, "ground");
+        // platforms.create(50, 250, "ground");
+        // platforms.create(750, 220, "ground");
+
+        player = this.physics.add.sprite(200, 450, "dude");
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
+
+        this.anims.create({
+          key: "left",
+          frames: this.anims.generateFrameNumbers("zombie", {
+            start: 0,
+            end: 3,
+          }),
+          frameRate: 10,
+          repeat: -1,
+        });
+
+        this.anims.create({
+          key: "turn",
+          frames: [{ key: "dude", frame: 4 }],
+          frameRate: 20,
+        });
+
+        this.anims.create({
+          key: "right",
+          frames: this.anims.generateFrameNumbers("zombie", {
+            start: 5,
+            end: 8,
+          }),
+          frameRate: 10,
+          repeat: -1,
+        });
+
+        this.physics.add.collider(player, platforms);
+
+        cursors = this.input.keyboard.createCursorKeys();
+
+        stars = this.physics.add.group({
+          key: "star",
+          repeat: 11,
+          setXY: { x: 12, y: 0, stepX: 70 },
+        });
+
+        stars.children.iterate(function (child) {
+          child.setBounceY(Phaser.Math.FLoatBetween(0.4, 0.8));
+        });
+      }
 
       function update() {
         if (cursors.left.isDown) {
