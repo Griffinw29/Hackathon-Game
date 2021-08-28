@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zombie Dash</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+      body {
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      let config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        scale: {
+          parent: "body",
+          mode: Phaser.Scale.FIT,
+          width: 800,
+          height: 600,
+        },
+        physics: {
+          default: "arcade",
+          arcade: {
+            gravity: { y: 500 },
+            debug: false,
+          },
+        },
+        scene: {
+          preload: preload,
+          create: create,
+          update: update,
+        },
+      };
+
+      let player;
+      let zombies;
+      let obstacles;
+
+      const game = new Phaser.Game(config);
+
+      function preload() {
+        this.load.image("sky", "assets/sky.png");
+        this.load.image();
+        this.load.image();
+      }
+
+      function create() {}
+
+      function update() {
+        if (cursors.left.isDown) {
+          player.setVelocityX(-160);
+          player.anims.play("left", true);
+        } else if (cursors.right.isDown) {
+          player.setVelocityX(160);
+          player.anims.play("right", true);
+        } else {
+          player.setVelocityX(0);
+          player.anims.play("turn");
+        }
+
+        if (cursors.up.isDown && player.body.touching.down) {
+          player.setVelocityY(-330);
+        }
+      }
+    </script>
+  </body>
+</html>

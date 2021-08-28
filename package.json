@@ -1,0 +1,11 @@
+{
+  "name": "mintbean2dgame",
+  "version": "1.0.0",
+  "description": "2d Game for Hackathon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Will Griffin",
+  "license": "ISC"
+}
