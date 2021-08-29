@@ -37,7 +37,9 @@
 
       var game = new Phaser.Game(config);
 
-      const gameState = {};
+      const gameState = {
+        play: true
+      };
 
       function preload() {
         this.load.image("sky", "assets/png/2/layers/l1_background.png");
@@ -56,7 +58,8 @@
         this.load.multiatlas('hero', 'assets/hero.json', "assets");
         this.load.multiatlas('male', 'assets/male.json', "assets");
         this.load.multiatlas('female', 'assets/female.json', "assets");
-        this.load.audio('zombie-dance', ['assets/audio/zombie-dance.mp3', 'assets/audio/zombie-dance.ogg'])
+        this.load.audio('zombie-dance', ['assets/audio/zombie-dance.mp3', 'assets/audio/zombie-dance.ogg']);
+        this.load.audio('male-noise-1', ['assets/audio/noises/male-noise-1.mp3', 'assets/audio/noises/male-noise-1.ogg']);
       }
 
       function create() {
@@ -69,6 +72,7 @@
 
         this.backgroundMusic = this.sound.add('zombie-dance', { volume: 0.8, loop: true });
         this.backgroundMusic.play();
+        this.maleNoise1 = this.sound.add('male-noise-1', { volume: 3, loop: false });
         
         platforms = this.physics.add.staticGroup();
 
@@ -88,6 +92,7 @@
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
 
+
         // Add 'male' zombie sprite to scene
         let zombieMale
         zombieMale = this.physics.add.sprite(300, 400, 'male', 'male-idle/idle01.png');
@@ -95,6 +100,20 @@
         zombieMale.setBounce(0.2);
         zombieMale.setCollideWorldBounds(true);
         zombieMale.flipX = true;
+
+        // Add zombie group
+        const zombies = this.physics.add.group();
+
+
+        function zombieGen() {
+          zombies.create(300, 300, 'male', 'male-idle/idle01.png');
+        }
+        const zombieGenLoop = this.time.addEvent({
+          delay: 1000,
+          callback: zombieGen,
+          callbackScope: this,
+          loop: true,
+        });
 
         // Add 'female' zombie sprite to scene
         let zombieFemale
@@ -110,8 +129,8 @@
           prefix: 'idle/idle', suffix: '.png'
         })
         console.log(JSON.stringify(idleFrameNames));
-        this.anims.create({ key: 'playerIdle', frames: idleFrameNames, frameRate: 10, repeat: -1 });
-        player.anims.play('playerIdle');
+        this.anims.create({ key: 'player-idle', frames: idleFrameNames, frameRate: 10, repeat: -1 });
+        player.anims.play('player-idle');
 
         // 'player-run' animation
         let runFrameNames = this.anims.generateFrameNames('hero', {
@@ -187,28 +206,47 @@
 
 
         this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, zombieFemale, () => {
+          gameState.play = false;
+          this.backgroundMusic.stop();
+          this.maleNoise1.play();
+          this.physics.pause();
+          player.anims.stop();
+          zombieFemale.anims.stop();
+          zombieMale.anims.stop();
+          this.add.text(350, 250, 'Game Over', { fontSize: '30px', fill: '#FFFFFF' });
+          this.add.text(300, 300, 'Click to Restart', { fontSize: '25px', fill: '#FFFFFF' });
+          this.input.on('pointerup', () => {
+            gameState.play = true;
+            this.scene.restart();
+          })
+        });
 
         gameState.cursors = this.input.keyboard.createCursorKeys();
 
       }
 
       function update() {
-        if (gameState.cursors.left.isDown) {
-          player.setVelocityX(-160);
-          player.flipX = true;
-          player.anims.play("player-run", true);
-        } else if (gameState.cursors.right.isDown) {
-          player.setVelocityX(160);
-          player.anims.play("player-run", true);
-          player.flipX = false
-        } else {
-          player.setVelocityX(0);
-          player.anims.play("playerIdle", true);
-          player.flipX = false;
-        }
+        if (gameState.play) {
+          if (gameState.cursors.left.isDown) {
+            player.setVelocityX(-160);
+            player.flipX = true;
+            player.anims.play("player-run", true);
+          } else if (gameState.cursors.right.isDown) {
+            player.setVelocityX(160);
+            player.anims.play("player-run", true);
+            player.flipX = false
+          } else {
+            player.setVelocityX(0);
+            player.anims.play("player-idle", true);
+            player.flipX = false;
+          }
 
-        if (gameState.cursors.up.isDown && player.body.touching.down) {
-          player.setVelocityY(-330);
+          if (gameState.cursors.up.isDown && player.body.touching.down) {
+            player.setVelocityY(-330);
+          }
+        } else {
+          player.anims.play("player-dead", true);
         }
       }
     </script>
