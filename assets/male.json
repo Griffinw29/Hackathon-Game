@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "zombie-male.png",
+			"image": "male.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 2042,
@@ -10,7 +10,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "dead/dead11.png",
+					"filename": "male-dead/dead11.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -31,7 +31,7 @@
 					}
 				},
 				{
-					"filename": "dead/dead12.png",
+					"filename": "male-dead/dead12.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -52,7 +52,7 @@
 					}
 				},
 				{
-					"filename": "dead/dead10.png",
+					"filename": "male-dead/dead10.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -73,7 +73,7 @@
 					}
 				},
 				{
-					"filename": "dead/dead09.png",
+					"filename": "male-dead/dead09.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -94,7 +94,7 @@
 					}
 				},
 				{
-					"filename": "dead/dead08.png",
+					"filename": "male-dead/dead08.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -115,7 +115,7 @@
 					}
 				},
 				{
-					"filename": "dead/dead07.png",
+					"filename": "male-dead/dead07.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -136,7 +136,7 @@
 					}
 				},
 				{
-					"filename": "dead/dead06.png",
+					"filename": "male-dead/dead06.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -157,7 +157,7 @@
 					}
 				},
 				{
-					"filename": "dead/dead05.png",
+					"filename": "male-dead/dead05.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -178,7 +178,7 @@
 					}
 				},
 				{
-					"filename": "dead/dead04.png",
+					"filename": "male-dead/dead04.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -199,7 +199,7 @@
 					}
 				},
 				{
-					"filename": "attack/attack05.png",
+					"filename": "male-attack/attack05.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -220,7 +220,7 @@
 					}
 				},
 				{
-					"filename": "dead/dead01.png",
+					"filename": "male-dead/dead01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -241,7 +241,7 @@
 					}
 				},
 				{
-					"filename": "attack/attack04.png",
+					"filename": "male-attack/attack04.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -262,7 +262,7 @@
 					}
 				},
 				{
-					"filename": "dead/dead03.png",
+					"filename": "male-dead/dead03.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -283,7 +283,7 @@
 					}
 				},
 				{
-					"filename": "attack/attack06.png",
+					"filename": "male-attack/attack06.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -304,7 +304,7 @@
 					}
 				},
 				{
-					"filename": "attack/attack03.png",
+					"filename": "male-attack/attack03.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -325,7 +325,7 @@
 					}
 				},
 				{
-					"filename": "attack/attack07.png",
+					"filename": "male-attack/attack07.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -346,7 +346,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle09.png",
+					"filename": "male-idle/idle09.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -367,7 +367,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle10.png",
+					"filename": "male-idle/idle10.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -388,7 +388,7 @@
 					}
 				},
 				{
-					"filename": "attack/attack02.png",
+					"filename": "male-attack/attack02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -409,7 +409,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle05.png",
+					"filename": "male-idle/idle05.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -430,7 +430,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle06.png",
+					"filename": "male-idle/idle06.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -451,7 +451,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle07.png",
+					"filename": "male-idle/idle07.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -472,7 +472,7 @@
 					}
 				},
 				{
-					"filename": "attack/attack01.png",
+					"filename": "male-attack/attack01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -493,7 +493,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle08.png",
+					"filename": "male-idle/idle08.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -514,7 +514,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle11.png",
+					"filename": "male-idle/idle11.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -535,7 +535,7 @@
 					}
 				},
 				{
-					"filename": "walk/walk07.png",
+					"filename": "male-walk/walk07.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -556,7 +556,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle04.png",
+					"filename": "male-idle/idle04.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -577,7 +577,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle12.png",
+					"filename": "male-idle/idle12.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -598,7 +598,7 @@
 					}
 				},
 				{
-					"filename": "attack/attack08.png",
+					"filename": "male-attack/attack08.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -619,7 +619,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle03.png",
+					"filename": "male-idle/idle03.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -640,7 +640,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle13.png",
+					"filename": "male-idle/idle13.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -661,7 +661,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle02.png",
+					"filename": "male-idle/idle02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -682,7 +682,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle01.png",
+					"filename": "male-idle/idle01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -703,7 +703,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle14.png",
+					"filename": "male-idle/idle14.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -724,7 +724,7 @@
 					}
 				},
 				{
-					"filename": "idle/idle15.png",
+					"filename": "male-idle/idle15.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -745,7 +745,7 @@
 					}
 				},
 				{
-					"filename": "dead/dead02.png",
+					"filename": "male-dead/dead02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -766,7 +766,7 @@
 					}
 				},
 				{
-					"filename": "walk/walk01.png",
+					"filename": "male-walk/walk01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -787,7 +787,7 @@
 					}
 				},
 				{
-					"filename": "walk/walk10.png",
+					"filename": "male-walk/walk10.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -808,7 +808,7 @@
 					}
 				},
 				{
-					"filename": "walk/walk06.png",
+					"filename": "male-walk/walk06.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -829,7 +829,7 @@
 					}
 				},
 				{
-					"filename": "walk/walk05.png",
+					"filename": "male-walk/walk05.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -850,7 +850,7 @@
 					}
 				},
 				{
-					"filename": "walk/walk04.png",
+					"filename": "male-walk/walk04.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -871,7 +871,7 @@
 					}
 				},
 				{
-					"filename": "walk/walk09.png",
+					"filename": "male-walk/walk09.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -892,7 +892,7 @@
 					}
 				},
 				{
-					"filename": "walk/walk08.png",
+					"filename": "male-walk/walk08.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -913,7 +913,7 @@
 					}
 				},
 				{
-					"filename": "walk/walk02.png",
+					"filename": "male-walk/walk02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -934,7 +934,7 @@
 					}
 				},
 				{
-					"filename": "walk/walk03.png",
+					"filename": "male-walk/walk03.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -960,6 +960,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:3695ef3be2b7c4bd8f39524060e2680b:76eedf969061fb7c1b3a25f459f7fa70:3a514f7d02c740fa0ba8ea01d3e6134a$"
+		"smartupdate": "$TexturePacker:SmartUpdate:d91287b3bd50abd858a0fc3bb549506a:76eedf969061fb7c1b3a25f459f7fa70:46347cbdf59dfab9f81535329b66a846$"
 	}
 }

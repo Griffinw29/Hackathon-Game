@@ -47,13 +47,15 @@
         this.load.image("ground", "assets/png/2/layers/l5_ground.png");
         this.load.image("houses", "assets/png/2/layers/l6_houses.png");
         this.load.image("ground", "assets/platform.png");
-        this.load.image("star", "assets/star.png");
-        this.load.image("bomb", "assets/bomb.png");
-        this.load.spritesheet("dude", "assets/dude.png", {
-          frameWidth: 32,
-          frameHeight: 48,
-        });
+        // this.load.image("star", "assets/star.png");
+        // this.load.image("bomb", "assets/bomb.png");
+        // this.load.spritesheet("dude", "assets/dude.png", {
+        //   frameWidth: 32,
+        //   frameHeight: 48,
+        // });
         this.load.multiatlas('hero', 'assets/hero.json', "assets");
+        this.load.multiatlas('male', 'assets/male.json', "assets");
+        this.load.multiatlas('female', 'assets/female.json', "assets");
         this.load.audio('zombie-dance', ['assets/audio/zombie-dance.mp3', 'assets/audio/zombie-dance.ogg'])
       }
 
@@ -86,21 +88,27 @@
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
 
+        // Add 'male' zombie sprite to scene
+        let zombieMale
+        zombieMale = this.physics.add.sprite(300, 400, 'male', 'male-idle/idle01.png');
+        zombieMale.setScale(0.2);
+        zombieMale.setBounce(0.2);
+        zombieMale.setCollideWorldBounds(true);
+
         // 'player-idle' animation
         let idleFrameNames = this.anims.generateFrameNames('hero', {
           start: 1, end: 10, zeroPad: 2,
           prefix: 'idle/idle', suffix: '.png'
         })
-        this.anims.create({ key: 'player-idle', frames: idleFrameNames, frameRate: 10, repeat: -1 });
-        console.log(JSON.stringify(idleFrameNames))
-        player.anims.play('player-idle');
+        console.log(JSON.stringify(idleFrameNames));
+        this.anims.create({ key: 'playerIdle', frames: idleFrameNames, frameRate: 10, repeat: -1 });
+        player.anims.play('playerIdle');
 
         // 'player-run' animation
         let runFrameNames = this.anims.generateFrameNames('hero', {
           start: 1, end: 10, zeroPad: 2,
           prefix: 'run/run', suffix: '.png'
         })
-        console.log(JSON.stringify(runFrameNames))
         this.anims.create({
           key: "player-run",
           frames: runFrameNames,
@@ -134,37 +142,22 @@
           repeat: 0
         })
 
-        // // ???
-        // this.anims.create({
-        //   key: "turn",
-        //   frames: [{ key: "dude", frame: 4 }],
-        //   frameRate: 20,
-        // });
+        // 'male-idle' zombie animation
+        let idleMaleFrameNames = this.anims.generateFrameNames('male', {
+          start: 1, end: 15, zeroPad: 2,
+          prefix: 'male-idle/idle', suffix: '.png'
+        })
+        console.log(JSON.stringify(idleMaleFrameNames))
+        this.anims.create({ key: 'male-idle', frames: idleMaleFrameNames, frameRate: 10, repeat: -1 });
+        zombieMale.flipX = true;
+        zombieMale.anims.play('male-idle')
 
-        // // Run right animation
-        // this.anims.create({
-        //   key: "right",
-        //   frames: this.anims.generateFrameNumbers("zombie", {
-        //     start: 5,
-        //     end: 8,
-        //   }),
-        //   frameRate: 10,
-        //   repeat: -1,
-        // });
+
 
         this.physics.add.collider(player, platforms);
 
         gameState.cursors = this.input.keyboard.createCursorKeys();
 
-        // stars = this.physics.add.group({
-        //   key: "star",
-        //   repeat: 11,
-        //   setXY: { x: 12, y: 0, stepX: 70 },
-        // });
-
-        // stars.children.iterate(function (child) {
-        //   child.setBounceY(Phaser.Math.FLoatBetween(0.4, 0.8));
-        // });
       }
 
       function update() {
@@ -178,7 +171,7 @@
           player.flipX = false
         } else {
           player.setVelocityX(0);
-          player.anims.play("player-idle");
+          player.anims.play("playerIdle", true);
           player.flipX = false;
         }
 

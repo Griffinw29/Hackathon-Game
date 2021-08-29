@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "zombie-female.png",
+			"image": "female.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 3970,
@@ -960,6 +960,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:7532a03fbc296bb9fcb17ec4259b2864:cb5b6fe52bbac47287c8ed4dfb0522db:72a10e76dfa8658c574c3d5b8a3c8bfd$"
+		"smartupdate": "$TexturePacker:SmartUpdate:cb875f78adf0f6310847a498eb1d783c:cb5b6fe52bbac47287c8ed4dfb0522db:6a7beede78085821b4ebddc5134ac171$"
 	}
 }
