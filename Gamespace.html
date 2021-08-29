@@ -94,6 +94,15 @@
         zombieMale.setScale(0.2);
         zombieMale.setBounce(0.2);
         zombieMale.setCollideWorldBounds(true);
+        zombieMale.flipX = true;
+
+        // Add 'female' zombie sprite to scene
+        let zombieFemale
+        zombieFemale = this.physics.add.sprite(400, 400, 'female', 'female-idle/idle01.png');
+        zombieFemale.setScale(0.2);
+        zombieFemale.setBounce(0.2);
+        zombieFemale.setCollideWorldBounds(true);
+        zombieFemale.flipX = true;
 
         // 'player-idle' animation
         let idleFrameNames = this.anims.generateFrameNames('hero', {
@@ -161,10 +170,20 @@
           frameRate: 10,
           repeat: -1,
         });
-        zombieMale.flipX = true;
         zombieMale.anims.play('male-walk')
 
-
+        // 'female-walk' zombie animation
+        let femaleWalkFrameNames = this.anims.generateFrameNames('female', {
+          start: 1, end: 10, zeroPad: 2,
+          prefix: 'female-walk/walk', suffix: '.png'
+        })
+        this.anims.create({
+          key: 'female-walk',
+          frames: femaleWalkFrameNames,
+          frameRate: 10,
+          repeat: -1
+        });
+        zombieFemale.anims.play('female-walk')
 
 
         this.physics.add.collider(player, platforms);
