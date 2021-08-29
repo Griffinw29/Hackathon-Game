@@ -6,7 +6,8 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 * "Zombie Dance" musical track purchased from [Pond5](https://www.pond5.com/royalty-free-music/item/11595620-zombie-dance-orchestral)
 * "Destroyed City" background from [CraftPix](https://craftpix.net/product/destroyed-city-parallax-backgrounds/)
 * "Red Hat Boy" sprite from [GameArt2D](https://www.gameart2d.com/red-hat-boy-free-sprites.html)
-* Sprites created with [Texture Packer](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-for-phaser3)
+* Zombie sprites from [GameArt2D](https://www.gameart2d.com/the-zombies-free-sprites.html)
+* Sprite sheets created with [Texture Packer](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-for-phaser3)
 * Zombie sound effects contributors unwilling to admit it
 
 ## The Team
