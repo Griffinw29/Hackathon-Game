@@ -54,6 +54,7 @@
         this.load.image("dumpster", "assets/grave-tiles/png/Objects/dumpster.png")
         this.load.image("trashcan", "assets/grave-tiles/png/Objects/trashcan.png")
         this.load.image("zombie-group", "assets/grave-tiles/png/Objects/zombie-group.png")
+        this.load.image("platform", "assets/platform.png")
         // this.load.image("star", "assets/star.png");
         // this.load.image("bomb", "assets/bomb.png");
         // this.load.spritesheet("dude", "assets/dude.png", {
@@ -86,8 +87,9 @@
         this.add.image(700, 300, "clouds");
         this.add.image(700, 300, "ruin");
         this.add.image(700, 175, "houses");
-        this.add.image(700, 300, "ground");
+        // this.add.image(700, 300, "ground");
         this.add.image(530, 500, "zombie-group").setScale(0.2)
+
         
 
         this.backgroundMusic = this.sound.add('zombie-dance', { volume: 0.8, loop: true });
@@ -105,11 +107,12 @@
         
         platforms = this.physics.add.staticGroup();
 
-        // platforms.create(400, 568, "ground").setScale(2).refreshBody();
+        //Add 'platforms' to page
         platforms.create(750, 500, "dumpster").setScale(0.2).refreshBody();
         platforms.create(1250, 560, "trashcan").setScale(0.05).refreshBody();
-
-
+        platforms.create(1500, 600, "platform").setScale(10, 0.2).refreshBody();
+        
+        
         // platforms.create(600, 400, "ground");
         // platforms.create(50, 250, "ground");
         // platforms.create(750, 220, "ground");
