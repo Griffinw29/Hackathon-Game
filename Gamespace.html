@@ -40,7 +40,7 @@
       const gameState = {
         play: true,
         zombiesCreated: 0,
-        delay: 10000
+        delay: 5000
       };
 
       function preload() {
@@ -54,6 +54,7 @@
         this.load.image("dumpster", "assets/grave-tiles/png/Objects/dumpster.png")
         this.load.image("trashcan", "assets/grave-tiles/png/Objects/trashcan.png")
         this.load.image("zombie-group", "assets/grave-tiles/png/Objects/zombie-group.png")
+        this.load.image("platform", "assets/platform.png")
         // this.load.image("star", "assets/star.png");
         // this.load.image("bomb", "assets/bomb.png");
         // this.load.spritesheet("dude", "assets/dude.png", {
@@ -86,8 +87,9 @@
         this.add.image(700, 300, "clouds");
         this.add.image(700, 300, "ruin");
         this.add.image(700, 175, "houses");
-        this.add.image(700, 300, "ground");
+        // this.add.image(700, 300, "ground");
         this.add.image(530, 500, "zombie-group").setScale(0.2)
+
         
 
         this.backgroundMusic = this.sound.add('zombie-dance', { volume: 0.8, loop: true });
@@ -105,11 +107,12 @@
         
         platforms = this.physics.add.staticGroup();
 
-        platforms.create(400, 568, "ground").setScale(2).refreshBody();
+        //Add 'platforms' to page
         platforms.create(750, 500, "dumpster").setScale(0.2).refreshBody();
         platforms.create(1250, 560, "trashcan").setScale(0.05).refreshBody();
-
-
+        platforms.create(1500, 600, "platform").setScale(10, 0.2).refreshBody();
+        
+        
         // platforms.create(600, 400, "ground");
         // platforms.create(50, 250, "ground");
         // platforms.create(750, 220, "ground");
@@ -123,23 +126,6 @@
         player.setScale(0.2);
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
-
-
-        // Add 'male' zombie sprite to scene
-        let zombieMale
-        zombieMale = this.physics.add.sprite(300, 400, 'male', 'male-idle/idle01.png');
-        zombieMale.setScale(0.2);
-        zombieMale.setBounce(0.2);
-        zombieMale.setCollideWorldBounds(true);
-        zombieMale.flipX = true;
-
-        // Add 'female' zombie sprite to scene
-        let zombieFemale
-        zombieFemale = this.physics.add.sprite(400, 400, 'female', 'female-idle/idle01.png');
-        zombieFemale.setScale(0.2);
-        zombieFemale.setBounce(0.2);
-        zombieFemale.setCollideWorldBounds(true);
-        zombieFemale.flipX = true;
 
         // 'player-idle' animation
         let idleFrameNames = this.anims.generateFrameNames('hero', {
@@ -207,7 +193,6 @@
           frameRate: 10,
           repeat: -1,
         });
-        zombieMale.anims.play('male-walk')
 
         // 'female-walk' zombie animation
         let femaleWalkFrameNames = this.anims.generateFrameNames('female', {
@@ -220,29 +205,13 @@
           frameRate: 10,
           repeat: -1
         });
-        zombieFemale.anims.play('female-walk')
 
 
         this.physics.add.collider(player, platforms);
-        this.physics.add.collider(player, zombieFemale, () => {
-          gameState.play = false;
-          this.backgroundMusic.stop();
-          this.noise1.play();
-          this.physics.pause();
-          player.anims.stop();
-          zombieFemale.anims.stop();
-          zombieMale.anims.stop();
-          this.add.text(350, 250, 'Game Over', { fontSize: '30px', fill: '#FFFFFF' });
-          this.add.text(300, 300, 'Click to Restart', { fontSize: '25px', fill: '#FFFFFF' });
-          this.input.on('pointerup', () => {
-            gameState.play = true;
-            this.scene.restart();
-          })
-        });
 
         gameState.cursors = this.input.keyboard.createCursorKeys();
 
-        // Add male zombie group
+        // Add zombie group
         const zombies = this.physics.add.group();
 
         function zombieGen() {
@@ -253,13 +222,14 @@
           if (Math.random() <= 0.5) {
             zombieGender = 'female';
           }
-          let thisZombie = zombies.create(1700, 600, `${zombieGender}`, `${zombieGender}-idle/idle01.png`);
+          let thisZombie = zombies.create(1500, 50, `${zombieGender}`, `${zombieGender}-idle/idle01.png`);
           thisZombie.setScale(0.2);
           thisZombie.setBounce(0.2);
           thisZombie.setCollideWorldBounds(true);
           thisZombie.flipX = true;
           thisZombie.anims.play(`${zombieGender}-walk`)
-          thisZombie.setVelocityX(-1000)
+          thisZombie.setVelocityX(-2000)
+          // this.physics.add.collider(thisZombie, platforms);
           gameState.zombiesCreated += 1;
           console.log(gameState.zombiesCreated);
           let theNum = Math.floor(getRandom(2, 7));
@@ -273,6 +243,22 @@
           loop: true,
         });
 
+
+        this.physics.add.collider(player, zombies, () => {
+          gameState.play = false;
+          this.backgroundMusic.stop();
+          this.noise1.play();
+          this.physics.pause();
+          player.anims.stop();
+          // zombieFemale.anims.stop();
+          // zombieMale.anims.stop();
+          this.add.text(350, 250, 'Game Over', { fontSize: '30px', fill: '#FFFFFF' });
+          this.add.text(300, 300, 'Click to Restart', { fontSize: '25px', fill: '#FFFFFF' });
+          this.input.on('pointerup', () => {
+            gameState.play = true;
+            this.scene.restart();
+          })
+        });
 
 
       }
