@@ -76,9 +76,6 @@
         // platforms.create(50, 250, "ground");
         // platforms.create(750, 220, "ground");
 
-<<<<<<< HEAD
-        player = this.physics.add.sprite(100, 450, "dude");
-=======
         // player = this.physics.add.sprite(200, 450, "dude");
         // player.setBounce(0.2);
         // player.setCollideWorldBounds(true);
@@ -86,7 +83,6 @@
         // Add 'player' sprite to scene
         player = this.physics.add.sprite(20, 400, 'hero', 'idle/idle01.png');
         player.setScale(0.2);
->>>>>>> 9b634476d3d824d713af531c82f0b776f09f14a0
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
 
@@ -106,16 +102,8 @@
         })
         console.log(JSON.stringify(runFrameNames))
         this.anims.create({
-<<<<<<< HEAD
-          key: "left",
-          frames: this.anims.generateFrameNumbers("dude", {
-            start: 0,
-            end: 3,
-          }),
-=======
           key: "player-run",
           frames: runFrameNames,
->>>>>>> 9b634476d3d824d713af531c82f0b776f09f14a0
           frameRate: 10,
           repeat: -1,
         });
@@ -140,16 +128,6 @@
         })
 
         this.anims.create({
-<<<<<<< HEAD
-          key: "right",
-          frames: this.anims.generateFrameNumbers("dude", {
-            start: 5,
-            end: 8,
-          }),
-          frameRate: 10,
-          repeat: -1,
-        });
-=======
           key: 'player-dead',
           frames: deadFrameNames,
           frameRate: 12,
@@ -173,7 +151,6 @@
         //   frameRate: 10,
         //   repeat: -1,
         // });
->>>>>>> 9b634476d3d824d713af531c82f0b776f09f14a0
 
         this.physics.add.collider(player, platforms);
 
