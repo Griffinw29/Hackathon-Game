@@ -65,6 +65,19 @@
         this.load.multiatlas('female', 'assets/female.json', "assets");
         this.load.audio('zombie-dance', ['assets/audio/zombie-dance.mp3', 'assets/audio/zombie-dance.ogg']);
         this.load.audio('male-noise-1', ['assets/audio/noises/male-noise-1.mp3', 'assets/audio/noises/male-noise-1.ogg']);
+        this.load.audio('male-noise-2', ['assets/audio/noises/male-noise-2.mp3', 'assets/audio/noises/male-noise-2.ogg']);
+        this.load.audio('male-noise-3', ['assets/audio/noises/male-noise-3.mp3', 'assets/audio/noises/male-noise-3.ogg']);
+        this.load.audio('male-noise-4', ['assets/audio/noises/male-noise-4.mp3', 'assets/audio/noises/male-noise-4.ogg']);
+        this.load.audio('male-noise-5', ['assets/audio/noises/male-noise-5.mp3', 'assets/audio/noises/male-noise-5.ogg']);
+        this.load.audio('male-noise-6', ['assets/audio/noises/male-noise-6.mp3', 'assets/audio/noises/male-noise-6.ogg']);
+        this.load.audio('male-noise-7', ['assets/audio/noises/male-noise-7.mp3', 'assets/audio/noises/male-noise-7.ogg']);
+        this.load.audio('female-noise-1', ['assets/audio/noises/female-noise-1.mp3', 'assets/audio/noises/female-noise-1.ogg']);
+        this.load.audio('female-noise-2', ['assets/audio/noises/female-noise-2.mp3', 'assets/audio/noises/female-noise-2.ogg']);
+        this.load.audio('female-noise-3', ['assets/audio/noises/female-noise-3.mp3', 'assets/audio/noises/female-noise-3.ogg']);
+        this.load.audio('female-noise-4', ['assets/audio/noises/female-noise-4.mp3', 'assets/audio/noises/female-noise-4.ogg']);
+        this.load.audio('female-noise-5', ['assets/audio/noises/female-noise-5.mp3', 'assets/audio/noises/female-noise-5.ogg']);
+        this.load.audio('female-noise-6', ['assets/audio/noises/female-noise-6.mp3', 'assets/audio/noises/female-noise-6.ogg']);
+        this.load.audio('female-noise-7', ['assets/audio/noises/female-noise-7.mp3', 'assets/audio/noises/female-noise-7.ogg']);
       }
 
       function create() {
@@ -79,7 +92,16 @@
 
         this.backgroundMusic = this.sound.add('zombie-dance', { volume: 0.8, loop: true });
         this.backgroundMusic.play();
-        this.maleNoise1 = this.sound.add('male-noise-1', { volume: 3, loop: false });
+        this.noise1 = this.sound.add('male-noise-1', { volume: 3, loop: false });
+        this.noise2 = this.sound.add('male-noise-2', { volume: 3, loop: false });
+        this.noise3 = this.sound.add('male-noise-3', { volume: 3, loop: false });
+        this.noise4 = this.sound.add('male-noise-4', { volume: 3, loop: false });
+        this.noise5 = this.sound.add('male-noise-5', { volume: 3, loop: false });
+        this.noise6 = this.sound.add('male-noise-6', { volume: 3, loop: false });
+        this.noise7 = this.sound.add('male-noise-7', { volume: 3, loop: false });
+        this.noise8 = this.sound.add('female-noise-1', { volume: 3, loop: false });
+        this.noise9 = this.sound.add('female-noise-2', { volume: 3, loop: false });
+
         
         platforms = this.physics.add.staticGroup();
 
@@ -205,7 +227,7 @@
         this.physics.add.collider(player, zombieFemale, () => {
           gameState.play = false;
           this.backgroundMusic.stop();
-          this.maleNoise1.play();
+          this.noise1.play();
           this.physics.pause();
           player.anims.stop();
           zombieFemale.anims.stop();
@@ -224,6 +246,9 @@
         const zombies = this.physics.add.group();
 
         function zombieGen() {
+          function getRandom(min, max) {
+          return Math.random() * (max - min) + min;
+            }
           let zombieGender = 'male';
           if (Math.random() <= 0.5) {
             zombieGender = 'female';
@@ -237,6 +262,9 @@
           thisZombie.setVelocityX(-1000)
           gameState.zombiesCreated += 1;
           console.log(gameState.zombiesCreated);
+          let theNum = Math.floor(getRandom(2, 7));
+          this.randomNoise = this.sound.add(`${zombieGender}-noise-${theNum}`, { volume: 3, loop: false });
+          this.randomNoise.play();
         }
         const zombieGenLoop = this.time.addEvent({
           delay: gameState.delay,
