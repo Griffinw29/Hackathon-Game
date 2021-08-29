@@ -28,7 +28,7 @@
         scene: {
           preload: preload,
           create: create,
-          update: update,
+          update: update
         },
       };
 
@@ -36,6 +36,8 @@
       let platforms;
 
       var game = new Phaser.Game(config);
+
+      const gameState = {};
 
       function preload() {
         this.load.image("sky", "assets/png/2/layers/l1_background.png");
@@ -51,6 +53,7 @@
           frameWidth: 32,
           frameHeight: 48,
         });
+        this.load.multiatlas('hero', 'assets/hero.json', "assets");
         this.load.audio('zombie-dance', ['assets/audio/zombie-dance.mp3', 'assets/audio/zombie-dance.ogg'])
       }
 
@@ -67,70 +70,119 @@
         
         platforms = this.physics.add.staticGroup();
 
-        //platforms.create(400, 568, "ground").setScale(2).refreshBody();
+        // platforms.create(400, 568, "ground").setScale(2).refreshBody();
 
         // platforms.create(600, 400, "ground");
         // platforms.create(50, 250, "ground");
         // platforms.create(750, 220, "ground");
 
-        player = this.physics.add.sprite(200, 450, "dude");
+        // player = this.physics.add.sprite(200, 450, "dude");
+        // player.setBounce(0.2);
+        // player.setCollideWorldBounds(true);
+
+        // Add 'player' sprite to scene
+        player = this.physics.add.sprite(20, 400, 'hero', 'idle/idle01.png');
+        player.setScale(0.2);
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
 
+        // 'player-idle' animation
+        let idleFrameNames = this.anims.generateFrameNames('hero', {
+          start: 1, end: 10, zeroPad: 2,
+          prefix: 'idle/idle', suffix: '.png'
+        })
+        this.anims.create({ key: 'player-idle', frames: idleFrameNames, frameRate: 10, repeat: -1 });
+        console.log(JSON.stringify(idleFrameNames))
+        player.anims.play('player-idle');
+
+        // 'player-run' animation
+        let runFrameNames = this.anims.generateFrameNames('hero', {
+          start: 1, end: 10, zeroPad: 2,
+          prefix: 'run/run', suffix: '.png'
+        })
+        console.log(JSON.stringify(runFrameNames))
         this.anims.create({
-          key: "left",
-          frames: this.anims.generateFrameNumbers("zombie", {
-            start: 0,
-            end: 3,
-          }),
+          key: "player-run",
+          frames: runFrameNames,
           frameRate: 10,
           repeat: -1,
         });
 
-        this.anims.create({
-          key: "turn",
-          frames: [{ key: "dude", frame: 4 }],
-          frameRate: 20,
-        });
+        // 'player-jump' animation
+        let jumpFrameNames = this.anims.generateFrameNames('hero', {
+          start: 1, end: 12, zeroPad: 2,
+          prefix: 'jump/jump', suffix: '.png'
+        })
 
         this.anims.create({
-          key: "right",
-          frames: this.anims.generateFrameNumbers("zombie", {
-            start: 5,
-            end: 8,
-          }),
-          frameRate: 10,
-          repeat: -1,
-        });
+          key: 'player-jump',
+          frames: jumpFrameNames,
+          frameRate: 12,
+          repeat: 0
+        })
+
+        // 'player-dead' animation
+        let deadFrameNames = this.anims.generateFrameNames('hero', {
+          start: 1, end: 10, zeroPad: 2,
+          prefix: 'dead/dead', suffix: '.png'
+        })
+
+        this.anims.create({
+          key: 'player-dead',
+          frames: deadFrameNames,
+          frameRate: 12,
+          repeat: 0
+        })
+
+        // // ???
+        // this.anims.create({
+        //   key: "turn",
+        //   frames: [{ key: "dude", frame: 4 }],
+        //   frameRate: 20,
+        // });
+
+        // // Run right animation
+        // this.anims.create({
+        //   key: "right",
+        //   frames: this.anims.generateFrameNumbers("zombie", {
+        //     start: 5,
+        //     end: 8,
+        //   }),
+        //   frameRate: 10,
+        //   repeat: -1,
+        // });
 
         this.physics.add.collider(player, platforms);
 
-        cursors = this.input.keyboard.createCursorKeys();
+        gameState.cursors = this.input.keyboard.createCursorKeys();
 
-        stars = this.physics.add.group({
-          key: "star",
-          repeat: 11,
-          setXY: { x: 12, y: 0, stepX: 70 },
-        });
+        // stars = this.physics.add.group({
+        //   key: "star",
+        //   repeat: 11,
+        //   setXY: { x: 12, y: 0, stepX: 70 },
+        // });
 
-        stars.children.iterate(function (child) {
-          child.setBounceY(Phaser.Math.FLoatBetween(0.4, 0.8));
-        });
+        // stars.children.iterate(function (child) {
+        //   child.setBounceY(Phaser.Math.FLoatBetween(0.4, 0.8));
+        // });
       }
 
       function update() {
-        if (cursors.left.isDown) {
+        if (gameState.cursors.left.isDown) {
           player.setVelocityX(-160);
-          player.anims.play("left", true);
-        } else if (cursors.right.isDown) {
+          player.flipX = true;
+          player.anims.play("player-run", true);
+        } else if (gameState.cursors.right.isDown) {
           player.setVelocityX(160);
-          player.anims.play("right", true);
+          player.anims.play("player-run", true);
+          player.flipX = false
         } else {
           player.setVelocityX(0);
-          player.anims.play("turn");
+          player.anims.play("player-idle");
+          player.flipX = false;
         }
 
-        if (cursors.up.isDown && player.body.touching.down) {
+        if (gameState.cursors.up.isDown && player.body.touching.down) {
           player.setVelocityY(-330);
         }
       }
