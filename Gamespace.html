@@ -38,7 +38,9 @@
       var game = new Phaser.Game(config);
 
       const gameState = {
-        play: true
+        play: true,
+        zombiesCreated: 0,
+        delay: 10000
       };
 
       function preload() {
@@ -108,20 +110,6 @@
         zombieMale.setBounce(0.2);
         zombieMale.setCollideWorldBounds(true);
         zombieMale.flipX = true;
-
-        // // Add zombie group
-        // const zombies = this.physics.add.group();
-
-
-        // function zombieGen() {
-        //   zombies.create(300, 300, 'male', 'male-idle/idle01.png');
-        // }
-        // const zombieGenLoop = this.time.addEvent({
-        //   delay: 1000,
-        //   callback: zombieGen,
-        //   callbackScope: this,
-        //   loop: true,
-        // });
 
         // Add 'female' zombie sprite to scene
         let zombieFemale
@@ -231,6 +219,33 @@
         });
 
         gameState.cursors = this.input.keyboard.createCursorKeys();
+
+        // Add male zombie group
+        const zombies = this.physics.add.group();
+
+        function zombieGen() {
+          let zombieGender = 'male';
+          if (Math.random() <= 0.5) {
+            zombieGender = 'female';
+          }
+          let thisZombie = zombies.create(1700, 600, `${zombieGender}`, `${zombieGender}-idle/idle01.png`);
+          thisZombie.setScale(0.2);
+          thisZombie.setBounce(0.2);
+          thisZombie.setCollideWorldBounds(true);
+          thisZombie.flipX = true;
+          thisZombie.anims.play(`${zombieGender}-walk`)
+          thisZombie.setVelocityX(-1000)
+          gameState.zombiesCreated += 1;
+          console.log(gameState.zombiesCreated);
+        }
+        const zombieGenLoop = this.time.addEvent({
+          delay: gameState.delay,
+          callback: zombieGen,
+          callbackScope: this,
+          loop: true,
+        });
+
+
 
       }
 
