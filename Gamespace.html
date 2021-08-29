@@ -109,19 +109,19 @@
         zombieMale.setCollideWorldBounds(true);
         zombieMale.flipX = true;
 
-        // Add zombie group
-        const zombies = this.physics.add.group();
+        // // Add zombie group
+        // const zombies = this.physics.add.group();
 
 
-        function zombieGen() {
-          zombies.create(300, 300, 'male', 'male-idle/idle01.png');
-        }
-        const zombieGenLoop = this.time.addEvent({
-          delay: 1000,
-          callback: zombieGen,
-          callbackScope: this,
-          loop: true,
-        });
+        // function zombieGen() {
+        //   zombies.create(300, 300, 'male', 'male-idle/idle01.png');
+        // }
+        // const zombieGenLoop = this.time.addEvent({
+        //   delay: 1000,
+        //   callback: zombieGen,
+        //   callbackScope: this,
+        //   loop: true,
+        // });
 
         // Add 'female' zombie sprite to scene
         let zombieFemale
