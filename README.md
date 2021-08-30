@@ -14,9 +14,13 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 * Sprite sheets created with [Texture Packer](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-for-phaser3)
 * Zombie sound effects contributors unwilling to admit it
 
-## Running Locally
-* We suggest cloning the repo, and using [Live Server in VS Code](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
-* Alternatively, see the Phaser JS [documentation](https://phaser.io/tutorials/getting-started-phaser3) for more information
+## How to run
+
+- to install dependencies ```npm i```
+
+- install ```npm install -g local-web-server```
+
+- then run  ```ws``` from root of repositroy.
 
 ## :busts_in_silhouette: The Team
 * William Griffin - [GitHub](https://github.com/Griffinw29) | [LinkedIn](https://www.linkedin.com/in/williamgriffin32/)
@@ -25,13 +29,7 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 * William Dunn - [GitHub](https://github.com/wdunn001) | But only a tiny bit.
 
 ## Special Thanks To
-* Mintbean for hosting the hackathon
+* [Mintbean](https://mintbean.io/meets?sort=upcoming) for hosting the hackathon
+* The open source creators behind [Phaser JS](https://phaser.io/)
 * Codecademy for their helpful [Phaser JS Tutorial](https://www.codecademy.com/learn/learn-phaser) 
-
-## How to run
-
-- to install dependencies ```npm i```
-
-- install ```npm install -g local-web-server```
-
-- then run  ```ws``` from root of repositroy.
+* Family who put up with their 3 guys disappearing into a late-night 7-day hackathon, waking up each morning looking like zombies
