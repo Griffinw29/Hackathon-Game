@@ -7,7 +7,7 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 
 ## 🖥 Screenshots
 
-## :hammer_and_wrench: Assets / Resources
+## ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/grave-tiles/png/Objects/Crate.png) Assets / Resources
 * Built with [Phaser JS](https://phaser.io/)
 * "Zombie Dance" musical track purchased from [Pond5](https://www.pond5.com/royalty-free-music/item/11595620-zombie-dance-orchestral)
 * "Destroyed City" background from [CraftPix](https://craftpix.net/product/destroyed-city-parallax-backgrounds/)
