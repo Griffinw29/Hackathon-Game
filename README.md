@@ -18,7 +18,7 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 
 ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/zombies-sprite/zombie-male/male-attack/attack01.png)
 
-## [image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/grave-tiles/png/Objects/ArrowSign.png) How to run
+## ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/grave-tiles/png/Objects/ArrowSign.png) How to run
 
 - to install dependencies ```npm i```
 
