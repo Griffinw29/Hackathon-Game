@@ -55,6 +55,11 @@
         this.load.image("ground", "assets/png/2/layers/l5_ground.png");
         this.load.image("houses", "assets/png/2/layers/l6_houses.png");
         this.load.image("ground", "assets/platform.png");
+        this.load.image("Crate", "assets/grave-tiles/png/Objects/Crate.png");
+        this.load.image(
+          "Skeleton",
+          "assets/grave-tiles/png/Objects/Skeleton.png"
+        );
         this.load.image(
           "dumpster",
           "assets/grave-tiles/png/Objects/dumpster.png"
@@ -190,8 +195,11 @@
 
         //add objects to game page
         objects.create(750, 520, "dumpster").setScale(0.2).refreshBody();
-        objects.create(1150, 560, "trashcan").setScale(0.05).refreshBody();
-        objects.create(500, 580, "Skeleton").setScale(0.75).refreshBody();
+        objects.create(1432, 560, "trashcan").setScale(0.05).refreshBody();
+        objects.create(300, 580, "Skeleton").setScale(0.75).refreshBody();
+        objects.create(440, 560, "Crate").setScale(0.75).refreshBody();
+        objects.create(520, 560, "Crate").setScale(0.75).refreshBody();
+        objects.create(600, 560, "Crate").setScale(0.75).refreshBody();
 
         //Add 'platforms' to page
         platforms.create(1500, 600, "platform").setScale(10, 0.2).refreshBody();
