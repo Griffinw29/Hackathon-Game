@@ -528,8 +528,15 @@
           zombie.setVelocityX(0);
           if (zombie.texture.key === 'male') {
             zombie.anims.play('male-dead', true);
+            zombie.once('animationcomplete', () => {
+              zombie.destroy()
+            })
           } else {
-            zombie.anims.play('female-dead', true);
+            zombie.anims.play('female-dead', true);            
+            zombie.once('animationcomplete', () => {
+              zombie.destroy()
+            })
+
           }
         })
       }
