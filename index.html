@@ -325,7 +325,7 @@
           start: 1, end: 12, zeroPad: 2,
           prefix: 'male-dead/dead', suffix: '.png'
         })
-        this.anims.create({ key: 'male-dead', frames: deadMaleFrameNames, frameRate: 10, repeat: -1 });
+        this.anims.create({ key: 'male-dead', frames: deadMaleFrameNames, frameRate: 10, repeat: 0 });
 
 
         // 'female-walk' zombie animation
@@ -343,12 +343,12 @@
           repeat: -1,
         });
 
-        // 'male-dead' zombie animation
+        // 'female-dead' zombie animation
         let deadFemaleFrameNames = this.anims.generateFrameNames('female', {
           start: 1, end: 12, zeroPad: 2,
           prefix: 'female-dead/dead', suffix: '.png'
         })
-        this.anims.create({ key: 'female-dead', frames: deadFemaleFrameNames, frameRate: 10, repeat: -1 });
+        this.anims.create({ key: 'female-dead', frames: deadFemaleFrameNames, frameRate: 10, repeat: 0 });
 
 
 
@@ -453,18 +453,22 @@
           loop: true,
         });
 
+        // Generate Fireballs
         function fireballsGen () {
           let fireballX = Phaser.Math.Between(0, 1500);
           let thisFireball = fireballs.create(fireballX, -100, 'fireball');
           thisFireball.setScale(0.05);
         }
         const fireBallGenLoop = this.time.addEvent({
-          delay: gameState.delay*4,
+          // Adjust Rate of Fireball Creation
+          // delay: gameState.delay*4,
+          delay: 1000,
           callback: fireballsGen,
           callbackScope: this,
           loop: true,
         });
 
+        // Player Hits Zombie
         this.physics.add.collider(player, zombies, () => {
           if (
             player.body.touching.right === false &&
@@ -509,27 +513,24 @@
                 gameState.deadAnimationPlayed = false;
                 this.scene.restart();
               });
-
-
-              this.physics.add.collider(player, fireballs, () => {
-
-              })
-              
-              this.physics.add.collider(zombies, fireballs, (zombie) => {
-                if (zombie.texture.key === 'male') {
-                  zombie.anims.play('male-dead', true);
-                  zombie.y = 600;
-                } else {
-                  zombie.anims.play('female-dead', true);
-                  zombie.y = 600;
-                }
-              })
-              // player.on('animationcomplete', nextLife);
-              // nextLife = () => {
-              // }
             }
           }
         });
+
+        // Fireball Hits Player
+        this.physics.add.collider(player, fireballs, () => {
+          // Add player death here
+        })
+        
+        // Fireball Hits Zombie
+        this.physics.add.collider(zombies, fireballs, (zombie) => {
+          zombie.setVelocityX(0);
+          if (zombie.texture.key === 'male') {
+            zombie.anims.play('male-dead', true);
+          } else {
+            zombie.anims.play('female-dead', true);
+          }
+        })
       }
 
       function update() {
