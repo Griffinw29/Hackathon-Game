@@ -22,7 +22,7 @@
           default: "arcade",
           arcade: {
             gravity: { y: 300 },
-            debug: false,
+            debug: true,
           },
         },
         scene: {
@@ -40,7 +40,7 @@
       const gameState = {
         play: true,
         zombiesCreated: 0,
-        delay: 5000,
+        delay: 7000,
         deadAnimationPlayed: false
       };
 
@@ -56,12 +56,7 @@
         this.load.image("trashcan", "assets/grave-tiles/png/Objects/trashcan.png")
         this.load.image("zombie-group", "assets/grave-tiles/png/Objects/zombie-group.png")
         this.load.image("platform", "assets/platform.png")
-        // this.load.image("star", "assets/star.png");
-        // this.load.image("bomb", "assets/bomb.png");
-        // this.load.spritesheet("dude", "assets/dude.png", {
-        //   frameWidth: 32,
-        //   frameHeight: 48,
-        // });
+        this.load.image("tile-platform", "assets/tileplatform.png")
         this.load.multiatlas('hero', 'assets/hero.json', "assets");
         this.load.multiatlas('male', 'assets/male.json', "assets");
         this.load.multiatlas('female', 'assets/female.json', "assets");
@@ -95,23 +90,25 @@
 
         this.backgroundMusic = this.sound.add('zombie-dance', { volume: 0.8, loop: true });
         this.backgroundMusic.play();
-        this.noise1 = this.sound.add('male-noise-1', { volume: 3, loop: false });
-        this.noise2 = this.sound.add('male-noise-2', { volume: 3, loop: false });
-        this.noise3 = this.sound.add('male-noise-3', { volume: 3, loop: false });
-        this.noise4 = this.sound.add('male-noise-4', { volume: 3, loop: false });
-        this.noise5 = this.sound.add('male-noise-5', { volume: 3, loop: false });
-        this.noise6 = this.sound.add('male-noise-6', { volume: 3, loop: false });
-        this.noise7 = this.sound.add('male-noise-7', { volume: 3, loop: false });
-        this.noise8 = this.sound.add('female-noise-1', { volume: 3, loop: false });
-        this.noise9 = this.sound.add('female-noise-2', { volume: 3, loop: false });
+        this.noise1 = this.sound.add('male-noise-1', { volume: 2, loop: false });
+        this.noise2 = this.sound.add('male-noise-2', { volume: 2, loop: false });
+        this.noise3 = this.sound.add('male-noise-3', { volume: 2, loop: false });
+        this.noise4 = this.sound.add('male-noise-4', { volume: 2, loop: false });
+        this.noise5 = this.sound.add('male-noise-5', { volume: 2, loop: false });
+        this.noise6 = this.sound.add('male-noise-6', { volume: 2, loop: false });
+        this.noise7 = this.sound.add('male-noise-7', { volume: 2, loop: false });
+        this.noise8 = this.sound.add('female-noise-1', { volume: 2, loop: false });
+        this.noise9 = this.sound.add('female-noise-2', { volume: 2, loop: false });
 
         
         platforms = this.physics.add.staticGroup();
 
         //Add 'platforms' to page
-        platforms.create(750, 500, "dumpster").setScale(0.2).refreshBody();
-        platforms.create(1250, 560, "trashcan").setScale(0.05).refreshBody();
+        platforms.create(750, 300, "dumpster").setScale(0.2).refreshBody();
+        platforms.create(1150, 560, "trashcan").setScale(0.05).refreshBody();
         platforms.create(1500, 600, "platform").setScale(10, 0.2).refreshBody();
+        platforms.create(100, 200, 'tile-platform').setScale(1).refreshBody();
+        platforms.create(1500, 200, 'tile-platform').setScale(1).refreshBody();
         
         
         // platforms.create(600, 400, "ground");
@@ -127,6 +124,9 @@
         player.setScale(0.2);
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
+        player.body.setSize(250, 400, true);
+        player.body.offset.x = 250;
+        player.body.offset.y = 100;
 
         // 'player-idle' animation
         let idleFrameNames = this.anims.generateFrameNames('hero', {
@@ -226,15 +226,18 @@
           let thisZombie = zombies.create(1500, 50, `${zombieGender}`, `${zombieGender}-idle/idle01.png`);
           thisZombie.setScale(0.2);
           thisZombie.setBounce(0.2);
-          thisZombie.setCollideWorldBounds(true);
+//          thisZombie.setCollideWorldBounds(true);
           thisZombie.flipX = true;
-          thisZombie.anims.play(`${zombieGender}-walk`)
-          thisZombie.setVelocityX(-2000)
-          // this.physics.add.collider(thisZombie, platforms);
+          thisZombie.body.setSize(225, 425, true);
+          thisZombie.body.offset.x = 100;
+          thisZombie.body.offset.y = 100;
+          thisZombie.anims.play(`${zombieGender}-walk`);
+          thisZombie.setVelocityX(-50);
+          this.physics.add.collider(thisZombie, platforms);
           gameState.zombiesCreated += 1;
           console.log(gameState.zombiesCreated);
           let theNum = Math.floor(getRandom(2, 7));
-          this.randomNoise = this.sound.add(`${zombieGender}-noise-${theNum}`, { volume: 3, loop: false });
+          this.randomNoise = this.sound.add(`${zombieGender}-noise-${theNum}`, { volume: 2, loop: false });
           this.randomNoise.play();
         }
         const zombieGenLoop = this.time.addEvent({
@@ -251,7 +254,7 @@
           this.noise1.play();
           this.physics.pause();
           player.anims.stop();
-//          zombies.anims.stop();
+          // zombies.anims.stop();
           this.add.text(350, 250, 'Game Over', { fontSize: '30px', fill: '#FFFFFF' });
           this.add.text(300, 300, 'Click to Restart', { fontSize: '25px', fill: '#FFFFFF' });
           this.input.on('pointerup', () => {
