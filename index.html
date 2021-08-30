@@ -358,93 +358,94 @@
 
         // Add zombie group
         const zombies = this.physics.add.group();
-        const fireballs = this.physics.add.group();
 
         function zombieGen() {
-          let directionNumber = Math.floor(getRandom(1, 6));
-          let theDirection;
-          let zombieFlip;
-          let startX;
-          let startY;
-          let zombieVelocity;
-          switch (directionNumber) {
-            case 1:
-              theDirection = "top-right";
-              zombieFlip = true;
-              startX = 1500;
-              startY = 50;
-              zombieVelocity = -50;
-              break;
-            case 2:
-              theDirection = "bottom-right";
-              zombieFlip = true;
-              startX = 1500;
-              startY = 450;
-              zombieVelocity = -50;
-              break;
-            case 3:
-              theDirection = "bottom-left";
-              zombieFlip = false;
-              startX = 20;
-              startY = 450;
-              zombieVelocity = 50;
-              break;
-            case 4:
-              theDirection = "top-left";
-              zombieFlip = false;
-              startX = 0;
-              startY = 0;
-              zombieVelocity = 50;
-              break;
-            case 5:
-              theDirection = "top-middle";
-              startX = 750;
-              startY = 0;
-              zombieFlip = false;
-              zombieVelocity = 50;
-              break;
-            default:
-              theDirection = "top-right";
-              zombieFlip = true;
-              startX = 1500;
-              startY = 50;
-          }
-          let xOffset = 100;
-          let yOffset = 150;
-          function getRandom(min, max) {
-            return Math.random() * (max - min) + min;
-          }
-          let zombieGender = "male";
-          if (Math.random() <= 0.5) {
-            zombieGender = "female";
-            xOffset = 200;
-            yOffset = 200;
-            if (zombieFlip === true) {
-              xOffset = 125;
+          if (gameState.play) {
+            let directionNumber = Math.floor(getRandom(1, 6));
+            let theDirection;
+            let zombieFlip;
+            let startX;
+            let startY;
+            let zombieVelocity;
+            switch (directionNumber) {
+              case 1:
+                theDirection = "top-right";
+                zombieFlip = true;
+                startX = 1500;
+                startY = 50;
+                zombieVelocity = -50;
+                break;
+              case 2:
+                theDirection = "bottom-right";
+                zombieFlip = true;
+                startX = 1500;
+                startY = 450;
+                zombieVelocity = -50;
+                break;
+              case 3:
+                theDirection = "bottom-left";
+                zombieFlip = false;
+                startX = 20;
+                startY = 450;
+                zombieVelocity = 50;
+                break;
+              case 4:
+                theDirection = "top-left";
+                zombieFlip = false;
+                startX = 0;
+                startY = 0;
+                zombieVelocity = 50;
+                break;
+              case 5:
+                theDirection = "top-middle";
+                startX = 750;
+                startY = 0;
+                zombieFlip = false;
+                zombieVelocity = 50;
+                break;
+              default:
+                theDirection = "top-right";
+                zombieFlip = true;
+                startX = 1500;
+                startY = 50;
             }
+            let xOffset = 100;
+            let yOffset = 150;
+            function getRandom(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+            let zombieGender = "male";
+            if (Math.random() <= 0.5) {
+              zombieGender = "female";
+              xOffset = 200;
+              yOffset = 200;
+              if (zombieFlip === true) {
+                xOffset = 125;
+              }
+            }
+            let thisZombie = zombies.create(
+              startX,
+              startY,
+              `${zombieGender}`,
+              `${zombieGender}-idle/idle01.png`
+            );
+            thisZombie.setScale(0.2);
+            thisZombie.setBounce(0.2);
+            thisZombie.flipX = zombieFlip;
+            thisZombie.body.setSize(190, 370, true);
+            thisZombie.body.offset.x = xOffset;
+            thisZombie.body.offset.y = yOffset;
+            thisZombie.anims.play(`${zombieGender}-walk`);
+            thisZombie.setVelocityX(zombieVelocity);
+            this.physics.add.collider(thisZombie, platforms);
+            gameState.zombiesCreated += 1;
+            let theNum = Math.floor(getRandom(2, 7));
+            this.randomNoise = this.sound.add(`${zombieGender}-noise-${theNum}`, {
+              volume: 2,
+              loop: false,
+            });
+            this.randomNoise.play();
           }
-          let thisZombie = zombies.create(
-            startX,
-            startY,
-            `${zombieGender}`,
-            `${zombieGender}-idle/idle01.png`
-          );
-          thisZombie.setScale(0.2);
-          thisZombie.setBounce(0.2);
-          thisZombie.flipX = zombieFlip;
-          thisZombie.body.setSize(190, 370, true);
-          thisZombie.body.offset.x = xOffset;
-          thisZombie.body.offset.y = yOffset;
-          thisZombie.anims.play(`${zombieGender}-walk`);
-          thisZombie.setVelocityX(zombieVelocity);
-          this.physics.add.collider(thisZombie, platforms);
-          gameState.zombiesCreated += 1;
-          let theNum = Math.floor(getRandom(2, 7));
-          this.randomNoise = this.sound.add(`${zombieGender}-noise-${theNum}`, {
-            volume: 2,
-            loop: false,
-          });
-          this.randomNoise.play();
         }
         const zombieGenLoop = this.time.addEvent({
           delay: gameState.delay,
@@ -454,14 +455,18 @@
         });
 
         // Generate Fireballs
-        function fireballsGen () {
-          let fireballX = Phaser.Math.Between(0, 1500);
-          let thisFireball = fireballs.create(fireballX, -100, 'fireball');
-          thisFireball.setScale(0.05);
-          thisFireball.body.setCircle(300);
-          thisFireball.body.offset.y = 1800;
-          thisFireball.body.offset.x = 350;
 
+        const fireballs = this.physics.add.group();
+
+        function fireballsGen () {
+          if (gameState.play) {
+            let fireballX = Phaser.Math.Between(0, 1500);
+            let thisFireball = fireballs.create(fireballX, -100, 'fireball');
+            thisFireball.setScale(0.05);
+            thisFireball.body.setCircle(300);
+            thisFireball.body.offset.y = 1800;
+            thisFireball.body.offset.x = 350;
+          }
         }
         const fireBallGenLoop = this.time.addEvent({
           // Adjust Rate of Fireball Creation
@@ -569,8 +574,9 @@
         } else {
           if (gameState.deadAnimationPlayed === false) {
             gameState.deadAnimationPlayed = true;
-            player.y = 550;
             player.anims.play("player-dead", true);
+            // Replace line below with a real tween
+            player.y = 550;
           }
         }
       }
