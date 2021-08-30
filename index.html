@@ -138,6 +138,38 @@
           "assets/audio/noises/female-noise-7.mp3",
           "assets/audio/noises/female-noise-7.ogg",
         ]);
+        this.load.audio("squish", [
+          "assets/audio/noises/squish.mp3",
+          "assets/audio/noises/squish.ogg"
+        ]);
+        this.load.audio("bonk-1", [
+          "assets/audio/noises/bonk-1.mp3",
+          "assets/audio/noises/bonk-1.ogg"
+        ]);
+        this.load.audio("bonk-2", [
+          "assets/audio/noises/bonk-2.mp3",
+          "assets/audio/noises/bonk-2.ogg"
+        ]);
+        this.load.audio("bonk-3", [
+          "assets/audio/noises/bonk-3.mp3",
+          "assets/audio/noises/bonk-3.ogg"
+        ]);
+        this.load.audio("bonk-4", [
+          "assets/audio/noises/bonk-4.mp3",
+          "assets/audio/noises/bonk-4.ogg"
+        ]);
+        this.load.audio("bonk-5", [
+          "assets/audio/noises/bonk-5.mp3",
+          "assets/audio/noises/bonk-5.ogg"
+        ]);
+        this.load.audio("male-dead", [
+          "assets/audio/noises/male-dead.mp3",
+          "assets/audio/noises/male-dead.ogg"
+        ]);
+        this.load.audio("female-dead", [
+          "assets/audio/noises/female-dead.mp3",
+          "assets/audio/noises/female-dead.ogg"
+        ])
       }
 
       function create() {
@@ -189,6 +221,38 @@
         this.noise9 = this.sound.add("female-noise-2", {
           volume: 1.5,
           loop: false,
+        });
+        this.squish = this.sound.add("squish", {
+          volume: .3,
+          loop: false,
+        });
+        this.bonk1 = this.sound.add("bonk-1", {
+          volume: .3,
+          loop: false,
+        });
+        this.bonk2 = this.sound.add("bonk-2", {
+          volume: .3,
+          loop: false,
+        });
+        this.bonk3 = this.sound.add("bonk-3", {
+          volume: .3,
+          loop: false,
+        });
+        this.bonk4 = this.sound.add("bonk-4", {
+          volume: .3,
+          loop: false,
+        });
+        this.bonk5 = this.sound.add("bonk-5", {
+          volume: .3,
+          loop: false,
+        });
+        this.maleDead = this.sound.add("male-dead", {
+          volume: .8,
+          loop: false
+        });
+        this.femaleDead = this.sound.add("female-dead", {
+          volume: .1,
+          loop: false
         });
 
         platforms = this.physics.add.staticGroup();
@@ -455,10 +519,12 @@
             gameState.zombiesCreated += 1;
             let theNum = Math.floor(getRandom(2, 7));
             this.randomNoise = this.sound.add(`${zombieGender}-noise-${theNum}`, {
-              volume: 1.5,
+              volume: .3,
               loop: false,
             });
-            this.randomNoise.play();
+            if (gameState.zombiesCreated % 4 === 0) {
+              this.randomNoise.play();
+            }
           }
         }
         const zombieGenLoop = this.time.addEvent({
@@ -499,12 +565,14 @@
             player.body.touching.up === false
           ) {
           } else {
+            this.squish.play();
             this.playerHit();
           }
         });
 
         // Fireball Hits Player
         this.physics.add.collider(player, fireballs, (player, fireball) => {
+          this.bonk1.play();
           fireball.destroy();
           this.playerHit();
         })
@@ -514,6 +582,8 @@
           fireball.destroy();
           zombie.setVelocityX(0);
           if (zombie.texture.key === 'male') {
+            this.bonk2.play();
+            this.maleDead.play();
             // Find out how to remove collider so it's no longer dangerous
             zombie.anims.play('male-dead', true);
             zombie.once('animationcomplete', () => {
@@ -521,6 +591,8 @@
             })
           } else {
             // Find out how to remove collider so it's no longer dangerous
+            this.bonk5.play();
+            this.femaleDead.play();
             zombie.anims.play('female-dead', true);            
             zombie.once('animationcomplete', () => {
               zombie.destroy()
