@@ -14,6 +14,7 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 * "Red Hat Boy" sprite from [GameArt2D](https://www.gameart2d.com/red-hat-boy-free-sprites.html)
 * Zombie sprites from [GameArt2D](https://www.gameart2d.com/the-zombies-free-sprites.html)
 * Sprite sheets created with [Texture Packer](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-for-phaser3)
+* Audio edited with [Audacity](https://www.audacityteam.org/)
 * Zombie sound effects contributors unwilling to admit it
 
 ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/zombies-sprite/zombie-male/male-attack/attack01.png)
