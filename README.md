@@ -34,7 +34,7 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 
 ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/hero/idle/idle01.png)
 
-## Special Thanks To
+## ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/grave-tiles/png/Objects/DeadBush.png) Special Thanks To
 * [Mintbean](https://mintbean.io/meets?sort=upcoming) for hosting the hackathon
 * The open source creators behind [Phaser JS](https://phaser.io/)
 * Codecademy for their helpful [Phaser JS Tutorial](https://www.codecademy.com/learn/learn-phaser) 
