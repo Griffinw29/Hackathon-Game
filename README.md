@@ -14,16 +14,6 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 * Sprite sheets created with [Texture Packer](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-for-phaser3)
 * Zombie sound effects contributors unwilling to admit it
 
-## :busts_in_silhouette: The Team
-* William Griffin - [GitHub](https://github.com/Griffinw29) | [LinkedIn](https://www.linkedin.com/in/williamgriffin32/)
-* Stephen Roach - [GitHub](https://github.com/stephen-roach) | [LinkedIn](https://www.linkedin.com/in/stephen-d-roach/)
-* Elijah Wilcott - [GitHub](https://github.com/ejw773) | [LinkedIn](https://www.linkedin.com/in/elijah-wilcott/)
-* William Dunn - [GitHub](https://github.com/wdunn001) | But only a tiny bit.
-
-## Special Thanks To
-* Mintbean for hosting the hackathon
-* Codecademy for their helpful [Phaser JS Tutorial](https://www.codecademy.com/learn/learn-phaser) 
-
 ## How to run
 
 - To install dependencies ```npm i```
@@ -31,3 +21,15 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 - Install ```npm install -g local-web-server```
 
 - Then run  ```ws``` from root of repositroy.
+
+## :busts_in_silhouette: The Team
+* William Griffin - [GitHub](https://github.com/Griffinw29) | [LinkedIn](https://www.linkedin.com/in/williamgriffin32/)
+* Stephen Roach - [GitHub](https://github.com/stephen-roach) | [LinkedIn](https://www.linkedin.com/in/stephen-d-roach/)
+* Elijah Wilcott - [GitHub](https://github.com/ejw773) | [LinkedIn](https://www.linkedin.com/in/elijah-wilcott/)
+* William Dunn - [GitHub](https://github.com/wdunn001) | But only a tiny bit.
+
+## Special Thanks To
+* [Mintbean](https://mintbean.io/meets?sort=upcoming) for hosting the hackathon
+* The open source creators behind [Phaser JS](https://phaser.io/)
+* Codecademy for their helpful [Phaser JS Tutorial](https://www.codecademy.com/learn/learn-phaser) 
+* Family who put up with their 3 guys disappearing into a late-night 7-day hackathon, waking up each morning looking like zombies
