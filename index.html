@@ -28,7 +28,7 @@
         scene: {
           preload: preload,
           create: create,
-          update: update
+          update: update,
         },
       };
 
@@ -44,7 +44,7 @@
         delay: 10000,
         deadAnimationPlayed: false,
         remainingLives: 2,
-        level: 1
+        level: 1,
       };
 
       function preload() {
@@ -55,68 +55,162 @@
         this.load.image("ground", "assets/png/2/layers/l5_ground.png");
         this.load.image("houses", "assets/png/2/layers/l6_houses.png");
         this.load.image("ground", "assets/platform.png");
-        this.load.image("dumpster", "assets/grave-tiles/png/Objects/dumpster.png")
-        this.load.image("trashcan", "assets/grave-tiles/png/Objects/trashcan.png")
-        this.load.image("zombie-group", "assets/grave-tiles/png/Objects/zombie-group.png")
-        this.load.image("platform", "assets/platform.png")
-        this.load.image("tile-platform", "assets/tileplatform.png")
-        this.load.multiatlas('hero', 'assets/hero.json', "assets");
-        this.load.multiatlas('male', 'assets/male.json', "assets");
-        this.load.multiatlas('female', 'assets/female.json', "assets");
-        this.load.audio('zombie-dance', ['assets/audio/zombie-dance.mp3', 'assets/audio/zombie-dance.ogg']);
-        this.load.audio('male-noise-1', ['assets/audio/noises/male-noise-1.mp3', 'assets/audio/noises/male-noise-1.ogg']);
-        this.load.audio('male-noise-2', ['assets/audio/noises/male-noise-2.mp3', 'assets/audio/noises/male-noise-2.ogg']);
-        this.load.audio('male-noise-3', ['assets/audio/noises/male-noise-3.mp3', 'assets/audio/noises/male-noise-3.ogg']);
-        this.load.audio('male-noise-4', ['assets/audio/noises/male-noise-4.mp3', 'assets/audio/noises/male-noise-4.ogg']);
-        this.load.audio('male-noise-5', ['assets/audio/noises/male-noise-5.mp3', 'assets/audio/noises/male-noise-5.ogg']);
-        this.load.audio('male-noise-6', ['assets/audio/noises/male-noise-6.mp3', 'assets/audio/noises/male-noise-6.ogg']);
-        this.load.audio('male-noise-7', ['assets/audio/noises/male-noise-7.mp3', 'assets/audio/noises/male-noise-7.ogg']);
-        this.load.audio('female-noise-1', ['assets/audio/noises/female-noise-1.mp3', 'assets/audio/noises/female-noise-1.ogg']);
-        this.load.audio('female-noise-2', ['assets/audio/noises/female-noise-2.mp3', 'assets/audio/noises/female-noise-2.ogg']);
-        this.load.audio('female-noise-3', ['assets/audio/noises/female-noise-3.mp3', 'assets/audio/noises/female-noise-3.ogg']);
-        this.load.audio('female-noise-4', ['assets/audio/noises/female-noise-4.mp3', 'assets/audio/noises/female-noise-4.ogg']);
-        this.load.audio('female-noise-5', ['assets/audio/noises/female-noise-5.mp3', 'assets/audio/noises/female-noise-5.ogg']);
-        this.load.audio('female-noise-6', ['assets/audio/noises/female-noise-6.mp3', 'assets/audio/noises/female-noise-6.ogg']);
-        this.load.audio('female-noise-7', ['assets/audio/noises/female-noise-7.mp3', 'assets/audio/noises/female-noise-7.ogg']);
+        this.load.image(
+          "dumpster",
+          "assets/grave-tiles/png/Objects/dumpster.png"
+        );
+        this.load.image(
+          "trashcan",
+          "assets/grave-tiles/png/Objects/trashcan.png"
+        );
+        this.load.image(
+          "zombie-group",
+          "assets/grave-tiles/png/Objects/zombie-group.png"
+        );
+        this.load.image("platform", "assets/platform.png");
+        this.load.image("tile-platform", "assets/tileplatform.png");
+        this.load.multiatlas("hero", "assets/hero.json", "assets");
+        this.load.multiatlas("male", "assets/male.json", "assets");
+        this.load.multiatlas("female", "assets/female.json", "assets");
+        this.load.audio("zombie-dance", [
+          "assets/audio/zombie-dance.mp3",
+          "assets/audio/zombie-dance.ogg",
+        ]);
+        this.load.audio("male-noise-1", [
+          "assets/audio/noises/male-noise-1.mp3",
+          "assets/audio/noises/male-noise-1.ogg",
+        ]);
+        this.load.audio("male-noise-2", [
+          "assets/audio/noises/male-noise-2.mp3",
+          "assets/audio/noises/male-noise-2.ogg",
+        ]);
+        this.load.audio("male-noise-3", [
+          "assets/audio/noises/male-noise-3.mp3",
+          "assets/audio/noises/male-noise-3.ogg",
+        ]);
+        this.load.audio("male-noise-4", [
+          "assets/audio/noises/male-noise-4.mp3",
+          "assets/audio/noises/male-noise-4.ogg",
+        ]);
+        this.load.audio("male-noise-5", [
+          "assets/audio/noises/male-noise-5.mp3",
+          "assets/audio/noises/male-noise-5.ogg",
+        ]);
+        this.load.audio("male-noise-6", [
+          "assets/audio/noises/male-noise-6.mp3",
+          "assets/audio/noises/male-noise-6.ogg",
+        ]);
+        this.load.audio("male-noise-7", [
+          "assets/audio/noises/male-noise-7.mp3",
+          "assets/audio/noises/male-noise-7.ogg",
+        ]);
+        this.load.audio("female-noise-1", [
+          "assets/audio/noises/female-noise-1.mp3",
+          "assets/audio/noises/female-noise-1.ogg",
+        ]);
+        this.load.audio("female-noise-2", [
+          "assets/audio/noises/female-noise-2.mp3",
+          "assets/audio/noises/female-noise-2.ogg",
+        ]);
+        this.load.audio("female-noise-3", [
+          "assets/audio/noises/female-noise-3.mp3",
+          "assets/audio/noises/female-noise-3.ogg",
+        ]);
+        this.load.audio("female-noise-4", [
+          "assets/audio/noises/female-noise-4.mp3",
+          "assets/audio/noises/female-noise-4.ogg",
+        ]);
+        this.load.audio("female-noise-5", [
+          "assets/audio/noises/female-noise-5.mp3",
+          "assets/audio/noises/female-noise-5.ogg",
+        ]);
+        this.load.audio("female-noise-6", [
+          "assets/audio/noises/female-noise-6.mp3",
+          "assets/audio/noises/female-noise-6.ogg",
+        ]);
+        this.load.audio("female-noise-7", [
+          "assets/audio/noises/female-noise-7.mp3",
+          "assets/audio/noises/female-noise-7.ogg",
+        ]);
       }
 
       function create() {
-
         this.add.image(700, 300, "sky");
         this.add.image(700, 700, "hills");
         this.add.image(700, 300, "clouds");
         this.add.image(700, 300, "ruin");
         this.add.image(700, 175, "houses");
         // this.add.image(700, 300, "ground");
-        this.add.image(530, 500, "zombie-group").setScale(0.2)
+        this.add.image(530, 500, "zombie-group").setScale(0.2);
 
-        this.backgroundMusic = this.sound.add('zombie-dance', { volume: 0.8, loop: true });
+        this.backgroundMusic = this.sound.add("zombie-dance", {
+          volume: 0.8,
+          loop: true,
+        });
         this.backgroundMusic.play();
-        this.noise1 = this.sound.add('male-noise-1', { volume: 2, loop: false });
-        this.noise2 = this.sound.add('male-noise-2', { volume: 2, loop: false });
-        this.noise3 = this.sound.add('male-noise-3', { volume: 2, loop: false });
-        this.noise4 = this.sound.add('male-noise-4', { volume: 2, loop: false });
-        this.noise5 = this.sound.add('male-noise-5', { volume: 2, loop: false });
-        this.noise6 = this.sound.add('male-noise-6', { volume: 2, loop: false });
-        this.noise7 = this.sound.add('male-noise-7', { volume: 2, loop: false });
-        this.noise8 = this.sound.add('female-noise-1', { volume: 2, loop: false });
-        this.noise9 = this.sound.add('female-noise-2', { volume: 2, loop: false });
+        this.noise1 = this.sound.add("male-noise-1", {
+          volume: 2,
+          loop: false,
+        });
+        this.noise2 = this.sound.add("male-noise-2", {
+          volume: 2,
+          loop: false,
+        });
+        this.noise3 = this.sound.add("male-noise-3", {
+          volume: 2,
+          loop: false,
+        });
+        this.noise4 = this.sound.add("male-noise-4", {
+          volume: 2,
+          loop: false,
+        });
+        this.noise5 = this.sound.add("male-noise-5", {
+          volume: 2,
+          loop: false,
+        });
+        this.noise6 = this.sound.add("male-noise-6", {
+          volume: 2,
+          loop: false,
+        });
+        this.noise7 = this.sound.add("male-noise-7", {
+          volume: 2,
+          loop: false,
+        });
+        this.noise8 = this.sound.add("female-noise-1", {
+          volume: 2,
+          loop: false,
+        });
+        this.noise9 = this.sound.add("female-noise-2", {
+          volume: 2,
+          loop: false,
+        });
 
-        
         platforms = this.physics.add.staticGroup();
+        objects = this.physics.add.staticGroup();
+
+        //add objects to game page
+        objects.create(750, 520, "dumpster").setScale(0.2).refreshBody();
+        objects.create(1150, 560, "trashcan").setScale(0.05).refreshBody();
+        objects.create(500, 580, "Skeleton").setScale(0.75).refreshBody();
 
         //Add 'platforms' to page
-        platforms.create(750, 300, "dumpster").setScale(0.2).refreshBody();
-        platforms.create(1150, 560, "trashcan").setScale(0.05).refreshBody();
         platforms.create(1500, 600, "platform").setScale(10, 0.2).refreshBody();
-        platforms.create(100, 200, 'tile-platform').setScale(1).refreshBody();
-        platforms.create(1500, 200, 'tile-platform').setScale(1).refreshBody();
-        
-        this.add.text(50, 50, `Remaining Lives: ${gameState.remainingLives}`, { fontSize: '30px', fill: '#FFFFFF' });
+        platforms.create(100, 200, "tile-platform").setScale(1).refreshBody();
+        platforms.create(1500, 150, "tile-platform").setScale(1).refreshBody();
+        platforms.create(750, 100, "tile-platform").setScale(0.5).refreshBody();
+        platforms.create(1350, 400, "tile-platform").setScale(1).refreshBody();
+        platforms
+          .create(750, 300, "tile-platform")
+          .setScale(0.85)
+          .refreshBody();
 
+        this.add.text(50, 50, `Remaining Lives: ${gameState.remainingLives}`, {
+          fontSize: "30px",
+          fill: "#FFFFFF",
+        });
 
         // Add 'player' sprite to scene
-        player = this.physics.add.sprite(20, 400, 'hero', 'idle/idle01.png');
+        player = this.physics.add.sprite(20, 400, "hero", "idle/idle01.png");
         player.setScale(0.2);
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
@@ -125,18 +219,29 @@
         player.body.offset.y = 100;
 
         // 'player-idle' animation
-        let idleFrameNames = this.anims.generateFrameNames('hero', {
-          start: 1, end: 10, zeroPad: 2,
-          prefix: 'idle/idle', suffix: '.png'
-        })
-        this.anims.create({ key: 'player-idle', frames: idleFrameNames, frameRate: 10, repeat: -1 });
-        player.anims.play('player-idle');
+        let idleFrameNames = this.anims.generateFrameNames("hero", {
+          start: 1,
+          end: 10,
+          zeroPad: 2,
+          prefix: "idle/idle",
+          suffix: ".png",
+        });
+        this.anims.create({
+          key: "player-idle",
+          frames: idleFrameNames,
+          frameRate: 10,
+          repeat: -1,
+        });
+        player.anims.play("player-idle");
 
         // 'player-run' animation
-        let runFrameNames = this.anims.generateFrameNames('hero', {
-          start: 1, end: 10, zeroPad: 2,
-          prefix: 'run/run', suffix: '.png'
-        })
+        let runFrameNames = this.anims.generateFrameNames("hero", {
+          start: 1,
+          end: 10,
+          zeroPad: 2,
+          prefix: "run/run",
+          suffix: ".png",
+        });
         this.anims.create({
           key: "player-run",
           frames: runFrameNames,
@@ -144,45 +249,61 @@
           repeat: -1,
         });
 
-
         // 'player-jump' animation
-        let jumpFrameNames = this.anims.generateFrameNames('hero', {
-          start: 1, end: 12, zeroPad: 2,
-          prefix: 'jump/jump', suffix: '.png'
-        })
+        let jumpFrameNames = this.anims.generateFrameNames("hero", {
+          start: 1,
+          end: 12,
+          zeroPad: 2,
+          prefix: "jump/jump",
+          suffix: ".png",
+        });
 
         this.anims.create({
-          key: 'player-jump',
+          key: "player-jump",
           frames: jumpFrameNames,
           frameRate: 12,
-          repeat: 0
-        })
+          repeat: 0,
+        });
 
         // 'player-dead' animation
-        let deadFrameNames = this.anims.generateFrameNames('hero', {
-          start: 1, end: 10, zeroPad: 2,
-          prefix: 'dead/dead', suffix: '.png'
-        })
+        let deadFrameNames = this.anims.generateFrameNames("hero", {
+          start: 1,
+          end: 10,
+          zeroPad: 2,
+          prefix: "dead/dead",
+          suffix: ".png",
+        });
 
         this.anims.create({
-          key: 'player-dead',
+          key: "player-dead",
           frames: deadFrameNames,
           frameRate: 12,
-          repeat: 0
-        })
+          repeat: 0,
+        });
 
         // 'male-idle' zombie animation
-        let idleMaleFrameNames = this.anims.generateFrameNames('male', {
-          start: 1, end: 15, zeroPad: 2,
-          prefix: 'male-idle/idle', suffix: '.png'
-        })
-        this.anims.create({ key: 'male-idle', frames: idleMaleFrameNames, frameRate: 10, repeat: -1 });
+        let idleMaleFrameNames = this.anims.generateFrameNames("male", {
+          start: 1,
+          end: 15,
+          zeroPad: 2,
+          prefix: "male-idle/idle",
+          suffix: ".png",
+        });
+        this.anims.create({
+          key: "male-idle",
+          frames: idleMaleFrameNames,
+          frameRate: 10,
+          repeat: -1,
+        });
 
         // 'male-walk' zombie animation
-        let maleWalkFrameNames = this.anims.generateFrameNames('male', {
-          start: 1, end: 10, zeroPad: 2,
-          prefix: 'male-walk/walk', suffix: '.png'
-        })
+        let maleWalkFrameNames = this.anims.generateFrameNames("male", {
+          start: 1,
+          end: 10,
+          zeroPad: 2,
+          prefix: "male-walk/walk",
+          suffix: ".png",
+        });
         this.anims.create({
           key: "male-walk",
           frames: maleWalkFrameNames,
@@ -191,17 +312,19 @@
         });
 
         // 'female-walk' zombie animation
-        let femaleWalkFrameNames = this.anims.generateFrameNames('female', {
-          start: 1, end: 10, zeroPad: 2,
-          prefix: 'female-walk/walk', suffix: '.png'
-        })
+        let femaleWalkFrameNames = this.anims.generateFrameNames("female", {
+          start: 1,
+          end: 10,
+          zeroPad: 2,
+          prefix: "female-walk/walk",
+          suffix: ".png",
+        });
         this.anims.create({
-          key: 'female-walk',
+          key: "female-walk",
           frames: femaleWalkFrameNames,
           frameRate: 10,
-          repeat: -1
+          repeat: -1,
         });
-
 
         this.physics.add.collider(player, platforms);
 
@@ -217,44 +340,44 @@
           let startX;
           let startY;
           let zombieVelocity;
-          switch(directionNumber) {
-            case 1: 
-              theDirection = 'top-right';
+          switch (directionNumber) {
+            case 1:
+              theDirection = "top-right";
               zombieFlip = true;
               startX = 1500;
               startY = 50;
               zombieVelocity = -50;
               break;
             case 2:
-              theDirection = 'bottom-right';
+              theDirection = "bottom-right";
               zombieFlip = true;
               startX = 1500;
               startY = 450;
               zombieVelocity = -50;
               break;
             case 3:
-              theDirection = 'bottom-left';
+              theDirection = "bottom-left";
               zombieFlip = false;
               startX = 20;
               startY = 450;
               zombieVelocity = 50;
               break;
             case 4:
-              theDirection = 'top-left';
+              theDirection = "top-left";
               zombieFlip = false;
               startX = 0;
               startY = 0;
               zombieVelocity = 50;
               break;
             case 5:
-              theDirection = 'top-middle';
+              theDirection = "top-middle";
               startX = 750;
               startY = 0;
               zombieFlip = false;
               zombieVelocity = 50;
               break;
-            default: 
-              theDirection = 'top-right';
+            default:
+              theDirection = "top-right";
               zombieFlip = true;
               startX = 1500;
               startY = 50;
@@ -263,17 +386,22 @@
           let yOffset = 150;
           function getRandom(min, max) {
             return Math.random() * (max - min) + min;
-            }
-          let zombieGender = 'male';
+          }
+          let zombieGender = "male";
           if (Math.random() <= 0.5) {
-            zombieGender = 'female';
+            zombieGender = "female";
             xOffset = 200;
             yOffset = 200;
             if (zombieFlip === true) {
               xOffset = 125;
             }
           }
-          let thisZombie = zombies.create(startX, startY, `${zombieGender}`, `${zombieGender}-idle/idle01.png`);
+          let thisZombie = zombies.create(
+            startX,
+            startY,
+            `${zombieGender}`,
+            `${zombieGender}-idle/idle01.png`
+          );
           thisZombie.setScale(0.2);
           thisZombie.setBounce(0.2);
           thisZombie.flipX = zombieFlip;
@@ -285,7 +413,10 @@
           this.physics.add.collider(thisZombie, platforms);
           gameState.zombiesCreated += 1;
           let theNum = Math.floor(getRandom(2, 7));
-          this.randomNoise = this.sound.add(`${zombieGender}-noise-${theNum}`, { volume: 2, loop: false });
+          this.randomNoise = this.sound.add(`${zombieGender}-noise-${theNum}`, {
+            volume: 2,
+            loop: false,
+          });
           this.randomNoise.play();
         }
         const zombieGenLoop = this.time.addEvent({
@@ -295,46 +426,57 @@
           loop: true,
         });
 
-
         this.physics.add.collider(player, zombies, () => {
-          if (player.body.touching.right === false && player.body.touching.left === false && player.body.touching.up === false) {
+          if (
+            player.body.touching.right === false &&
+            player.body.touching.left === false &&
+            player.body.touching.up === false
+          ) {
           } else {
-          if (gameState.remainingLives === 0) {
-            gameState.play = false;
-            this.backgroundMusic.stop();
-            this.noise1.play();
-            this.physics.pause();
-            player.anims.stop();
-            this.add.text(350, 250, 'Game Over', { fontSize: '30px', fill: '#FFFFFF' });
-            this.add.text(300, 300, 'Click to Restart', { fontSize: '25px', fill: '#FFFFFF' });
-            this.input.on('pointerup', () => {
-              gameState.play = true;
-              gameState.deadAnimationPlayed = false;
-              gameState.remainingLives = 2;
-              this.scene.restart();
-            })
-          } else {
-            gameState.play = false;
-            this.backgroundMusic.stop();
-            this.noise1.play();
-            this.physics.pause();
-            player.y = 550;
-            player.anims.play("player-dead", true);
-            this.add.text(350, 250, 'Click to Continue', { fontSize: '30px', fill: '#FFFFFF' });
-            gameState.remainingLives -= 1;
-            this.input.on('pointerup', () => {
-              gameState.play = true;
-              gameState.deadAnimationPlayed = false;
-              this.scene.restart();
-            })
+            if (gameState.remainingLives === 0) {
+              gameState.play = false;
+              this.backgroundMusic.stop();
+              this.noise1.play();
+              this.physics.pause();
+              player.anims.stop();
+              this.add.text(350, 250, "Game Over", {
+                fontSize: "30px",
+                fill: "#FFFFFF",
+              });
+              this.add.text(300, 300, "Click to Restart", {
+                fontSize: "25px",
+                fill: "#FFFFFF",
+              });
+              this.input.on("pointerup", () => {
+                gameState.play = true;
+                gameState.deadAnimationPlayed = false;
+                gameState.remainingLives = 2;
+                this.scene.restart();
+              });
+            } else {
+              gameState.play = false;
+              this.backgroundMusic.stop();
+              this.noise1.play();
+              this.physics.pause();
+              player.y = 550;
+              player.anims.play("player-dead", true);
+              this.add.text(350, 250, "Click to Continue", {
+                fontSize: "30px",
+                fill: "#FFFFFF",
+              });
+              gameState.remainingLives -= 1;
+              this.input.on("pointerup", () => {
+                gameState.play = true;
+                gameState.deadAnimationPlayed = false;
+                this.scene.restart();
+              });
 
-            // player.on('animationcomplete', nextLife);
-            // nextLife = () => {
-            // }
-          }}
+              // player.on('animationcomplete', nextLife);
+              // nextLife = () => {
+              // }
+            }
+          }
         });
-
-
       }
 
       function update() {
@@ -346,7 +488,7 @@
           } else if (gameState.cursors.right.isDown) {
             player.setVelocityX(160);
             player.anims.play("player-run", true);
-            player.flipX = false
+            player.flipX = false;
           } else {
             player.setVelocityX(0);
             player.anims.play("player-idle", true);
