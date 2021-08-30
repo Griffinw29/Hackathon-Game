@@ -30,6 +30,8 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 * Elijah Wilcott - [GitHub](https://github.com/ejw773) | [LinkedIn](https://www.linkedin.com/in/elijah-wilcott/)
 * William Dunn - [GitHub](https://github.com/wdunn001) | But only a tiny bit.
 
+![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/hero/idle/idle01.png)
+
 ## Special Thanks To
 * [Mintbean](https://mintbean.io/meets?sort=upcoming) for hosting the hackathon
 * The open source creators behind [Phaser JS](https://phaser.io/)
