@@ -129,6 +129,7 @@
           start: 1, end: 10, zeroPad: 2,
           prefix: 'idle/idle', suffix: '.png'
         })
+        console.log(JSON.stringify(idleFrameNames));
         this.anims.create({ key: 'player-idle', frames: idleFrameNames, frameRate: 10, repeat: -1 });
         player.anims.play('player-idle');
 
@@ -211,79 +212,34 @@
         const zombies = this.physics.add.group();
 
         function zombieGen() {
-          let directionNumber = Math.floor(getRandom(1, 6));
-          let theDirection;
-          let zombieFlip;
-          let startX;
-          let startY;
-          let zombieVelocity;
-          switch(directionNumber) {
-            case 1: 
-              theDirection = 'top-right';
-              zombieFlip = true;
-              startX = 1500;
-              startY = 50;
-              zombieVelocity = -50;
-              break;
-            case 2:
-              theDirection = 'bottom-right';
-              zombieFlip = true;
-              startX = 1500;
-              startY = 450;
-              zombieVelocity = -50;
-              break;
-            case 3:
-              theDirection = 'bottom-left';
-              zombieFlip = false;
-              startX = 20;
-              startY = 450;
-              zombieVelocity = 50;
-              break;
-            case 4:
-              theDirection = 'top-left';
-              zombieFlip = false;
-              startX = 0;
-              startY = 0;
-              zombieVelocity = 50;
-              break;
-            case 5:
-              theDirection = 'top-middle';
-              startX = 750;
-              startY = 0;
-              zombieFlip = false;
-              zombieVelocity = 50;
-              break;
-            default: 
-              theDirection = 'top-right';
-              zombieFlip = true;
-              startX = 1500;
-              startY = 50;
-          }
           let xOffset = 100;
-          let yOffset = 150;
+          let yOffset = 150
           function getRandom(min, max) {
-            return Math.random() * (max - min) + min;
+          return Math.random() * (max - min) + min;
             }
           let zombieGender = 'male';
           if (Math.random() <= 0.5) {
             zombieGender = 'female';
-            xOffset = 200;
+            xOffset = 125;
             yOffset = 200;
-            if (zombieFlip === true) {
-              xOffset = 125;
-            }
           }
-          let thisZombie = zombies.create(startX, startY, `${zombieGender}`, `${zombieGender}-idle/idle01.png`);
+          let thisZombie = zombies.create(1500, 50, `${zombieGender}`, `${zombieGender}-idle/idle01.png`);
+          let theDirection = Math.floor(getRandom(1, 5));
+          console.log(`Number to determine direction: ${theDirection}`);
           thisZombie.setScale(0.2);
           thisZombie.setBounce(0.2);
-          thisZombie.flipX = zombieFlip;
+          thisZombie.flipX = true;
           thisZombie.body.setSize(190, 370, true);
           thisZombie.body.offset.x = xOffset;
           thisZombie.body.offset.y = yOffset;
           thisZombie.anims.play(`${zombieGender}-walk`);
-          thisZombie.setVelocityX(zombieVelocity);
+          thisZombie.setVelocityX(-50);
           this.physics.add.collider(thisZombie, platforms);
+          if (thisZombie.body.touching.none === false) {
+            console.log(thisZombie.body.touching);
+          }
           gameState.zombiesCreated += 1;
+          console.log(gameState.zombiesCreated);
           let theNum = Math.floor(getRandom(2, 7));
           this.randomNoise = this.sound.add(`${zombieGender}-noise-${theNum}`, { volume: 2, loop: false });
           this.randomNoise.play();
@@ -297,7 +253,9 @@
 
 
         this.physics.add.collider(player, zombies, () => {
+          console.log(player.body.touching);
           if (player.body.touching.right === false && player.body.touching.left === false && player.body.touching.up === false) {
+            console.log('you killed em!')
           } else {
           if (gameState.remainingLives === 0) {
             gameState.play = false;
