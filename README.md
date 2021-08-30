@@ -28,7 +28,7 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 * Mintbean for hosting the hackathon
 * Codecademy for their helpful [Phaser JS Tutorial](https://www.codecademy.com/learn/learn-phaser) 
 
-##How to run
+## How to run
 
 - to install dependencies ```npm i```
 
