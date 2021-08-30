@@ -26,7 +26,7 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton ![i
 
 - then run  ```ws``` from root of repositroy.
 
-## :busts_in_silhouette: The Team
+## ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/grave-tiles/png/Objects/TombStone%20(1).png) The Team
 * William Griffin - [GitHub](https://github.com/Griffinw29) | [LinkedIn](https://www.linkedin.com/in/williamgriffin32/)
 * Stephen Roach - [GitHub](https://github.com/stephen-roach) | [LinkedIn](https://www.linkedin.com/in/stephen-d-roach/)
 * Elijah Wilcott - [GitHub](https://github.com/ejw773) | [LinkedIn](https://www.linkedin.com/in/elijah-wilcott/)
