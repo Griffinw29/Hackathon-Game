@@ -1,6 +1,8 @@
 # Zombie Dash
 A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 
+[image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/zombies-sprite/zombie-female/female-idle/idle01.png)
+
 [Live Website]()
 
 ## 🖥 Screenshots
