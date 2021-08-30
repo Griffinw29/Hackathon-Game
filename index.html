@@ -523,7 +523,8 @@
         })
         
         // Fireball Hits Zombie
-        this.physics.add.collider(zombies, fireballs, (zombie) => {
+        this.physics.add.collider(zombies, fireballs, (zombie, fireball) => {
+          fireball.destroy();
           zombie.setVelocityX(0);
           if (zombie.texture.key === 'male') {
             zombie.anims.play('male-dead', true);
