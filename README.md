@@ -39,3 +39,5 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 * The open source creators behind [Phaser JS](https://phaser.io/)
 * Codecademy for their helpful [Phaser JS Tutorial](https://www.codecademy.com/learn/learn-phaser) 
 * Family who put up with their 3 guys disappearing into a late-night 7-day hackathon, waking up each morning looking like zombies
+
+## ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/grave-tiles/png/Objects/dumpster.png)
