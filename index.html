@@ -654,7 +654,7 @@
             player.flipX = false;
           }
 
-          if (gameState.cursors.up.isDown && player.body.touching.down) {
+          if ((gameState.cursors.up.isDown || gameState.cursors.space.isDown) && player.body.touching.down) {
             player.setVelocityY(-330);
           }
         } else {
