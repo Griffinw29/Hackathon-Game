@@ -40,7 +40,8 @@
       const gameState = {
         play: true,
         zombiesCreated: 0,
-        delay: 5000
+        delay: 5000,
+        deadAnimationPlayed: false
       };
 
       function preload() {
@@ -250,12 +251,12 @@
           this.noise1.play();
           this.physics.pause();
           player.anims.stop();
-          // zombieFemale.anims.stop();
-          // zombieMale.anims.stop();
+//          zombies.anims.stop();
           this.add.text(350, 250, 'Game Over', { fontSize: '30px', fill: '#FFFFFF' });
           this.add.text(300, 300, 'Click to Restart', { fontSize: '25px', fill: '#FFFFFF' });
           this.input.on('pointerup', () => {
             gameState.play = true;
+            gameState.deadAnimationPlayed = false;
             this.scene.restart();
           })
         });
@@ -283,7 +284,11 @@
             player.setVelocityY(-330);
           }
         } else {
-          player.anims.play("player-dead", true);
+          if (gameState.deadAnimationPlayed === false) {
+            gameState.deadAnimationPlayed = true;
+            player.anims.play("player-dead", true);
+            player.y = 550;
+          }
         }
       }
     </script>
