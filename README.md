@@ -22,7 +22,16 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 * William Griffin - [GitHub](https://github.com/Griffinw29) | [LinkedIn](https://www.linkedin.com/in/williamgriffin32/)
 * Stephen Roach - [GitHub](https://github.com/stephen-roach) | [LinkedIn](https://www.linkedin.com/in/stephen-d-roach/)
 * Elijah Wilcott - [GitHub](https://github.com/ejw773) | [LinkedIn](https://www.linkedin.com/in/elijah-wilcott/)
+* William Dunn - [GitHub](https://github.com/wdunn001) | But only a tiny bit.
 
 ## Special Thanks To
 * Mintbean for hosting the hackathon
 * Codecademy for their helpful [Phaser JS Tutorial](https://www.codecademy.com/learn/learn-phaser) 
+
+##How to run
+
+- to install dependencies ```npm i```
+
+- install ```npm install -g local-web-server```
+
+- then run  ```ws``` from root of repositroy.
