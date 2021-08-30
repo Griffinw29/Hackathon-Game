@@ -41,7 +41,7 @@
       const gameState = {
         play: true,
         zombiesCreated: 0,
-        delay: 10000,
+        delay: 1000,
         deadAnimationPlayed: false,
         remainingLives: 2,
         level: 1,
@@ -56,6 +56,7 @@
         this.load.image("houses", "assets/png/2/layers/l6_houses.png");
         this.load.image("ground", "assets/platform.png");
         this.load.image("Crate", "assets/grave-tiles/png/Objects/Crate.png");
+        this.load.image("fireball", 'assets/fireball.png')
         this.load.image(
           "Skeleton",
           "assets/grave-tiles/png/Objects/Skeleton.png"
@@ -319,6 +320,14 @@
           repeat: -1,
         });
 
+        // 'male-dead' zombie animation
+        let deadMaleFrameNames = this.anims.generateFrameNames('male', {
+          start: 1, end: 12, zeroPad: 2,
+          prefix: 'male-dead/dead', suffix: '.png'
+        })
+        this.anims.create({ key: 'male-dead', frames: deadMaleFrameNames, frameRate: 10, repeat: 0 });
+
+
         // 'female-walk' zombie animation
         let femaleWalkFrameNames = this.anims.generateFrameNames("female", {
           start: 1,
@@ -334,12 +343,22 @@
           repeat: -1,
         });
 
+        // 'female-dead' zombie animation
+        let deadFemaleFrameNames = this.anims.generateFrameNames('female', {
+          start: 1, end: 12, zeroPad: 2,
+          prefix: 'female-dead/dead', suffix: '.png'
+        })
+        this.anims.create({ key: 'female-dead', frames: deadFemaleFrameNames, frameRate: 10, repeat: 0 });
+
+
+
         this.physics.add.collider(player, platforms);
 
         gameState.cursors = this.input.keyboard.createCursorKeys();
 
         // Add zombie group
         const zombies = this.physics.add.group();
+        const fireballs = this.physics.add.group();
 
         function zombieGen() {
           let directionNumber = Math.floor(getRandom(1, 6));
@@ -434,6 +453,22 @@
           loop: true,
         });
 
+        // Generate Fireballs
+        function fireballsGen () {
+          let fireballX = Phaser.Math.Between(0, 1500);
+          let thisFireball = fireballs.create(fireballX, -100, 'fireball');
+          thisFireball.setScale(0.05);
+        }
+        const fireBallGenLoop = this.time.addEvent({
+          // Adjust Rate of Fireball Creation
+          // delay: gameState.delay*4,
+          delay: 1000,
+          callback: fireballsGen,
+          callbackScope: this,
+          loop: true,
+        });
+
+        // Player Hits Zombie
         this.physics.add.collider(player, zombies, () => {
           if (
             player.body.touching.right === false &&
@@ -478,13 +513,32 @@
                 gameState.deadAnimationPlayed = false;
                 this.scene.restart();
               });
-
-              // player.on('animationcomplete', nextLife);
-              // nextLife = () => {
-              // }
             }
           }
         });
+
+        // Fireball Hits Player
+        this.physics.add.collider(player, fireballs, () => {
+          // Add player death here
+        })
+        
+        // Fireball Hits Zombie
+        this.physics.add.collider(zombies, fireballs, (zombie, fireball) => {
+          fireball.destroy();
+          zombie.setVelocityX(0);
+          if (zombie.texture.key === 'male') {
+            zombie.anims.play('male-dead', true);
+            zombie.once('animationcomplete', () => {
+              zombie.destroy()
+            })
+          } else {
+            zombie.anims.play('female-dead', true);            
+            zombie.once('animationcomplete', () => {
+              zombie.destroy()
+            })
+
+          }
+        })
       }
 
       function update() {
