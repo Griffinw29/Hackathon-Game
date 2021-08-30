@@ -16,11 +16,11 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 
 ## How to run
 
-- To install dependencies ```npm i```
+- to install dependencies ```npm i```
 
-- Install ```npm install -g local-web-server```
+- install ```npm install -g local-web-server```
 
-- Then run  ```ws``` from root of repositroy.
+- then run  ```ws``` from root of repositroy.
 
 ## :busts_in_silhouette: The Team
 * William Griffin - [GitHub](https://github.com/Griffinw29) | [LinkedIn](https://www.linkedin.com/in/williamgriffin32/)
