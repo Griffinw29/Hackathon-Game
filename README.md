@@ -14,10 +14,6 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 * Sprite sheets created with [Texture Packer](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-for-phaser3)
 * Zombie sound effects contributors unwilling to admit it
 
-## Running Locally
-* We suggest cloning the repo, and using [Live Server in VS Code](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
-* Alternatively, see the Phaser JS [documentation](https://phaser.io/tutorials/getting-started-phaser3) for more information
-
 ## :busts_in_silhouette: The Team
 * William Griffin - [GitHub](https://github.com/Griffinw29) | [LinkedIn](https://www.linkedin.com/in/williamgriffin32/)
 * Stephen Roach - [GitHub](https://github.com/stephen-roach) | [LinkedIn](https://www.linkedin.com/in/stephen-d-roach/)
