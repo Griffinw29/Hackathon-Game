@@ -237,6 +237,9 @@
           thisZombie.anims.play(`${zombieGender}-walk`);
           thisZombie.setVelocityX(-50);
           this.physics.add.collider(thisZombie, platforms);
+          if (thisZombie.body.touching.none === false) {
+            console.log(thisZombie.body.touching);
+          }
           gameState.zombiesCreated += 1;
           console.log(gameState.zombiesCreated);
           let theNum = Math.floor(getRandom(2, 7));
@@ -252,6 +255,10 @@
 
 
         this.physics.add.collider(player, zombies, () => {
+          console.log(player.body.touching);
+          if (player.body.touching.right === false && player.body.touching.left === false && player.body.touching.up === false) {
+            console.log('you killed em!')
+          } else {
           if (gameState.remainingLives === 0) {
             gameState.play = false;
             this.backgroundMusic.stop();
@@ -284,7 +291,7 @@
             // player.on('animationcomplete', nextLife);
             // nextLife = () => {
             // }
-          }
+          }}
         });
 
 
