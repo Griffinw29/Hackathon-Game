@@ -220,6 +220,9 @@
         function onEvent() {
           this.initialTime -= 1; // One second
           text.setText('Countdown: ' + formatTime(this.initialTime));
+          if ((initialTime = 0)) {
+            this.scene.restart();
+          }
         }
 
         platforms = this.physics.add.staticGroup();
