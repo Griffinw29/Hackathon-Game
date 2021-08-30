@@ -208,10 +208,24 @@
         platforms.create(1500, 150, "tile-platform").setScale(1).refreshBody();
         platforms.create(750, 100, "tile-platform").setScale(0.5).refreshBody();
         platforms.create(1350, 400, "tile-platform").setScale(1).refreshBody();
-        platforms
-          .create(750, 300, "tile-platform")
-          .setScale(0.85)
-          .refreshBody();
+        platforms.create(750, 300, "tile-platform").setScale(0.85).refreshBody();
+
+        // Reduce extra bounding box under the platforms (there's got to be a cleaner way to do this...)
+        // Upper left
+        platforms.children.entries[1].body.setSize(platforms.children.entries[1].width, 40, true);
+
+        // Upper right
+        platforms.children.entries[2].body.setSize(platforms.children.entries[2].width, 40, true);
+
+        // Upper middle - note that width is multiplied by .5, as the platform is scaled by .5
+        platforms.children.entries[3].body.setSize(platforms.children.entries[3].width *.5, 40, true);
+
+        // Lower right
+        platforms.children.entries[4].body.setSize(platforms.children.entries[4].width, 40, true);
+
+        // Center - note that width is multiplied by .85, as the platform is scaled by .85
+        platforms.children.entries[5].body.setSize(platforms.children.entries[5].width *.85, 40, true);
+
 
         this.add.text(50, 50, `Remaining Lives: ${gameState.remainingLives}`, {
           fontSize: "30px",
@@ -219,7 +233,7 @@
         });
 
         // Add 'player' sprite to scene
-        player = this.physics.add.sprite(20, 400, "hero", "idle/idle01.png");
+        player = this.physics.add.sprite(200, 400, "hero", "idle/idle01.png");
         player.setScale(0.2);
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
