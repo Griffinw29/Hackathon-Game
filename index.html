@@ -458,6 +458,10 @@
           let fireballX = Phaser.Math.Between(0, 1500);
           let thisFireball = fireballs.create(fireballX, -100, 'fireball');
           thisFireball.setScale(0.05);
+          thisFireball.body.setCircle(300);
+          thisFireball.body.offset.y = 1800;
+          thisFireball.body.offset.x = 350;
+
         }
         const fireBallGenLoop = this.time.addEvent({
           // Adjust Rate of Fireball Creation
@@ -476,12 +480,43 @@
             player.body.touching.up === false
           ) {
           } else {
-            if (gameState.remainingLives === 0) {
-              gameState.play = false;
-              this.backgroundMusic.stop();
-              this.noise1.play();
-              this.physics.pause();
-              player.anims.stop();
+            this.playerHit();
+          }
+        });
+
+        // Fireball Hits Player
+        this.physics.add.collider(player, fireballs, (player, fireball) => {
+          fireball.destroy();
+          this.playerHit();
+        })
+        
+        // Fireball Hits Zombie
+        this.physics.add.collider(zombies, fireballs, (zombie, fireball) => {
+          fireball.destroy();
+          zombie.setVelocityX(0);
+          if (zombie.texture.key === 'male') {
+            // Find out how to remove collider so it's no longer dangerous
+            zombie.anims.play('male-dead', true);
+            zombie.once('animationcomplete', () => {
+              zombie.destroy()
+            })
+          } else {
+            // Find out how to remove collider so it's no longer dangerous
+            zombie.anims.play('female-dead', true);            
+            zombie.once('animationcomplete', () => {
+              zombie.destroy()
+            })
+
+          }
+        })
+
+        // Player killed
+        this.playerHit = function() {
+          gameState.play = false;
+          this.backgroundMusic.stop();
+          this.noise1.play();
+          this.physics.pause();
+          if (gameState.remainingLives === 0) {
               this.add.text(350, 250, "Game Over", {
                 fontSize: "30px",
                 fill: "#FFFFFF",
@@ -497,12 +532,6 @@
                 this.scene.restart();
               });
             } else {
-              gameState.play = false;
-              this.backgroundMusic.stop();
-              this.noise1.play();
-              this.physics.pause();
-              player.y = 550;
-              player.anims.play("player-dead", true);
               this.add.text(350, 250, "Click to Continue", {
                 fontSize: "30px",
                 fill: "#FFFFFF",
@@ -514,31 +543,8 @@
                 this.scene.restart();
               });
             }
-          }
-        });
+        }
 
-        // Fireball Hits Player
-        this.physics.add.collider(player, fireballs, () => {
-          // Add player death here
-        })
-        
-        // Fireball Hits Zombie
-        this.physics.add.collider(zombies, fireballs, (zombie, fireball) => {
-          fireball.destroy();
-          zombie.setVelocityX(0);
-          if (zombie.texture.key === 'male') {
-            zombie.anims.play('male-dead', true);
-            zombie.once('animationcomplete', () => {
-              zombie.destroy()
-            })
-          } else {
-            zombie.anims.play('female-dead', true);            
-            zombie.once('animationcomplete', () => {
-              zombie.destroy()
-            })
-
-          }
-        })
       }
 
       function update() {
