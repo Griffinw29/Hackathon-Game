@@ -40,8 +40,9 @@
       const gameState = {
         play: true,
         zombiesCreated: 0,
-        delay: 7000,
-        deadAnimationPlayed: false
+        delay: 2000,
+        deadAnimationPlayed: false,
+        remainingLives: 3
       };
 
       function preload() {
@@ -226,11 +227,10 @@
           let thisZombie = zombies.create(1500, 50, `${zombieGender}`, `${zombieGender}-idle/idle01.png`);
           thisZombie.setScale(0.2);
           thisZombie.setBounce(0.2);
-//          thisZombie.setCollideWorldBounds(true);
           thisZombie.flipX = true;
-          thisZombie.body.setSize(225, 425, true);
+          thisZombie.body.setSize(200, 380, true);
           thisZombie.body.offset.x = 100;
-          thisZombie.body.offset.y = 100;
+          thisZombie.body.offset.y = 150;
           thisZombie.anims.play(`${zombieGender}-walk`);
           thisZombie.setVelocityX(-50);
           this.physics.add.collider(thisZombie, platforms);
