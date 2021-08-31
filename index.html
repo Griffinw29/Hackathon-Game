@@ -682,6 +682,7 @@
         const powerupHit = (player, nuclear) => {
           // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
           this.boom.play();
+          this.cameras.main.shake(200);
           //hide powerup when hit by player
           powerup.killAndHide(nuclear);
           //disable the body
