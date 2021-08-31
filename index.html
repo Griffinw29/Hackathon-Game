@@ -643,11 +643,22 @@
           if (gameState.cursors.left.isDown) {
             player.setVelocityX(-160);
             player.flipX = true;
-            player.anims.play("player-run", true);
+            if (player.body.touching.down) {
+              player.anims.play("player-run", true);
+            } else {
+              player.anims.play("player-jump", true);
+            }
           } else if (gameState.cursors.right.isDown) {
             player.setVelocityX(160);
-            player.anims.play("player-run", true);
             player.flipX = false;
+            if (player.body.touching.down) {
+              player.anims.play("player-run", true);
+            } else {
+              player.anims.play("player-jump", true);
+            }
+
+          } else if (!player.body.touching.down) {
+            player.anims.play("player-jump", true);
           } else {
             player.setVelocityX(0);
             player.anims.play("player-idle", true);
@@ -655,6 +666,7 @@
           }
 
           if ((gameState.cursors.up.isDown || gameState.cursors.space.isDown) && player.body.touching.down) {
+            player.anims.play("player-jump", true);
             player.setVelocityY(-330);
           }
         } else {
