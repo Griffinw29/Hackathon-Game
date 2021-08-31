@@ -22,7 +22,7 @@
           default: "arcade",
           arcade: {
             gravity: { y: 300 },
-            debug: true,
+            debug: false,
           },
         },
         scene: {
@@ -48,6 +48,7 @@
       };
 
       function preload() {
+        this.load.image("blackness", "assets/png/2/blackness.png");
         this.load.image("sky", "assets/png/2/layers/l1_background.png");
         this.load.image("hills", "assets/png/2/layers/l2_hills.png");
         this.load.image("clouds", "assets/png/2/layers/l3_clouds.png");
@@ -56,7 +57,8 @@
         this.load.image("houses", "assets/png/2/layers/l6_houses.png");
         this.load.image("ground", "assets/platform.png");
         this.load.image("Crate", "assets/grave-tiles/png/Objects/Crate.png");
-        this.load.image("fireball", 'assets/fireball.png')
+        this.load.image("fireball", "assets/fireball.png");
+        this.load.image("nuclear", "assets/nuclear_bomb1.png");
         this.load.image(
           "Skeleton",
           "assets/grave-tiles/png/Objects/Skeleton.png"
@@ -138,7 +140,79 @@
           "assets/audio/noises/female-noise-7.mp3",
           "assets/audio/noises/female-noise-7.ogg",
         ]);
+        this.load.audio("squish", [
+          "assets/audio/noises/squish.mp3",
+          "assets/audio/noises/squish.ogg",
+        ]);
+        this.load.audio("bonk-1", [
+          "assets/audio/noises/bonk-1.mp3",
+          "assets/audio/noises/bonk-1.ogg",
+        ]);
+        this.load.audio("bonk-2", [
+          "assets/audio/noises/bonk-2.mp3",
+          "assets/audio/noises/bonk-2.ogg",
+        ]);
+        this.load.audio("bonk-3", [
+          "assets/audio/noises/bonk-3.mp3",
+          "assets/audio/noises/bonk-3.ogg",
+        ]);
+        this.load.audio("bonk-4", [
+          "assets/audio/noises/bonk-4.mp3",
+          "assets/audio/noises/bonk-4.ogg",
+        ]);
+        this.load.audio("bonk-5", [
+          "assets/audio/noises/bonk-5.mp3",
+          "assets/audio/noises/bonk-5.ogg",
+        ]);
+        this.load.audio("male-dead", [
+          "assets/audio/noises/male-dead.mp3",
+          "assets/audio/noises/male-dead.ogg",
+        ]);
+        this.load.audio("female-dead", [
+          "assets/audio/noises/female-dead.mp3",
+          "assets/audio/noises/female-dead.ogg",
+        ]);
+        this.load.audio("boom", [
+          "assets/audio/boom.mp3",
+          "assets/audio/boom.ogg",
+        ]);
       }
+
+      // function preload() {
+      //   let progressBar = this.add.graphics();
+      //   let progressBox = this.add.graphics();
+      //   progressBox.fillStyle(0x222222, 0.8);
+      //   progressBox.fillRect(240, 270, 320, 50);
+
+      //   this.load.image(
+      //     "zombiemale",
+      //     "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
+      //   );
+      //   for (let i = 0; i < 500; i++) {
+      //     this.load.image(
+      //       "zombiemale" + i,
+      //       "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
+      //     );
+      //   }
+
+      //   this.load.on("progress", function (value) {
+      //     progressBar.clear();
+      //     progressBar.fillStyle(0xffffff, 1);
+      //     progressBar.fillRect(250, 280, 300 * value, 30);
+
+      //     console.log(value);
+      //   });
+
+      //   this.load.on("fileprogress", function (file) {
+      //     console.log(file.src);
+      //   });
+
+      //   this.load.on("complete", function (complete) {
+      //     progressBar.destroy();
+      //     progressBox.destroy();
+      //     console.log(complete);
+      //   });
+      // }
 
       function create() {
         this.add.image(700, 300, "sky");
@@ -148,6 +222,9 @@
         this.add.image(700, 175, "houses");
         // this.add.image(700, 300, "ground");
         this.add.image(530, 500, "zombie-group").setScale(0.2);
+
+        logo = this.add.image(750, 300, "zombiemale");
+        logo.setScale(1);
 
         this.backgroundMusic = this.sound.add("zombie-dance", {
           volume: 0.8,
@@ -190,17 +267,61 @@
           volume: 1.5,
           loop: false,
         });
+        this.squish = this.sound.add("squish", {
+          volume: 0.3,
+          loop: false,
+        });
+        this.bonk1 = this.sound.add("bonk-1", {
+          volume: 0.3,
+          loop: false,
+        });
+        this.bonk2 = this.sound.add("bonk-2", {
+          volume: 0.3,
+          loop: false,
+        });
+        this.bonk3 = this.sound.add("bonk-3", {
+          volume: 0.3,
+          loop: false,
+        });
+        this.bonk4 = this.sound.add("bonk-4", {
+          volume: 0.3,
+          loop: false,
+        });
+        this.bonk5 = this.sound.add("bonk-5", {
+          volume: 0.3,
+          loop: false,
+        });
+        this.maleDead = this.sound.add("male-dead", {
+          volume: 0.8,
+          loop: false,
+        });
+        this.femaleDead = this.sound.add("female-dead", {
+          volume: 0.1,
+          loop: false,
+        });
+        this.boom = this.sound.add("boom", {
+          volume: 1,
+          loop: false,
+        });
 
         platforms = this.physics.add.staticGroup();
         objects = this.physics.add.staticGroup();
+        crates = this.physics.add.staticGroup();
+        powerup = this.physics.add.staticGroup();
+
+        //add powerups to game
+        powerup.create(450, 300, "nuclear").setScale(1).refreshBody();
 
         //add objects to game page
         objects.create(750, 520, "dumpster").setScale(0.2).refreshBody();
         objects.create(1432, 560, "trashcan").setScale(0.05).refreshBody();
         objects.create(300, 580, "Skeleton").setScale(0.75).refreshBody();
-        objects.create(440, 560, "Crate").setScale(0.75).refreshBody();
-        objects.create(520, 560, "Crate").setScale(0.75).refreshBody();
-        objects.create(600, 560, "Crate").setScale(0.75).refreshBody();
+
+        //add crates for player to jump on
+        crates.create(400, 560, "Crate").setScale(0.75).refreshBody();
+        crates.create(500, 560, "Crate").setScale(0.75).refreshBody();
+        crates.create(450, 400, "Crate").setScale(0.75).refreshBody();
+        crates.create(700, 560, "Crate").setScale(0.75).refreshBody();
 
         //Add 'platforms' to page
         platforms.create(1500, 600, "platform").setScale(10, 0.2).refreshBody();
@@ -208,26 +329,48 @@
         platforms.create(1500, 150, "tile-platform").setScale(1).refreshBody();
         platforms.create(750, 100, "tile-platform").setScale(0.5).refreshBody();
         platforms.create(1350, 400, "tile-platform").setScale(1).refreshBody();
-        platforms.create(750, 300, "tile-platform").setScale(0.85).refreshBody();
+        platforms
+          .create(750, 300, "tile-platform")
+          .setScale(0.85)
+          .refreshBody();
 
         // Reduce extra bounding box under the platforms (there's got to be a cleaner way to do this...)
         // Upper left
-        platforms.children.entries[1].body.setSize(platforms.children.entries[1].width, 40, true);
+        platforms.children.entries[1].body.setSize(
+          platforms.children.entries[1].width,
+          40,
+          true
+        );
 
         // Upper right
-        platforms.children.entries[2].body.setSize(platforms.children.entries[2].width, 40, true);
+        platforms.children.entries[2].body.setSize(
+          platforms.children.entries[2].width,
+          40,
+          true
+        );
 
         // Upper middle - note that width is multiplied by .5, as the platform is scaled by .5
-        platforms.children.entries[3].body.setSize(platforms.children.entries[3].width *.5, 40, true);
+        platforms.children.entries[3].body.setSize(
+          platforms.children.entries[3].width * 0.5,
+          40,
+          true
+        );
 
         // Lower right
-        platforms.children.entries[4].body.setSize(platforms.children.entries[4].width, 40, true);
+        platforms.children.entries[4].body.setSize(
+          platforms.children.entries[4].width,
+          40,
+          true
+        );
 
         // Center - note that width is multiplied by .85, as the platform is scaled by .85
-        platforms.children.entries[5].body.setSize(platforms.children.entries[5].width *.85, 40, true);
+        platforms.children.entries[5].body.setSize(
+          platforms.children.entries[5].width * 0.85,
+          40,
+          true
+        );
 
-
-        this.add.text(50, 50, `Remaining Lives: ${gameState.remainingLives}`, {
+        this.add.text(50, 175, `Lives: ${gameState.remainingLives}`, {
           fontSize: "30px",
           fill: "#FFFFFF",
         });
@@ -284,7 +427,7 @@
         this.anims.create({
           key: "player-jump",
           frames: jumpFrameNames,
-          frameRate: 12,
+          frameRate: 6,
           repeat: 0,
         });
 
@@ -335,12 +478,19 @@
         });
 
         // 'male-dead' zombie animation
-        let deadMaleFrameNames = this.anims.generateFrameNames('male', {
-          start: 1, end: 12, zeroPad: 2,
-          prefix: 'male-dead/dead', suffix: '.png'
-        })
-        this.anims.create({ key: 'male-dead', frames: deadMaleFrameNames, frameRate: 10, repeat: 0 });
-
+        let deadMaleFrameNames = this.anims.generateFrameNames("male", {
+          start: 1,
+          end: 12,
+          zeroPad: 2,
+          prefix: "male-dead/dead",
+          suffix: ".png",
+        });
+        this.anims.create({
+          key: "male-dead",
+          frames: deadMaleFrameNames,
+          frameRate: 10,
+          repeat: 0,
+        });
 
         // 'female-walk' zombie animation
         let femaleWalkFrameNames = this.anims.generateFrameNames("female", {
@@ -358,15 +508,22 @@
         });
 
         // 'female-dead' zombie animation
-        let deadFemaleFrameNames = this.anims.generateFrameNames('female', {
-          start: 1, end: 12, zeroPad: 2,
-          prefix: 'female-dead/dead', suffix: '.png'
-        })
-        this.anims.create({ key: 'female-dead', frames: deadFemaleFrameNames, frameRate: 10, repeat: 0 });
-
-
+        let deadFemaleFrameNames = this.anims.generateFrameNames("female", {
+          start: 1,
+          end: 12,
+          zeroPad: 2,
+          prefix: "female-dead/dead",
+          suffix: ".png",
+        });
+        this.anims.create({
+          key: "female-dead",
+          frames: deadFemaleFrameNames,
+          frameRate: 10,
+          repeat: 0,
+        });
 
         this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, crates);
 
         gameState.cursors = this.input.keyboard.createCursorKeys();
 
@@ -454,11 +611,16 @@
             this.physics.add.collider(thisZombie, platforms);
             gameState.zombiesCreated += 1;
             let theNum = Math.floor(getRandom(2, 7));
-            this.randomNoise = this.sound.add(`${zombieGender}-noise-${theNum}`, {
-              volume: 1.5,
-              loop: false,
-            });
-            this.randomNoise.play();
+            this.randomNoise = this.sound.add(
+              `${zombieGender}-noise-${theNum}`,
+              {
+                volume: 0.3,
+                loop: false,
+              }
+            );
+            if (gameState.zombiesCreated % 4 === 0) {
+              this.randomNoise.play();
+            }
           }
         }
         const zombieGenLoop = this.time.addEvent({
@@ -472,10 +634,10 @@
 
         const fireballs = this.physics.add.group();
 
-        function fireballsGen () {
+        function fireballsGen() {
           if (gameState.play) {
             let fireballX = Phaser.Math.Between(0, 1500);
-            let thisFireball = fireballs.create(fireballX, -100, 'fireball');
+            let thisFireball = fireballs.create(fireballX, -100, "fireball");
             thisFireball.setScale(0.05);
             thisFireball.body.setCircle(300);
             thisFireball.body.offset.y = 1800;
@@ -499,92 +661,137 @@
             player.body.touching.up === false
           ) {
           } else {
+            this.squish.play();
             this.playerHit();
           }
         });
 
         // Fireball Hits Player
         this.physics.add.collider(player, fireballs, (player, fireball) => {
+          this.bonk2.play();
           fireball.destroy();
           this.playerHit();
-        })
-        
+        });
+
         // Fireball Hits Zombie
         this.physics.add.collider(zombies, fireballs, (zombie, fireball) => {
           fireball.destroy();
+          this.killZombie(zombie);
+        });
+
+        const powerupHit = (player, nuclear) => {
+          // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
+          this.boom.play();
+          this.cameras.main.shake(1000, 0.02);
+          //hide powerup when hit by player
+          powerup.killAndHide(nuclear);
+          //disable the body
+          nuclear.body.enable = false;
+
+          //clear all zombies from game
+          //zombies.clear(true);
+          console.log(zombies.children.entries);
+          zombies.children.entries.forEach((zombie) => this.killZombie(zombie));
+        };
+
+        this.physics.add.overlap(player, powerup, powerupHit);
+
+        this.killZombie = function (zombie) {
           zombie.setVelocityX(0);
-          if (zombie.texture.key === 'male') {
+          if (zombie.texture.key === "male") {
+            this.bonk2.play();
+            this.maleDead.play();
             // Find out how to remove collider so it's no longer dangerous
-            zombie.anims.play('male-dead', true);
-            zombie.once('animationcomplete', () => {
-              zombie.destroy()
-            })
+            zombie.anims.play("male-dead", true);
+            zombie.once("animationcomplete", () => {
+            zombie.destroy();
+            });
           } else {
             // Find out how to remove collider so it's no longer dangerous
-            zombie.anims.play('female-dead', true);            
-            zombie.once('animationcomplete', () => {
-              zombie.destroy()
-            })
-
+            this.bonk3.play();
+            this.femaleDead.play();
+            zombie.anims.play("female-dead", true);
+            zombie.once("animationcomplete", () => {
+              zombie.destroy();
+            });
           }
-        })
+        };
 
         // Player killed
-        this.playerHit = function() {
+        this.playerHit = function () {
+          this.add.image(700, 300, "blackness").setAlpha(0.4);
           gameState.play = false;
           this.backgroundMusic.stop();
           this.noise1.play();
           this.physics.pause();
           if (gameState.remainingLives === 0) {
-              this.add.text(350, 250, "Game Over", {
-                fontSize: "30px",
-                fill: "#FFFFFF",
-              });
-              this.add.text(300, 300, "Click to Restart", {
-                fontSize: "25px",
-                fill: "#FFFFFF",
-              });
-              this.input.on("pointerup", () => {
-                gameState.play = true;
-                gameState.deadAnimationPlayed = false;
-                gameState.remainingLives = 2;
-                this.scene.restart();
-              });
-            } else {
-              this.add.text(350, 250, "Click to Continue", {
-                fontSize: "30px",
-                fill: "#FFFFFF",
-              });
-              gameState.remainingLives -= 1;
-              this.input.on("pointerup", () => {
-                gameState.play = true;
-                gameState.deadAnimationPlayed = false;
-                this.scene.restart();
-              });
-            }
-        }
-
+            this.add.text(675, 245, "Game Over", {
+              fontSize: "30px",
+              fill: "#FFFFFF",
+            });
+            this.add.text(635, 280, "Click to Restart", {
+              fontSize: "25px",
+              fill: "#FFFFFF",
+            });
+            this.input.on("pointerup", () => {
+              gameState.play = true;
+              gameState.deadAnimationPlayed = false;
+              gameState.remainingLives = 2;
+              this.scene.restart();
+            });
+          } else {
+            this.add.text(600, 250, "Click to Continue", {
+              fontSize: "30px",
+              fill: "#FFFFFF",
+            });
+            gameState.remainingLives -= 1;
+            this.input.on("pointerup", () => {
+              gameState.play = true;
+              gameState.deadAnimationPlayed = false;
+              this.scene.restart();
+            });
+          }
+        };
       }
 
       function update() {
         if (gameState.play) {
+          // Player Moves Left
           if (gameState.cursors.left.isDown) {
             player.setVelocityX(-160);
             player.flipX = true;
-            player.anims.play("player-run", true);
+            if (player.body.touching.down) {
+              player.anims.play("player-run", true);
+            } else {
+              player.anims.play("player-jump", true);
+            }
+            // Player Moves Right
           } else if (gameState.cursors.right.isDown) {
             player.setVelocityX(160);
-            player.anims.play("player-run", true);
             player.flipX = false;
+            if (player.body.touching.down) {
+              player.anims.play("player-run", true);
+            } else {
+              player.anims.play("player-jump", true);
+            }
+            // Player in Midair
+          } else if (!player.body.touching.down) {
+            player.anims.play("player-jump", true);
+            // Player Idle
           } else {
             player.setVelocityX(0);
             player.anims.play("player-idle", true);
             player.flipX = false;
           }
-
-          if (gameState.cursors.up.isDown && player.body.touching.down) {
+          // Player Jumps
+          if (
+            (gameState.cursors.up.isDown || gameState.cursors.space.isDown) &&
+            player.body.touching.down
+          ) {
+            player.anims.play("player-jump", true);
             player.setVelocityY(-330);
           }
+          // Player Dead
         } else {
           if (gameState.deadAnimationPlayed === false) {
             gameState.deadAnimationPlayed = true;

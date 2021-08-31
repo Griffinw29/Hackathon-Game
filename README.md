@@ -15,17 +15,18 @@ A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 * Zombie sprites from [GameArt2D](https://www.gameart2d.com/the-zombies-free-sprites.html)
 * Sprite sheets created with [Texture Packer](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-for-phaser3)
 * Audio edited with [Audacity](https://www.audacityteam.org/)
+* Explosion sound by Iwiploppenisse from [freesound.org](https://freesound.org/people/Iwiploppenisse/sounds/156031/)
 * Zombie sound effects contributors unwilling to admit it
 
 ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/zombies-sprite/zombie-male/male-attack/attack01.png)
 
 ## ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/grave-tiles/png/Objects/ArrowSign.png) How to run
 
-- to install dependencies ```npm i```
+- To install dependencies ```npm i```
 
-- install ```npm install -g local-web-server```
+- Install ```npm install -g local-web-server```
 
-- then run  ```ws``` from root of repositroy.
+- Then run  ```ws``` from root of repositroy.
 
 ## ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/grave-tiles/png/Objects/TombStone%20(1).png) The Team
 * William Griffin - [GitHub](https://github.com/Griffinw29) | [LinkedIn](https://www.linkedin.com/in/williamgriffin32/)
