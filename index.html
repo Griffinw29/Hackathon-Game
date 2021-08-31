@@ -48,6 +48,7 @@
       };
 
       function preload() {
+        this.load.image("blackness", "assets/png/2/blackness.png");
         this.load.image("sky", "assets/png/2/layers/l1_background.png");
         this.load.image("hills", "assets/png/2/layers/l2_hills.png");
         this.load.image("clouds", "assets/png/2/layers/l3_clouds.png");
@@ -645,6 +646,7 @@
 
         // Player killed
         this.playerHit = function () {
+          this.add.image(700, 300, 'blackness').setAlpha(0.4);
           gameState.play = false;
           this.backgroundMusic.stop();
           this.noise1.play();
