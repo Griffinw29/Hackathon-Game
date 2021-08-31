@@ -175,8 +175,44 @@
         this.load.audio("boom", [
           "assets/audio/boom.mp3",
           "assets/audio/boom.ogg",
-        ])
+        ]);
       }
+
+      // function preload() {
+      //   let progressBar = this.add.graphics();
+      //   let progressBox = this.add.graphics();
+      //   progressBox.fillStyle(0x222222, 0.8);
+      //   progressBox.fillRect(240, 270, 320, 50);
+
+      //   this.load.image(
+      //     "zombiemale",
+      //     "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
+      //   );
+      //   for (let i = 0; i < 500; i++) {
+      //     this.load.image(
+      //       "zombiemale" + i,
+      //       "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
+      //     );
+      //   }
+
+      //   this.load.on("progress", function (value) {
+      //     progressBar.clear();
+      //     progressBar.fillStyle(0xffffff, 1);
+      //     progressBar.fillRect(250, 280, 300 * value, 30);
+
+      //     console.log(value);
+      //   });
+
+      //   this.load.on("fileprogress", function (file) {
+      //     console.log(file.src);
+      //   });
+
+      //   this.load.on("complete", function (complete) {
+      //     progressBar.destroy();
+      //     progressBox.destroy();
+      //     console.log(complete);
+      //   });
+      // }
 
       function create() {
         this.add.image(700, 300, "sky");
@@ -186,6 +222,9 @@
         this.add.image(700, 175, "houses");
         // this.add.image(700, 300, "ground");
         this.add.image(530, 500, "zombie-group").setScale(0.2);
+
+        logo = this.add.image(750, 300, "zombiemale");
+        logo.setScale(1);
 
         this.backgroundMusic = this.sound.add("zombie-dance", {
           volume: 0.8,
@@ -263,14 +302,12 @@
         this.boom = this.sound.add("boom", {
           volume: 1,
           loop: false,
-        })
+        });
 
         platforms = this.physics.add.staticGroup();
         objects = this.physics.add.staticGroup();
         crates = this.physics.add.staticGroup();
-        powerup = this.physics.add.staticGroup({
-          key: "nuclear",
-        });
+        powerup = this.physics.add.staticGroup();
 
         //add powerups to game
         powerup.create(450, 300, "nuclear").setScale(1).refreshBody();
@@ -451,7 +488,7 @@
         this.anims.create({
           key: "male-dead",
           frames: deadMaleFrameNames,
-          frameRate: 7,
+          frameRate: 10,
           repeat: 0,
         });
 
@@ -481,7 +518,7 @@
         this.anims.create({
           key: "female-dead",
           frames: deadFemaleFrameNames,
-          frameRate: 7,
+          frameRate: 10,
           repeat: 0,
         });
 
@@ -616,7 +653,6 @@
           loop: true,
         });
 
-
         // Player Hits Zombie
         this.physics.add.collider(player, zombies, () => {
           if (
@@ -644,9 +680,8 @@
         });
 
         const powerupHit = (player, nuclear) => {
-          // From:  
+          // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
           this.boom.play();
-          this.cameras.main.shake(200);
           //hide powerup when hit by player
           powerup.killAndHide(nuclear);
           //disable the body
@@ -655,8 +690,8 @@
           //clear all zombies from game
           //zombies.clear(true);
           console.log(zombies.children.entries);
-          zombies.children.entries.forEach(zombie => this.killZombie(zombie));
-        }
+          zombies.children.entries.forEach((zombie) => this.killZombie(zombie));
+        };
 
         this.physics.add.overlap(player, powerup, powerupHit);
 
@@ -679,11 +714,11 @@
               zombie.destroy();
             });
           }
-        }
+        };
 
         // Player killed
         this.playerHit = function () {
-          this.add.image(700, 300, 'blackness').setAlpha(0.4);
+          this.add.image(700, 300, "blackness").setAlpha(0.4);
           gameState.play = false;
           this.backgroundMusic.stop();
           this.noise1.play();
@@ -729,7 +764,7 @@
             } else {
               player.anims.play("player-jump", true);
             }
-          // Player Moves Right
+            // Player Moves Right
           } else if (gameState.cursors.right.isDown) {
             player.setVelocityX(160);
             player.flipX = false;
@@ -738,21 +773,24 @@
             } else {
               player.anims.play("player-jump", true);
             }
-          // Player in Midair
+            // Player in Midair
           } else if (!player.body.touching.down) {
             player.anims.play("player-jump", true);
-          // Player Idle
+            // Player Idle
           } else {
             player.setVelocityX(0);
             player.anims.play("player-idle", true);
             player.flipX = false;
           }
           // Player Jumps
-          if ((gameState.cursors.up.isDown || gameState.cursors.space.isDown) && player.body.touching.down) {
+          if (
+            (gameState.cursors.up.isDown || gameState.cursors.space.isDown) &&
+            player.body.touching.down
+          ) {
             player.anims.play("player-jump", true);
             player.setVelocityY(-330);
           }
-        // Player Dead
+          // Player Dead
         } else {
           if (gameState.deadAnimationPlayed === false) {
             gameState.deadAnimationPlayed = true;
