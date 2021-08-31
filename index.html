@@ -172,6 +172,10 @@
           "assets/audio/noises/female-dead.mp3",
           "assets/audio/noises/female-dead.ogg",
         ]);
+        this.load.audio("boom", [
+          "assets/audio/boom.mp3",
+          "assets/audio/boom.ogg",
+        ])
       }
 
       function create() {
@@ -256,6 +260,10 @@
           volume: 0.1,
           loop: false,
         });
+        this.boom = this.sound.add("boom", {
+          volume: 1,
+          loop: false,
+        })
 
         platforms = this.physics.add.staticGroup();
         objects = this.physics.add.staticGroup();
@@ -636,6 +644,8 @@
         });
 
         const powerupHit = (player, nuclear) => {
+          // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
+          this.boom.play();
           //hide powerup when hit by player
           powerup.killAndHide(nuclear);
           //disable the body
