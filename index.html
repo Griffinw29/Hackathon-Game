@@ -178,41 +178,41 @@
         ]);
       }
 
-      function preload() {
-        let progressBar = this.add.graphics();
-        let progressBox = this.add.graphics();
-        progressBox.fillStyle(0x222222, 0.8);
-        progressBox.fillRect(240, 270, 320, 50);
+      // function preload() {
+      //   let progressBar = this.add.graphics();
+      //   let progressBox = this.add.graphics();
+      //   progressBox.fillStyle(0x222222, 0.8);
+      //   progressBox.fillRect(240, 270, 320, 50);
 
-        this.load.image(
-          "zombiemale",
-          "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
-        );
-        for (let i = 0; i < 500; i++) {
-          this.load.image(
-            "zombiemale" + i,
-            "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
-          );
-        }
+      //   this.load.image(
+      //     "zombiemale",
+      //     "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
+      //   );
+      //   for (let i = 0; i < 500; i++) {
+      //     this.load.image(
+      //       "zombiemale" + i,
+      //       "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
+      //     );
+      //   }
 
-        this.load.on("progress", function (value) {
-          progressBar.clear();
-          progressBar.fillStyle(0xffffff, 1);
-          progressBar.fillRect(250, 280, 300 * value, 30);
+      //   this.load.on("progress", function (value) {
+      //     progressBar.clear();
+      //     progressBar.fillStyle(0xffffff, 1);
+      //     progressBar.fillRect(250, 280, 300 * value, 30);
 
-          console.log(value);
-        });
+      //     console.log(value);
+      //   });
 
-        this.load.on("fileprogress", function (file) {
-          console.log(file.src);
-        });
+      //   this.load.on("fileprogress", function (file) {
+      //     console.log(file.src);
+      //   });
 
-        this.load.on("complete", function (complete) {
-          progressBar.destroy();
-          progressBox.destroy();
-          console.log(complete);
-        });
-      }
+      //   this.load.on("complete", function (complete) {
+      //     progressBar.destroy();
+      //     progressBox.destroy();
+      //     console.log(complete);
+      //   });
+      // }
 
       function create() {
         this.add.image(700, 300, "sky");
@@ -488,7 +488,7 @@
         this.anims.create({
           key: "male-dead",
           frames: deadMaleFrameNames,
-          frameRate: 7,
+          frameRate: 10,
           repeat: 0,
         });
 
@@ -518,7 +518,7 @@
         this.anims.create({
           key: "female-dead",
           frames: deadFemaleFrameNames,
-          frameRate: 7,
+          frameRate: 10,
           repeat: 0,
         });
 
@@ -680,9 +680,8 @@
         });
 
         const powerupHit = (player, nuclear) => {
-          // From:  
+          // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
           this.boom.play();
-          this.cameras.main.shake(200);
           //hide powerup when hit by player
           powerup.killAndHide(nuclear);
           //disable the body
