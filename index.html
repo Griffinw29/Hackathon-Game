@@ -56,7 +56,7 @@
         this.load.image("houses", "assets/png/2/layers/l6_houses.png");
         this.load.image("ground", "assets/platform.png");
         this.load.image("Crate", "assets/grave-tiles/png/Objects/Crate.png");
-        this.load.image("fireball", 'assets/fireball.png')
+        this.load.image("fireball", "assets/fireball.png");
         this.load.image(
           "Skeleton",
           "assets/grave-tiles/png/Objects/Skeleton.png"
@@ -140,36 +140,36 @@
         ]);
         this.load.audio("squish", [
           "assets/audio/noises/squish.mp3",
-          "assets/audio/noises/squish.ogg"
+          "assets/audio/noises/squish.ogg",
         ]);
         this.load.audio("bonk-1", [
           "assets/audio/noises/bonk-1.mp3",
-          "assets/audio/noises/bonk-1.ogg"
+          "assets/audio/noises/bonk-1.ogg",
         ]);
         this.load.audio("bonk-2", [
           "assets/audio/noises/bonk-2.mp3",
-          "assets/audio/noises/bonk-2.ogg"
+          "assets/audio/noises/bonk-2.ogg",
         ]);
         this.load.audio("bonk-3", [
           "assets/audio/noises/bonk-3.mp3",
-          "assets/audio/noises/bonk-3.ogg"
+          "assets/audio/noises/bonk-3.ogg",
         ]);
         this.load.audio("bonk-4", [
           "assets/audio/noises/bonk-4.mp3",
-          "assets/audio/noises/bonk-4.ogg"
+          "assets/audio/noises/bonk-4.ogg",
         ]);
         this.load.audio("bonk-5", [
           "assets/audio/noises/bonk-5.mp3",
-          "assets/audio/noises/bonk-5.ogg"
+          "assets/audio/noises/bonk-5.ogg",
         ]);
         this.load.audio("male-dead", [
           "assets/audio/noises/male-dead.mp3",
-          "assets/audio/noises/male-dead.ogg"
+          "assets/audio/noises/male-dead.ogg",
         ]);
         this.load.audio("female-dead", [
           "assets/audio/noises/female-dead.mp3",
-          "assets/audio/noises/female-dead.ogg"
-        ])
+          "assets/audio/noises/female-dead.ogg",
+        ]);
       }
 
       function create() {
@@ -223,48 +223,52 @@
           loop: false,
         });
         this.squish = this.sound.add("squish", {
-          volume: .3,
+          volume: 0.3,
           loop: false,
         });
         this.bonk1 = this.sound.add("bonk-1", {
-          volume: .3,
+          volume: 0.3,
           loop: false,
         });
         this.bonk2 = this.sound.add("bonk-2", {
-          volume: .3,
+          volume: 0.3,
           loop: false,
         });
         this.bonk3 = this.sound.add("bonk-3", {
-          volume: .3,
+          volume: 0.3,
           loop: false,
         });
         this.bonk4 = this.sound.add("bonk-4", {
-          volume: .3,
+          volume: 0.3,
           loop: false,
         });
         this.bonk5 = this.sound.add("bonk-5", {
-          volume: .3,
+          volume: 0.3,
           loop: false,
         });
         this.maleDead = this.sound.add("male-dead", {
-          volume: .8,
-          loop: false
+          volume: 0.8,
+          loop: false,
         });
         this.femaleDead = this.sound.add("female-dead", {
-          volume: .1,
-          loop: false
+          volume: 0.1,
+          loop: false,
         });
 
         platforms = this.physics.add.staticGroup();
         objects = this.physics.add.staticGroup();
+        crates = this.physics.add.staticGroup();
 
         //add objects to game page
         objects.create(750, 520, "dumpster").setScale(0.2).refreshBody();
         objects.create(1432, 560, "trashcan").setScale(0.05).refreshBody();
         objects.create(300, 580, "Skeleton").setScale(0.75).refreshBody();
-        objects.create(440, 560, "Crate").setScale(0.75).refreshBody();
-        objects.create(520, 560, "Crate").setScale(0.75).refreshBody();
-        objects.create(600, 560, "Crate").setScale(0.75).refreshBody();
+
+        //add crates for player to jump on
+        crates.create(400, 560, "Crate").setScale(0.75).refreshBody();
+        crates.create(500, 560, "Crate").setScale(0.75).refreshBody();
+        crates.create(450, 400, "Crate").setScale(0.75).refreshBody();
+        crates.create(700, 560, "Crate").setScale(0.75).refreshBody();
 
         //Add 'platforms' to page
         platforms.create(1500, 600, "platform").setScale(10, 0.2).refreshBody();
@@ -272,24 +276,46 @@
         platforms.create(1500, 150, "tile-platform").setScale(1).refreshBody();
         platforms.create(750, 100, "tile-platform").setScale(0.5).refreshBody();
         platforms.create(1350, 400, "tile-platform").setScale(1).refreshBody();
-        platforms.create(750, 300, "tile-platform").setScale(0.85).refreshBody();
+        platforms
+          .create(750, 300, "tile-platform")
+          .setScale(0.85)
+          .refreshBody();
 
         // Reduce extra bounding box under the platforms (there's got to be a cleaner way to do this...)
         // Upper left
-        platforms.children.entries[1].body.setSize(platforms.children.entries[1].width, 40, true);
+        platforms.children.entries[1].body.setSize(
+          platforms.children.entries[1].width,
+          40,
+          true
+        );
 
         // Upper right
-        platforms.children.entries[2].body.setSize(platforms.children.entries[2].width, 40, true);
+        platforms.children.entries[2].body.setSize(
+          platforms.children.entries[2].width,
+          40,
+          true
+        );
 
         // Upper middle - note that width is multiplied by .5, as the platform is scaled by .5
-        platforms.children.entries[3].body.setSize(platforms.children.entries[3].width *.5, 40, true);
+        platforms.children.entries[3].body.setSize(
+          platforms.children.entries[3].width * 0.5,
+          40,
+          true
+        );
 
         // Lower right
-        platforms.children.entries[4].body.setSize(platforms.children.entries[4].width, 40, true);
+        platforms.children.entries[4].body.setSize(
+          platforms.children.entries[4].width,
+          40,
+          true
+        );
 
         // Center - note that width is multiplied by .85, as the platform is scaled by .85
-        platforms.children.entries[5].body.setSize(platforms.children.entries[5].width *.85, 40, true);
-
+        platforms.children.entries[5].body.setSize(
+          platforms.children.entries[5].width * 0.85,
+          40,
+          true
+        );
 
         this.add.text(50, 175, `Lives: ${gameState.remainingLives}`, {
           fontSize: "30px",
@@ -399,12 +425,19 @@
         });
 
         // 'male-dead' zombie animation
-        let deadMaleFrameNames = this.anims.generateFrameNames('male', {
-          start: 1, end: 12, zeroPad: 2,
-          prefix: 'male-dead/dead', suffix: '.png'
-        })
-        this.anims.create({ key: 'male-dead', frames: deadMaleFrameNames, frameRate: 10, repeat: 0 });
-
+        let deadMaleFrameNames = this.anims.generateFrameNames("male", {
+          start: 1,
+          end: 12,
+          zeroPad: 2,
+          prefix: "male-dead/dead",
+          suffix: ".png",
+        });
+        this.anims.create({
+          key: "male-dead",
+          frames: deadMaleFrameNames,
+          frameRate: 10,
+          repeat: 0,
+        });
 
         // 'female-walk' zombie animation
         let femaleWalkFrameNames = this.anims.generateFrameNames("female", {
@@ -422,15 +455,22 @@
         });
 
         // 'female-dead' zombie animation
-        let deadFemaleFrameNames = this.anims.generateFrameNames('female', {
-          start: 1, end: 12, zeroPad: 2,
-          prefix: 'female-dead/dead', suffix: '.png'
-        })
-        this.anims.create({ key: 'female-dead', frames: deadFemaleFrameNames, frameRate: 10, repeat: 0 });
-
-
+        let deadFemaleFrameNames = this.anims.generateFrameNames("female", {
+          start: 1,
+          end: 12,
+          zeroPad: 2,
+          prefix: "female-dead/dead",
+          suffix: ".png",
+        });
+        this.anims.create({
+          key: "female-dead",
+          frames: deadFemaleFrameNames,
+          frameRate: 10,
+          repeat: 0,
+        });
 
         this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, crates);
 
         gameState.cursors = this.input.keyboard.createCursorKeys();
 
@@ -518,10 +558,13 @@
             this.physics.add.collider(thisZombie, platforms);
             gameState.zombiesCreated += 1;
             let theNum = Math.floor(getRandom(2, 7));
-            this.randomNoise = this.sound.add(`${zombieGender}-noise-${theNum}`, {
-              volume: .3,
-              loop: false,
-            });
+            this.randomNoise = this.sound.add(
+              `${zombieGender}-noise-${theNum}`,
+              {
+                volume: 0.3,
+                loop: false,
+              }
+            );
             if (gameState.zombiesCreated % 4 === 0) {
               this.randomNoise.play();
             }
@@ -538,10 +581,10 @@
 
         const fireballs = this.physics.add.group();
 
-        function fireballsGen () {
+        function fireballsGen() {
           if (gameState.play) {
             let fireballX = Phaser.Math.Between(0, 1500);
-            let thisFireball = fireballs.create(fireballX, -100, 'fireball');
+            let thisFireball = fireballs.create(fireballX, -100, "fireball");
             thisFireball.setScale(0.05);
             thisFireball.body.setCircle(300);
             thisFireball.body.offset.y = 1800;
@@ -575,67 +618,65 @@
           this.bonk1.play();
           fireball.destroy();
           this.playerHit();
-        })
-        
+        });
+
         // Fireball Hits Zombie
         this.physics.add.collider(zombies, fireballs, (zombie, fireball) => {
           fireball.destroy();
           zombie.setVelocityX(0);
-          if (zombie.texture.key === 'male') {
+          if (zombie.texture.key === "male") {
             this.bonk2.play();
             this.maleDead.play();
             // Find out how to remove collider so it's no longer dangerous
-            zombie.anims.play('male-dead', true);
-            zombie.once('animationcomplete', () => {
-              zombie.destroy()
-            })
+            zombie.anims.play("male-dead", true);
+            zombie.once("animationcomplete", () => {
+              zombie.destroy();
+            });
           } else {
             // Find out how to remove collider so it's no longer dangerous
             this.bonk5.play();
             this.femaleDead.play();
-            zombie.anims.play('female-dead', true);            
-            zombie.once('animationcomplete', () => {
-              zombie.destroy()
-            })
-
+            zombie.anims.play("female-dead", true);
+            zombie.once("animationcomplete", () => {
+              zombie.destroy();
+            });
           }
-        })
+        });
 
         // Player killed
-        this.playerHit = function() {
+        this.playerHit = function () {
           gameState.play = false;
           this.backgroundMusic.stop();
           this.noise1.play();
           this.physics.pause();
           if (gameState.remainingLives === 0) {
-              this.add.text(675, 245, "Game Over", {
-                fontSize: "30px",
-                fill: "#FFFFFF",
-              });
-              this.add.text(635, 280, "Click to Restart", {
-                fontSize: "25px",
-                fill: "#FFFFFF",
-              });
-              this.input.on("pointerup", () => {
-                gameState.play = true;
-                gameState.deadAnimationPlayed = false;
-                gameState.remainingLives = 2;
-                this.scene.restart();
-              });
-            } else {
-              this.add.text(600, 250, "Click to Continue", {
-                fontSize: "30px",
-                fill: "#FFFFFF",
-              });
-              gameState.remainingLives -= 1;
-              this.input.on("pointerup", () => {
-                gameState.play = true;
-                gameState.deadAnimationPlayed = false;
-                this.scene.restart();
-              });
-            }
-        }
-
+            this.add.text(675, 245, "Game Over", {
+              fontSize: "30px",
+              fill: "#FFFFFF",
+            });
+            this.add.text(635, 280, "Click to Restart", {
+              fontSize: "25px",
+              fill: "#FFFFFF",
+            });
+            this.input.on("pointerup", () => {
+              gameState.play = true;
+              gameState.deadAnimationPlayed = false;
+              gameState.remainingLives = 2;
+              this.scene.restart();
+            });
+          } else {
+            this.add.text(600, 250, "Click to Continue", {
+              fontSize: "30px",
+              fill: "#FFFFFF",
+            });
+            gameState.remainingLives -= 1;
+            this.input.on("pointerup", () => {
+              gameState.play = true;
+              gameState.deadAnimationPlayed = false;
+              this.scene.restart();
+            });
+          }
+        };
       }
 
       function update() {
@@ -654,7 +695,10 @@
             player.flipX = false;
           }
 
-          if ((gameState.cursors.up.isDown || gameState.cursors.space.isDown) && player.body.touching.down) {
+          if (
+            (gameState.cursors.up.isDown || gameState.cursors.space.isDown) &&
+            player.body.touching.down
+          ) {
             player.setVelocityY(-330);
           }
         } else {
