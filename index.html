@@ -174,6 +174,25 @@
         ]);
       }
 
+      function preload() {
+        this.load.image("MOTMlogo", "assets/MOTMTLogo.png");
+        for (let i = 0; i < 500; i++) {
+          this.load.image("MOTMlogo" + i, "assets/MOTMTLogo.png");
+        }
+
+        this.load.on("progress", function (value) {
+          console.log(value);
+        });
+
+        this.load.on("fileprogress", function (file) {
+          console.log(file.src);
+        });
+
+        this.load.on("complete", function (complete) {
+          console.log(complete);
+        });
+      }
+
       function create() {
         this.add.image(700, 300, "sky");
         this.add.image(700, 700, "hills");
@@ -182,6 +201,9 @@
         this.add.image(700, 175, "houses");
         // this.add.image(700, 300, "ground");
         this.add.image(530, 500, "zombie-group").setScale(0.2);
+
+        logo = this.add.image(750, 300, "MOTMlogo");
+        logo.setScale(0.5);
 
         this.backgroundMusic = this.sound.add("zombie-dance", {
           volume: 0.8,
@@ -260,9 +282,7 @@
         platforms = this.physics.add.staticGroup();
         objects = this.physics.add.staticGroup();
         crates = this.physics.add.staticGroup();
-        powerup = this.physics.add.staticGroup({
-          key: "nuclear",
-        });
+        powerup = this.physics.add.staticGroup();
 
         //add powerups to game
         powerup.create(450, 300, "nuclear").setScale(1).refreshBody();
@@ -665,7 +685,7 @@
 
         // Player killed
         this.playerHit = function () {
-          this.add.image(700, 300, 'blackness').setAlpha(0.4);
+          this.add.image(700, 300, "blackness").setAlpha(0.4);
           gameState.play = false;
           this.backgroundMusic.stop();
           this.noise1.play();
@@ -711,7 +731,7 @@
             } else {
               player.anims.play("player-jump", true);
             }
-          // Player Moves Right
+            // Player Moves Right
           } else if (gameState.cursors.right.isDown) {
             player.setVelocityX(160);
             player.flipX = false;
@@ -720,21 +740,24 @@
             } else {
               player.anims.play("player-jump", true);
             }
-          // Player in Midair
+            // Player in Midair
           } else if (!player.body.touching.down) {
             player.anims.play("player-jump", true);
-          // Player Idle
+            // Player Idle
           } else {
             player.setVelocityX(0);
             player.anims.play("player-idle", true);
             player.flipX = false;
           }
           // Player Jumps
-          if ((gameState.cursors.up.isDown || gameState.cursors.space.isDown) && player.body.touching.down) {
+          if (
+            (gameState.cursors.up.isDown || gameState.cursors.space.isDown) &&
+            player.body.touching.down
+          ) {
             player.anims.play("player-jump", true);
             player.setVelocityY(-330);
           }
-        // Player Dead
+          // Player Dead
         } else {
           if (gameState.deadAnimationPlayed === false) {
             gameState.deadAnimationPlayed = true;
