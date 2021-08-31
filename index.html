@@ -172,6 +172,10 @@
           "assets/audio/noises/female-dead.mp3",
           "assets/audio/noises/female-dead.ogg",
         ]);
+        this.load.audio("boom", [
+          "assets/audio/boom.mp3",
+          "assets/audio/boom.ogg",
+        ])
       }
 
       function create() {
@@ -256,6 +260,10 @@
           volume: 0.1,
           loop: false,
         });
+        this.boom = this.sound.add("boom", {
+          volume: 1,
+          loop: false,
+        })
 
         platforms = this.physics.add.staticGroup();
         objects = this.physics.add.staticGroup();
@@ -485,16 +493,6 @@
         // Add zombie group
         const zombies = this.physics.add.group();
 
-        function powerupHit(player, nuclear) {
-          //hide powerup when hit by player
-          powerup.killAndHide(nuclear);
-          //disable the body
-          nuclear.body.enable = false;
-
-          //clear all zombies from game
-          zombies.clear(true);
-        }
-
         function zombieGen() {
           if (gameState.play) {
             let directionNumber = Math.floor(getRandom(1, 6));
@@ -618,7 +616,6 @@
           loop: true,
         });
 
-        this.physics.add.overlap(player, powerup, powerupHit);
 
         // Player Hits Zombie
         this.physics.add.collider(player, zombies, () => {
@@ -643,6 +640,26 @@
         // Fireball Hits Zombie
         this.physics.add.collider(zombies, fireballs, (zombie, fireball) => {
           fireball.destroy();
+          this.killZombie(zombie);
+        });
+
+        const powerupHit = (player, nuclear) => {
+          // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
+          this.boom.play();
+          //hide powerup when hit by player
+          powerup.killAndHide(nuclear);
+          //disable the body
+          nuclear.body.enable = false;
+
+          //clear all zombies from game
+          //zombies.clear(true);
+          console.log(zombies.children.entries);
+          zombies.children.entries.forEach(zombie => this.killZombie(zombie));
+        }
+
+        this.physics.add.overlap(player, powerup, powerupHit);
+
+        this.killZombie = function (zombie) {
           zombie.setVelocityX(0);
           if (zombie.texture.key === "male") {
             this.bonk2.play();
@@ -661,7 +678,7 @@
               zombie.destroy();
             });
           }
-        });
+        }
 
         // Player killed
         this.playerHit = function () {
