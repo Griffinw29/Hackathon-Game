@@ -175,16 +175,31 @@
         this.load.audio("boom", [
           "assets/audio/boom.mp3",
           "assets/audio/boom.ogg",
-        ])
+        ]);
       }
 
       function preload() {
-        this.load.image("MOTMlogo", "assets/MOTMTLogo.png");
+        let progressBar = this.add.graphics();
+        let progressBox = this.add.graphics();
+        progressBox.fillStyle(0x222222, 0.8);
+        progressBox.fillRect(240, 270, 320, 50);
+
+        this.load.image(
+          "zombiemale",
+          "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
+        );
         for (let i = 0; i < 500; i++) {
-          this.load.image("MOTMlogo" + i, "assets/MOTMTLogo.png");
+          this.load.image(
+            "zombiemale" + i,
+            "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
+          );
         }
 
         this.load.on("progress", function (value) {
+          progressBar.clear();
+          progressBar.fillStyle(0xffffff, 1);
+          progressBar.fillRect(250, 280, 300 * value, 30);
+
           console.log(value);
         });
 
@@ -193,6 +208,8 @@
         });
 
         this.load.on("complete", function (complete) {
+          progressBar.destroy();
+          progressBox.destroy();
           console.log(complete);
         });
       }
@@ -206,8 +223,8 @@
         // this.add.image(700, 300, "ground");
         this.add.image(530, 500, "zombie-group").setScale(0.2);
 
-        logo = this.add.image(750, 300, "MOTMlogo");
-        logo.setScale(0.5);
+        logo = this.add.image(750, 300, "zombiemale");
+        logo.setScale(1);
 
         this.backgroundMusic = this.sound.add("zombie-dance", {
           volume: 0.8,
@@ -285,7 +302,7 @@
         this.boom = this.sound.add("boom", {
           volume: 1,
           loop: false,
-        })
+        });
 
         platforms = this.physics.add.staticGroup();
         objects = this.physics.add.staticGroup();
@@ -636,7 +653,6 @@
           loop: true,
         });
 
-
         // Player Hits Zombie
         this.physics.add.collider(player, zombies, () => {
           if (
@@ -674,8 +690,8 @@
           //clear all zombies from game
           //zombies.clear(true);
           console.log(zombies.children.entries);
-          zombies.children.entries.forEach(zombie => this.killZombie(zombie));
-        }
+          zombies.children.entries.forEach((zombie) => this.killZombie(zombie));
+        };
 
         this.physics.add.overlap(player, powerup, powerupHit);
 
@@ -698,7 +714,7 @@
               zombie.destroy();
             });
           }
-        }
+        };
 
         // Player killed
         this.playerHit = function () {
