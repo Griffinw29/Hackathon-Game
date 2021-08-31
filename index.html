@@ -58,6 +58,7 @@
         this.load.image("ground", "assets/platform.png");
         this.load.image("Crate", "assets/grave-tiles/png/Objects/Crate.png");
         this.load.image("fireball", "assets/fireball.png");
+        this.load.image("nuclear", "assets/nuclear_bomb1.png");
         this.load.image(
           "Skeleton",
           "assets/grave-tiles/png/Objects/Skeleton.png"
@@ -259,6 +260,12 @@
         platforms = this.physics.add.staticGroup();
         objects = this.physics.add.staticGroup();
         crates = this.physics.add.staticGroup();
+        powerup = this.physics.add.staticGroup({
+          key: "nuclear",
+        });
+
+        //add powerups to game
+        powerup.create(450, 300, "nuclear").setScale(1).refreshBody();
 
         //add objects to game page
         objects.create(750, 520, "dumpster").setScale(0.2).refreshBody();
@@ -478,6 +485,16 @@
         // Add zombie group
         const zombies = this.physics.add.group();
 
+        function powerupHit(player, nuclear) {
+          //hide powerup when hit by player
+          powerup.killAndHide(nuclear);
+          //disable the body
+          nuclear.body.enable = false;
+
+          //clear all zombies from game
+          zombies.clear(true);
+        }
+
         function zombieGen() {
           if (gameState.play) {
             let directionNumber = Math.floor(getRandom(1, 6));
@@ -600,6 +617,8 @@
           callbackScope: this,
           loop: true,
         });
+
+        this.physics.add.overlap(player, powerup, powerupHit);
 
         // Player Hits Zombie
         this.physics.add.collider(player, zombies, () => {
