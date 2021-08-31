@@ -348,7 +348,7 @@
         this.anims.create({
           key: "player-jump",
           frames: jumpFrameNames,
-          frameRate: 12,
+          frameRate: 6,
           repeat: 0,
         });
 
@@ -427,8 +427,6 @@
           prefix: 'female-dead/dead', suffix: '.png'
         })
         this.anims.create({ key: 'female-dead', frames: deadFemaleFrameNames, frameRate: 10, repeat: 0 });
-
-
 
         this.physics.add.collider(player, platforms);
 
@@ -640,6 +638,7 @@
 
       function update() {
         if (gameState.play) {
+          // Player Moves Left
           if (gameState.cursors.left.isDown) {
             player.setVelocityX(-160);
             player.flipX = true;
@@ -648,6 +647,7 @@
             } else {
               player.anims.play("player-jump", true);
             }
+          // Player Moves Right
           } else if (gameState.cursors.right.isDown) {
             player.setVelocityX(160);
             player.flipX = false;
@@ -656,19 +656,21 @@
             } else {
               player.anims.play("player-jump", true);
             }
-
+          // Player in Midair
           } else if (!player.body.touching.down) {
             player.anims.play("player-jump", true);
+          // Player Idle
           } else {
             player.setVelocityX(0);
             player.anims.play("player-idle", true);
             player.flipX = false;
           }
-
+          // Player Jumps
           if ((gameState.cursors.up.isDown || gameState.cursors.space.isDown) && player.body.touching.down) {
             player.anims.play("player-jump", true);
             player.setVelocityY(-330);
           }
+        // Player Dead
         } else {
           if (gameState.deadAnimationPlayed === false) {
             gameState.deadAnimationPlayed = true;
