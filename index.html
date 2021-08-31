@@ -668,7 +668,7 @@
 
         // Fireball Hits Player
         this.physics.add.collider(player, fireballs, (player, fireball) => {
-          this.bonk1.play();
+          this.bonk2.play();
           fireball.destroy();
           this.playerHit();
         });
@@ -682,7 +682,7 @@
         const powerupHit = (player, nuclear) => {
           // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
           this.boom.play();
-          this.cameras.main.shake(200);
+          this.cameras.main.shake(1000, 0.02);
           //hide powerup when hit by player
           powerup.killAndHide(nuclear);
           //disable the body
@@ -704,7 +704,7 @@
             // Find out how to remove collider so it's no longer dangerous
             zombie.anims.play("male-dead", true);
             zombie.once("animationcomplete", () => {
-              zombie.destroy();
+            zombie.destroy();
             });
           } else {
             // Find out how to remove collider so it's no longer dangerous
