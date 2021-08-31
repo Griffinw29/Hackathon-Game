@@ -48,6 +48,8 @@
       };
 
       function preload() {
+
+        // Load Background
         this.load.image("blackness", "assets/png/2/blackness.png");
         this.load.image("sky", "assets/png/2/layers/l1_background.png");
         this.load.image("hills", "assets/png/2/layers/l2_hills.png");
@@ -56,6 +58,8 @@
         this.load.image("ground", "assets/png/2/layers/l5_ground.png");
         this.load.image("houses", "assets/png/2/layers/l6_houses.png");
         this.load.image("ground", "assets/platform.png");
+
+        // Load Objects
         this.load.image("Crate", "assets/grave-tiles/png/Objects/Crate.png");
         this.load.image("fireball", "assets/fireball.png");
         this.load.image("nuclear", "assets/nuclear_bomb1.png");
@@ -77,13 +81,19 @@
         );
         this.load.image("platform", "assets/platform.png");
         this.load.image("tile-platform", "assets/tileplatform.png");
+
+        // Load Sprite Data
         this.load.multiatlas("hero", "assets/hero.json", "assets");
         this.load.multiatlas("male", "assets/male.json", "assets");
         this.load.multiatlas("female", "assets/female.json", "assets");
+
+        // Load Music
         this.load.audio("zombie-dance", [
           "assets/audio/zombie-dance.mp3",
           "assets/audio/zombie-dance.ogg",
         ]);
+
+        // Load Zombie Noises
         this.load.audio("male-noise-1", [
           "assets/audio/noises/male-noise-1.mp3",
           "assets/audio/noises/male-noise-1.ogg",
@@ -140,6 +150,8 @@
           "assets/audio/noises/female-noise-7.mp3",
           "assets/audio/noises/female-noise-7.ogg",
         ]);
+
+        // Load Gameplay Noises
         this.load.audio("squish", [
           "assets/audio/noises/squish.mp3",
           "assets/audio/noises/squish.ogg",
@@ -248,6 +260,8 @@
       // }
 
       function create() {
+
+        // Add Background
         this.add.image(700, 300, "sky");
         this.add.image(700, 700, "hills");
         this.add.image(700, 300, "clouds");
@@ -259,6 +273,7 @@
         logo = this.add.image(750, 300, "zombiemale");
         logo.setScale(0.75);
 
+        // Add Music
         this.backgroundMusic = this.sound.add("zombie-dance", {
           volume: 0.8,
           loop: true,
@@ -268,6 +283,8 @@
           volume: 1.5,
           loop: false,
         });
+
+        // Add Zombie Noises
         this.noise2 = this.sound.add("male-noise-2", {
           volume: 1.5,
           loop: false,
@@ -300,6 +317,8 @@
           volume: 1.5,
           loop: false,
         });
+
+        // Add Gameplay Noises
         this.squish = this.sound.add("squish", {
           volume: 0.3,
           loop: false,
@@ -337,6 +356,7 @@
           loop: false,
         });
 
+        // Add Physics to Platforms and Objects
         platforms = this.physics.add.staticGroup();
         objects = this.physics.add.staticGroup();
         crates = this.physics.add.staticGroup();
@@ -403,6 +423,7 @@
           true
         );
 
+        // Add 'Remaining Lives' to Screen
         this.add.text(50, 175, `Lives: ${gameState.remainingLives}`, {
           fontSize: "30px",
           fill: "#FFFFFF",
@@ -555,9 +576,11 @@
           repeat: 0,
         });
 
+        // Physics for Player / Environment Interaction
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, crates);
 
+        // Put Keyboard Input into Game State
         gameState.cursors = this.input.keyboard.createCursorKeys();
 
         // Add zombie group
@@ -565,11 +588,13 @@
 
         function zombieGen() {
           if (gameState.play) {
+            // Set Variables for Different Zombies
             let directionNumber = Math.floor(getRandom(1, 6));
             let theDirection;
             let zombieFlip;
             let startX;
             let startY;
+            // Set Zombie Source Direction
             let zombieVelocity;
             switch (directionNumber) {
               case 1:
@@ -615,6 +640,8 @@
             }
             let xOffset = 100;
             let yOffset = 150;
+
+            // Select Zombie Gender
             function getRandom(min, max) {
               return Math.random() * (max - min) + min;
             }
@@ -627,12 +654,16 @@
                 xOffset = 125;
               }
             }
+
+            // Create Zombie from Sprite Sheet
             let thisZombie = zombies.create(
               startX,
               startY,
               `${zombieGender}`,
               `${zombieGender}-idle/idle01.png`
             );
+
+            // Sprite Settings (Size, Orientation, Bounding Box, Direction, Physics)
             thisZombie.setScale(0.2);
             thisZombie.setBounce(0.2);
             thisZombie.flipX = zombieFlip;
@@ -642,7 +673,11 @@
             thisZombie.anims.play(`${zombieGender}-walk`);
             thisZombie.setVelocityX(zombieVelocity);
             this.physics.add.collider(thisZombie, platforms);
+
+            // Track How Many Zombies Have Been Created
             gameState.zombiesCreated += 1;
+
+            // Play Random Zombie Noise for Every Few Zombies Created
             let theNum = Math.floor(getRandom(2, 7));
             this.randomNoise = this.sound.add(
               `${zombieGender}-noise-${theNum}`,
@@ -656,6 +691,8 @@
             }
           }
         }
+
+        // Establish Zombie Creation Rate
         const zombieGenLoop = this.time.addEvent({
           delay: gameState.delay,
           callback: zombieGen,
@@ -664,14 +701,17 @@
         });
 
         // Generate Fireballs
-
         const fireballs = this.physics.add.group();
 
         function fireballsGen() {
           if (gameState.play) {
+
+            // Set Random Fireball Source Location, Size
             let fireballX = Phaser.Math.Between(0, 1500);
             let thisFireball = fireballs.create(fireballX, -100, "fireball");
             thisFireball.setScale(0.05);
+
+            // Adjust Fireball Bounding Box
             thisFireball.body.setCircle(300);
             thisFireball.body.offset.y = 1800;
             thisFireball.body.offset.x = 350;
@@ -689,11 +729,13 @@
         // Player Hits Zombie
         this.physics.add.collider(player, zombies, () => {
           if (
+            // If Player Steps on Zombie, Nothing Happens
             player.body.touching.right === false &&
             player.body.touching.left === false &&
             player.body.touching.up === false
           ) {
           } else {
+            // Else Player Dies
             this.squish.play();
             this.playerHit();
           }
@@ -701,7 +743,7 @@
 
         // Fireball Hits Player
         this.physics.add.collider(player, fireballs, (player, fireball) => {
-          this.bonk1.play();
+          this.bonk2.play();
           fireball.destroy();
           this.playerHit();
         });
@@ -715,6 +757,7 @@
         const powerupHit = (player, nuclear) => {
           // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
           this.boom.play();
+          this.cameras.main.shake(1000, 0.02);
           //hide powerup when hit by player
           powerup.killAndHide(nuclear);
           //disable the body
@@ -728,19 +771,23 @@
 
         this.physics.add.overlap(player, powerup, powerupHit);
 
+        // Reusable Function for Zombie Death
         this.killZombie = function (zombie) {
           zombie.setVelocityX(0);
+
+          // Male Zombie Dies
           if (zombie.texture.key === "male") {
             this.bonk2.play();
             this.maleDead.play();
             // Find out how to remove collider so it's no longer dangerous
             zombie.anims.play("male-dead", true);
             zombie.once("animationcomplete", () => {
-              zombie.destroy();
+            zombie.destroy();
             });
           } else {
+            // Female Zombie Dies
             // Find out how to remove collider so it's no longer dangerous
-            this.bonk5.play();
+            this.bonk3.play();
             this.femaleDead.play();
             zombie.anims.play("female-dead", true);
             zombie.once("animationcomplete", () => {
@@ -751,11 +798,17 @@
 
         // Player killed
         this.playerHit = function () {
+
+          // Scene Fades
           this.add.image(700, 300, "blackness").setAlpha(0.4);
+
+          // Game Stops
           gameState.play = false;
           this.backgroundMusic.stop();
           this.noise1.play();
           this.physics.pause();
+
+          // Determine if Game Over
           if (gameState.remainingLives === 0) {
             this.add.text(675, 245, "Game Over", {
               fontSize: "30px",
@@ -765,6 +818,8 @@
               fontSize: "25px",
               fill: "#FFFFFF",
             });
+
+            // Restart Game on Click
             this.input.on("pointerup", () => {
               gameState.play = true;
               gameState.deadAnimationPlayed = false;
@@ -772,10 +827,14 @@
               this.scene.restart();
             });
           } else {
+
+            // Continue Game on Click
             this.add.text(600, 250, "Click to Continue", {
               fontSize: "30px",
               fill: "#FFFFFF",
             });
+
+            // Restart Game
             gameState.remainingLives -= 1;
             this.input.on("pointerup", () => {
               gameState.play = true;
@@ -787,7 +846,10 @@
       }
 
       function update() {
+
+        // Control Player Movement
         if (gameState.play) {
+
           // Player Moves Left
           if (gameState.cursors.left.isDown) {
             player.setVelocityX(-160);
@@ -797,6 +859,7 @@
             } else {
               player.anims.play("player-jump", true);
             }
+
             // Player Moves Right
           } else if (gameState.cursors.right.isDown) {
             player.setVelocityX(160);
@@ -806,15 +869,18 @@
             } else {
               player.anims.play("player-jump", true);
             }
+
             // Player in Midair
           } else if (!player.body.touching.down) {
             player.anims.play("player-jump", true);
+
             // Player Idle
           } else {
             player.setVelocityX(0);
             player.anims.play("player-idle", true);
             player.flipX = false;
           }
+
           // Player Jumps
           if (
             (gameState.cursors.up.isDown || gameState.cursors.space.isDown) &&
@@ -823,6 +889,7 @@
             player.anims.play("player-jump", true);
             player.setVelocityY(-330);
           }
+          
           // Player Dead
         } else {
           if (gameState.deadAnimationPlayed === false) {
