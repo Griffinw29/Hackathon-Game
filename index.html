@@ -357,7 +357,7 @@
         });
 
         // creating timer
-        this.initialTime = 10;
+        this.initialTime = 15;
         text = this.add.text(
           32,
           32,
@@ -905,6 +905,7 @@
           if (gameState.deadAnimationPlayed === false) {
             gameState.deadAnimationPlayed = true;
             player.anims.play('player-dead', true);
+
             // Replace line below with a real tween
             //player.y = 550;
           }
@@ -919,14 +920,24 @@
       function onEvent() {
         //Logic to end game once timer ends
         if (this.initialTime === 1) {
-          gameState.play = false;
           this.physics.pause();
 
           this.add.text(550, 175, 'Congrats, you made it out alive!', {
             fontSize: '30px',
             fill: '#FFFFFF',
           });
-        } else {
+
+          this.input.on('pointerup', () => {
+            gameState.play = true;
+            gameState.deadAnimationPlayed = false;
+            gameState.remainingLives = 2;
+            this.scene.restart();
+          });
+          this.add.text(635, 280, 'Click to Restart', {
+            fontSize: '25px',
+            fill: '#FFFFFF',
+          });
+        } else if (gameState.play) {
           this.initialTime--;
           text.setText('Countdown: ' + formatTime(this.initialTime));
         }
