@@ -42,6 +42,7 @@
       // Set up Initial Game State
       const gameState = {
         play: true,
+        musicPlaying: false,
         zombiesCreated: 0,
         delay: 1000,
         deadAnimationPlayed: false,
@@ -315,11 +316,19 @@
         this.add.image(550, 300, "zombiemale");
 
         // Add Music
-        this.backgroundMusic = this.sound.add("zombie-dance", {
-          volume: 0.8,
-          loop: true,
-        });
-        this.backgroundMusic.play();
+        console.log(gameState.musicPlaying);
+        if (gameState.musicPlaying === false) {
+          this.backgroundMusic = this.sound.add("zombie-dance", {
+            volume: 0.8,
+            loop: true,
+          });
+          gameState.globalMusic = this.backgroundMusic;
+          this.backgroundMusic.play();
+          gameState.musicPlaying = true;
+          console.log(gameState.musicPlaying);
+        } else {
+
+        }
         this.noise1 = this.sound.add("male-noise-1", {
           volume: 1.5,
           loop: false,
@@ -868,6 +877,7 @@
           // Game Stops
           gameState.play = false;
           this.backgroundMusic.stop();
+          gameState.musicPlaying = false;
           this.noise1.play();
           this.physics.pause();
 
@@ -970,7 +980,8 @@
       function onEvent() {
         //Logic to end game once timer ends
         if (this.initialTime === 1) {
-          this.backgroundMusic.stop();
+          gameState.globalMusic.stop();
+          gameState.musicPlaying = false;
           this.physics.pause();
 
           this.add.text(550, 175, "Congrats, you made it out alive!", {
