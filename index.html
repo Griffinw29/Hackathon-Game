@@ -413,7 +413,11 @@
         text = this.add.text(
           32,
           32,
-          "Countdown: " + formatTime(this.initialTime)
+          "Countdown: " + formatTime(this.initialTime), {
+            fontSize: '36px',
+            stroke: '#000000',
+            strokeThickness: '4',
+          }
         );
 
         timedEvent = this.time.addEvent({
@@ -504,10 +508,14 @@
           fontSize: "30px",
           fill: "#FFFFFF",
         });
+
+        // Add 'Level' to Screen
         this.add.text(50, 140, `Level: ${gameState.level}`, {
           fontSize: "30px",
           fill: "#FFFFFF",
         });
+
+
 
         // Add 'player' sprite to scene
         player = this.physics.add.sprite(200, 400, "hero", "idle/idle01.png");
@@ -833,22 +841,31 @@
           this.killZombie(zombie);
         });
 
-        const powerupHit = (player, nuclear) => {
-          // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
-          this.boom.play();
-          this.cameras.main.shake(1000, 0.02);
+        const pickupNuke = (player, nuclear) => {
+          gameState.nukes = gameState.nukes + 1;
           //hide powerup when hit by player
           powerup.killAndHide(nuclear);
           //disable the body
           nuclear.body.enable = false;
 
-          //clear all zombies from game
-          //zombies.clear(true);
-          // console.log(zombies.children.entries);
-          zombies.children.entries.forEach((zombie) => this.killZombie(zombie));
+        }
+
+        gameState.nukeBoom = () => {
+          if (gameState.nukes > 0) {
+            gameState.nukes = gameState.nukes - 1;
+            console.log(gameState.nukes);
+            // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
+            this.boom.play();
+            this.cameras.main.shake(1000, 0.02);
+
+            //clear all zombies from game
+            //zombies.clear(true);
+            // console.log(zombies.children.entries);
+            zombies.children.entries.forEach((zombie) => this.killZombie(zombie));
+          }
         };
 
-        this.physics.add.overlap(player, powerup, powerupHit);
+        this.physics.add.overlap(player, powerup, pickupNuke);
 
         // Reusable Function for Zombie Death
         this.killZombie = function (zombie) {
@@ -904,6 +921,7 @@
               gameState.deadAnimationPlayed = false;
               gameState.remainingLives = 2;
               gameState.level = 1;
+              gameState.nukes = 0;
               this.scene.restart();
             });
           } else {
@@ -918,6 +936,7 @@
             this.input.on("pointerup", () => {
               gameState.play = true;
               gameState.deadAnimationPlayed = false;
+              gameState.nukes = 0;
               this.scene.restart();
             });
           }
@@ -947,7 +966,7 @@
               player.anims.play("player-jump", true);
             }
 
-            // Player in Midair
+          // Player in Midair
           } else if (!player.body.touching.down) {
             player.anims.play("player-jump", true);
 
@@ -965,6 +984,10 @@
           ) {
             player.anims.play("player-jump", true);
             player.setVelocityY(-330);
+          }
+
+          else if (gameState.cursors.shift.isDown) {
+            gameState.nukeBoom();
           }
 
           // Player Dead
@@ -992,7 +1015,7 @@
           this.physics.pause();
           if (gameState.timesUp === false) {
             gameState.timesUp = true;
-            this.add.text(550, 175, "Congrats, you made it out alive!", {
+            this.add.text(530, 175, "Congrats, you made it out alive!", {
               fontSize: "30px",
               fill: "#FFFFFF",
             });
@@ -1001,10 +1024,11 @@
               gameState.play = true;
               gameState.deadAnimationPlayed = false;
               gameState.timesUp = false;
+              gameState.nukes = 0;
               this.scene.restart();
             });
             gameState.level = gameState.level + 1;
-            this.add.text(635, 280, `Click to go to Level ${gameState.level}`, {
+            this.add.text(635, 280, `Click for Level ${gameState.level}`, {
               fontSize: "25px",
               fill: "#FFFFFF",
             });
@@ -1015,6 +1039,8 @@
           text.setText("Countdown: " + formatTime(this.initialTime));
         }
       }
+
+
     </script>
   </body>
 </html>
