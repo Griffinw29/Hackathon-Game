@@ -61,16 +61,14 @@
         this.load.image("houses", "assets/png/2/layers/l6_houses.png");
         this.load.image("ground", "assets/platform.png");
 
-
-        this.load.image('blackness', 'assets/png/2/blackness.png');
-        this.load.image('sky', 'assets/png/2/layers/l1_background.png');
-        this.load.image('hills', 'assets/png/2/layers/l2_hills.png');
-        this.load.image('clouds', 'assets/png/2/layers/l3_clouds.png');
-        this.load.image('ruin', 'assets/png/2/layers/l4_ruin.png');
-        this.load.image('ground', 'assets/png/2/layers/l5_ground.png');
-        this.load.image('houses', 'assets/png/2/layers/l6_houses.png');
-        this.load.image('ground', 'assets/platform.png');
-
+        this.load.image("blackness", "assets/png/2/blackness.png");
+        this.load.image("sky", "assets/png/2/layers/l1_background.png");
+        this.load.image("hills", "assets/png/2/layers/l2_hills.png");
+        this.load.image("clouds", "assets/png/2/layers/l3_clouds.png");
+        this.load.image("ruin", "assets/png/2/layers/l4_ruin.png");
+        this.load.image("ground", "assets/png/2/layers/l5_ground.png");
+        this.load.image("houses", "assets/png/2/layers/l6_houses.png");
+        this.load.image("ground", "assets/platform.png");
 
         this.load.image("blackness", "assets/png/2/blackness.png");
         this.load.image("sky", "assets/png/2/layers/l1_background.png");
@@ -84,7 +82,6 @@
         this.load.image("ground", "assets/png/2/layers/l5_ground.png");
         this.load.image("houses", "assets/png/2/layers/l6_houses.png");
         this.load.image("ground", "assets/platform.png");
-
 
         // Load Objects
         this.load.image("Crate", "assets/grave-tiles/png/Objects/Crate.png");
@@ -258,8 +255,6 @@
         //   );
         // }
 
-
-
         this.load.on("progress", function (value) {
           percentText.setText(parseInt(value * 100) + "%");
           progressBar.clear();
@@ -281,7 +276,6 @@
           progressBox.destroy();
         });
       }
-
 
       function create() {
         // Add Background
@@ -819,18 +813,8 @@
             this.bonk2.play();
             this.maleDead.play();
             // Find out how to remove collider so it's no longer dangerous
-
             zombie.anims.play("male-dead", true);
             zombie.once("animationcomplete", () => {
-
-
-            zombie.anims.play('male-dead', true);
-            zombie.once('animationcomplete', () => {
-
-            zombie.anims.play("male-dead", true);
-            zombie.once("animationcomplete", () => {
-
-
               zombie.destroy();
             });
           } else {
