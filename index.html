@@ -50,6 +50,8 @@
       };
 
       function preload() {
+        // Load Background
+        this.load.image('blackness', 'assets/png/2/blackness.png');
         this.load.image('sky', 'assets/png/2/layers/l1_background.png');
         this.load.image('hills', 'assets/png/2/layers/l2_hills.png');
         this.load.image('clouds', 'assets/png/2/layers/l3_clouds.png');
@@ -57,8 +59,11 @@
         this.load.image('ground', 'assets/png/2/layers/l5_ground.png');
         this.load.image('houses', 'assets/png/2/layers/l6_houses.png');
         this.load.image('ground', 'assets/platform.png');
+
+        // Load Objects
         this.load.image('Crate', 'assets/grave-tiles/png/Objects/Crate.png');
         this.load.image('fireball', 'assets/fireball.png');
+        this.load.image('nuclear', 'assets/nuclear_bomb1.png');
         this.load.image(
           'Skeleton',
           'assets/grave-tiles/png/Objects/Skeleton.png'
@@ -77,13 +82,19 @@
         );
         this.load.image('platform', 'assets/platform.png');
         this.load.image('tile-platform', 'assets/tileplatform.png');
+
+        // Load Sprite Data
         this.load.multiatlas('hero', 'assets/hero.json', 'assets');
         this.load.multiatlas('male', 'assets/male.json', 'assets');
         this.load.multiatlas('female', 'assets/female.json', 'assets');
+
+        // Load Music
         this.load.audio('zombie-dance', [
           'assets/audio/zombie-dance.mp3',
           'assets/audio/zombie-dance.ogg',
         ]);
+
+        // Load Zombie Noises
         this.load.audio('male-noise-1', [
           'assets/audio/noises/male-noise-1.mp3',
           'assets/audio/noises/male-noise-1.ogg',
@@ -140,6 +151,8 @@
           'assets/audio/noises/female-noise-7.mp3',
           'assets/audio/noises/female-noise-7.ogg',
         ]);
+
+        // Load Gameplay Noises
         this.load.audio('squish', [
           'assets/audio/noises/squish.mp3',
           'assets/audio/noises/squish.ogg',
@@ -172,9 +185,83 @@
           'assets/audio/noises/female-dead.mp3',
           'assets/audio/noises/female-dead.ogg',
         ]);
+        this.load.audio('boom', [
+          'assets/audio/boom.mp3',
+          'assets/audio/boom.ogg',
+        ]);
       }
 
+      // function preload() {
+      //   let progressBar = this.add.graphics();
+      //   let progressBox = this.add.graphics();
+      //   let width = this.cameras.main.width;
+      //   let height = this.cameras.main.height;
+      //   let loadingText = this.make.text({
+      //     x: width / 2,
+      //     y: height / 2 - 50,
+      //     text: "Loading Brains...I mean yeah, come on in...",
+      //     style: {
+      //       font: "20px monospace",
+      //       fill: "#ffffff",
+      //     },
+      //   });
+      //   let percentText = this.make.text({
+      //     x: width / 2,
+      //     y: height / 2 - 5,
+      //     text: "0%",
+      //     style: {
+      //       font: "18px monospace",
+      //       fill: "#ffffff",
+      //     },
+      //   });
+      //   let assetText = this.make.text({
+      //     x: width / 2,
+      //     y: height / 2 - 50,
+      //     text: "Everything's on fire...I mean yeah, come on in...",
+      //     style: {
+      //       font: "20px monospace",
+      //       fill: "#ffffff",
+      //     },
+      //   });
+      //   loadingText.setOrigin(0.5, 0.5);
+      //   progressBox.fillStyle(0x222222, 0.8);
+      //   progressBox.fillRect(240, 270, 320, 50);
+
+      //   this.load.image(
+      //     "zombiemale",
+      //     "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
+      //   );
+      //   for (let i = 0; i < 700; i++) {
+      //     this.load.image(
+      //       "zombiemale" + i,
+      //       "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
+      //     );
+      //   }
+
+      //   this.load.on("progress", function (value) {
+      //     percentText.setText(parseInt(value * 100) + "%");
+      //     progressBar.clear();
+      //     progressBar.fillStyle(0xffffff, 1);
+      //     progressBar.fillRect(250, 280, 300 * value, 30);
+
+      //     console.log(value);
+      //   });
+
+      //   this.load.on("fileprogress", function (file) {
+      //     assetText.setText("Loading Brains: " + file.key);
+      //     console.log(file.src);
+      //   });
+
+      //   this.load.on("complete", function (complete) {
+      //     assetText.destroy();
+      //     percentText.destroy();
+      //     progressBar.destroy();
+      //     progressBox.destroy();
+      //   });
+      // }
+
       function create() {
+        // Add Background
         this.add.image(700, 300, 'sky');
         this.add.image(700, 700, 'hills');
         this.add.image(700, 300, 'clouds');
@@ -183,6 +270,10 @@
         // this.add.image(700, 300, "ground");
         this.add.image(530, 500, 'zombie-group').setScale(0.2);
 
+        logo = this.add.image(750, 300, 'zombiemale');
+        logo.setScale(0.75);
+
+        // Add Music
         this.backgroundMusic = this.sound.add('zombie-dance', {
           volume: 0.8,
           loop: true,
@@ -192,6 +283,8 @@
           volume: 1.5,
           loop: false,
         });
+
+        // Add Zombie Noises
         this.noise2 = this.sound.add('male-noise-2', {
           volume: 1.5,
           loop: false,
@@ -224,6 +317,8 @@
           volume: 1.5,
           loop: false,
         });
+
+        // Add Gameplay Noises
         this.squish = this.sound.add('squish', {
           volume: 0.3,
           loop: false,
@@ -256,6 +351,10 @@
           volume: 0.1,
           loop: false,
         });
+        this.boom = this.sound.add('boom', {
+          volume: 1,
+          loop: false,
+        });
 
         // creating timer
         this.initialTime = 10;
@@ -272,16 +371,25 @@
           loop: true,
         });
 
+        // Add Physics to Platforms and Objects
         platforms = this.physics.add.staticGroup();
         objects = this.physics.add.staticGroup();
+        crates = this.physics.add.staticGroup();
+        powerup = this.physics.add.staticGroup();
+
+        //add powerups to game
+        powerup.create(450, 300, 'nuclear').setScale(1).refreshBody();
 
         //add objects to game page
         objects.create(750, 520, 'dumpster').setScale(0.2).refreshBody();
         objects.create(1432, 560, 'trashcan').setScale(0.05).refreshBody();
         objects.create(300, 580, 'Skeleton').setScale(0.75).refreshBody();
-        objects.create(440, 560, 'Crate').setScale(0.75).refreshBody();
-        objects.create(520, 560, 'Crate').setScale(0.75).refreshBody();
-        objects.create(600, 560, 'Crate').setScale(0.75).refreshBody();
+
+        //add crates for player to jump on
+        crates.create(400, 560, 'Crate').setScale(0.75).refreshBody();
+        crates.create(500, 560, 'Crate').setScale(0.75).refreshBody();
+        crates.create(450, 400, 'Crate').setScale(0.75).refreshBody();
+        crates.create(700, 560, 'Crate').setScale(0.75).refreshBody();
 
         //Add 'platforms' to page
         platforms.create(1500, 600, 'platform').setScale(10, 0.2).refreshBody();
@@ -330,6 +438,7 @@
           true
         );
 
+        // Add 'Remaining Lives' to Screen
         this.add.text(50, 175, `Lives: ${gameState.remainingLives}`, {
           fontSize: '30px',
           fill: '#FFFFFF',
@@ -387,7 +496,7 @@
         this.anims.create({
           key: 'player-jump',
           frames: jumpFrameNames,
-          frameRate: 12,
+          frameRate: 6,
           repeat: 0,
         });
 
@@ -482,8 +591,11 @@
           repeat: 0,
         });
 
+        // Physics for Player / Environment Interaction
         this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, crates);
 
+        // Put Keyboard Input into Game State
         gameState.cursors = this.input.keyboard.createCursorKeys();
 
         // Add zombie group
@@ -491,11 +603,13 @@
 
         function zombieGen() {
           if (gameState.play) {
+            // Set Variables for Different Zombies
             let directionNumber = Math.floor(getRandom(1, 6));
             let theDirection;
             let zombieFlip;
             let startX;
             let startY;
+            // Set Zombie Source Direction
             let zombieVelocity;
             switch (directionNumber) {
               case 1:
@@ -541,6 +655,8 @@
             }
             let xOffset = 100;
             let yOffset = 150;
+
+            // Select Zombie Gender
             function getRandom(min, max) {
               return Math.random() * (max - min) + min;
             }
@@ -553,12 +669,16 @@
                 xOffset = 125;
               }
             }
+
+            // Create Zombie from Sprite Sheet
             let thisZombie = zombies.create(
               startX,
               startY,
               `${zombieGender}`,
               `${zombieGender}-idle/idle01.png`
             );
+
+            // Sprite Settings (Size, Orientation, Bounding Box, Direction, Physics)
             thisZombie.setScale(0.2);
             thisZombie.setBounce(0.2);
             thisZombie.flipX = zombieFlip;
@@ -568,7 +688,11 @@
             thisZombie.anims.play(`${zombieGender}-walk`);
             thisZombie.setVelocityX(zombieVelocity);
             this.physics.add.collider(thisZombie, platforms);
+
+            // Track How Many Zombies Have Been Created
             gameState.zombiesCreated += 1;
+
+            // Play Random Zombie Noise for Every Few Zombies Created
             let theNum = Math.floor(getRandom(2, 7));
             this.randomNoise = this.sound.add(
               `${zombieGender}-noise-${theNum}`,
@@ -582,6 +706,8 @@
             }
           }
         }
+
+        // Establish Zombie Creation Rate
         const zombieGenLoop = this.time.addEvent({
           delay: gameState.delay,
           callback: zombieGen,
@@ -590,14 +716,16 @@
         });
 
         // Generate Fireballs
-
         const fireballs = this.physics.add.group();
 
         function fireballsGen() {
           if (gameState.play) {
+            // Set Random Fireball Source Location, Size
             let fireballX = Phaser.Math.Between(0, 1500);
             let thisFireball = fireballs.create(fireballX, -100, 'fireball');
             thisFireball.setScale(0.05);
+
+            // Adjust Fireball Bounding Box
             thisFireball.body.setCircle(300);
             thisFireball.body.offset.y = 1800;
             thisFireball.body.offset.x = 350;
@@ -615,11 +743,13 @@
         // Player Hits Zombie
         this.physics.add.collider(player, zombies, () => {
           if (
+            // If Player Steps on Zombie, Nothing Happens
             player.body.touching.right === false &&
             player.body.touching.left === false &&
             player.body.touching.up === false
           ) {
           } else {
+            // Else Player Dies
             this.squish.play();
             this.playerHit();
           }
@@ -627,7 +757,7 @@
 
         // Fireball Hits Player
         this.physics.add.collider(player, fireballs, (player, fireball) => {
-          this.bonk1.play();
+          this.bonk2.play();
           fireball.destroy();
           this.playerHit();
         });
@@ -635,7 +765,31 @@
         // Fireball Hits Zombie
         this.physics.add.collider(zombies, fireballs, (zombie, fireball) => {
           fireball.destroy();
+          this.killZombie(zombie);
+        });
+
+        const powerupHit = (player, nuclear) => {
+          // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
+          this.boom.play();
+          this.cameras.main.shake(1000, 0.02);
+          //hide powerup when hit by player
+          powerup.killAndHide(nuclear);
+          //disable the body
+          nuclear.body.enable = false;
+
+          //clear all zombies from game
+          //zombies.clear(true);
+          console.log(zombies.children.entries);
+          zombies.children.entries.forEach((zombie) => this.killZombie(zombie));
+        };
+
+        this.physics.add.overlap(player, powerup, powerupHit);
+
+        // Reusable Function for Zombie Death
+        this.killZombie = function (zombie) {
           zombie.setVelocityX(0);
+
+          // Male Zombie Dies
           if (zombie.texture.key === 'male') {
             this.bonk2.play();
             this.maleDead.play();
@@ -645,22 +799,29 @@
               zombie.destroy();
             });
           } else {
+            // Female Zombie Dies
             // Find out how to remove collider so it's no longer dangerous
-            this.bonk5.play();
+            this.bonk3.play();
             this.femaleDead.play();
             zombie.anims.play('female-dead', true);
             zombie.once('animationcomplete', () => {
               zombie.destroy();
             });
           }
-        });
+        };
 
         // Player killed
         this.playerHit = function () {
+          // Scene Fades
+          this.add.image(700, 300, 'blackness').setAlpha(0.4);
+
+          // Game Stops
           gameState.play = false;
           this.backgroundMusic.stop();
           this.noise1.play();
           this.physics.pause();
+
+          // Determine if Game Over
           if (gameState.remainingLives === 0) {
             this.add.text(675, 245, 'Game Over', {
               fontSize: '30px',
@@ -670,6 +831,8 @@
               fontSize: '25px',
               fill: '#FFFFFF',
             });
+
+            // Restart Game on Click
             this.input.on('pointerup', () => {
               gameState.play = true;
               gameState.deadAnimationPlayed = false;
@@ -677,10 +840,13 @@
               this.scene.restart();
             });
           } else {
+            // Continue Game on Click
             this.add.text(600, 250, 'Click to Continue', {
               fontSize: '30px',
               fill: '#FFFFFF',
             });
+
+            // Restart Game
             gameState.remainingLives -= 1;
             this.input.on('pointerup', () => {
               gameState.play = true;
@@ -692,27 +858,49 @@
       }
 
       function update() {
+        // Control Player Movement
         if (gameState.play) {
+          // Player Moves Left
           if (gameState.cursors.left.isDown) {
             player.setVelocityX(-160);
             player.flipX = true;
-            player.anims.play('player-run', true);
+            if (player.body.touching.down) {
+              player.anims.play('player-run', true);
+            } else {
+              player.anims.play('player-jump', true);
+            }
+
+            // Player Moves Right
           } else if (gameState.cursors.right.isDown) {
             player.setVelocityX(160);
-            player.anims.play('player-run', true);
             player.flipX = false;
+            if (player.body.touching.down) {
+              player.anims.play('player-run', true);
+            } else {
+              player.anims.play('player-jump', true);
+            }
+
+            // Player in Midair
+          } else if (!player.body.touching.down) {
+            player.anims.play('player-jump', true);
+
+            // Player Idle
           } else {
             player.setVelocityX(0);
             player.anims.play('player-idle', true);
             player.flipX = false;
           }
 
+          // Player Jumps
           if (
             (gameState.cursors.up.isDown || gameState.cursors.space.isDown) &&
             player.body.touching.down
           ) {
+            player.anims.play('player-jump', true);
             player.setVelocityY(-330);
           }
+
+          // Player Dead
         } else {
           if (gameState.deadAnimationPlayed === false) {
             gameState.deadAnimationPlayed = true;
