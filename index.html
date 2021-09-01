@@ -44,7 +44,7 @@
         play: true,
         musicPlaying: false,
         zombiesCreated: 0,
-        delay: 1000,
+        delay: 3000,
         deadAnimationPlayed: false,
         remainingLives: 2,
         level: 6,
@@ -69,7 +69,9 @@
             x: 100,
             y: 100
           }
-        ]
+        ],
+        nukes: 0,
+        timesUp: false
       };
 
       function preload() {
@@ -502,6 +504,10 @@
           fontSize: "30px",
           fill: "#FFFFFF",
         });
+        this.add.text(50, 140, `Level: ${gameState.level}`, {
+          fontSize: "30px",
+          fill: "#FFFFFF",
+        });
 
         // Add 'player' sprite to scene
         player = this.physics.add.sprite(200, 400, "hero", "idle/idle01.png");
@@ -768,7 +774,7 @@
 
         // Establish Zombie Creation Rate
         const zombieGenLoop = this.time.addEvent({
-          delay: gameState.delay,
+          delay: gameState.delay / gameState.level,
           callback: zombieGen,
           callbackScope: this,
           loop: true,
@@ -897,6 +903,7 @@
               gameState.play = true;
               gameState.deadAnimationPlayed = false;
               gameState.remainingLives = 2;
+              gameState.level = 1;
               this.scene.restart();
             });
           } else {
@@ -983,22 +990,26 @@
           gameState.globalMusic.stop();
           gameState.musicPlaying = false;
           this.physics.pause();
+          if (gameState.timesUp === false) {
+            gameState.timesUp = true;
+            this.add.text(550, 175, "Congrats, you made it out alive!", {
+              fontSize: "30px",
+              fill: "#FFFFFF",
+            });
 
-          this.add.text(550, 175, "Congrats, you made it out alive!", {
-            fontSize: "30px",
-            fill: "#FFFFFF",
-          });
+            this.input.on("pointerup", () => {
+              gameState.play = true;
+              gameState.deadAnimationPlayed = false;
+              gameState.timesUp = false;
+              this.scene.restart();
+            });
+            gameState.level = gameState.level + 1;
+            this.add.text(635, 280, `Click to go to Level ${gameState.level}`, {
+              fontSize: "25px",
+              fill: "#FFFFFF",
+            });
+          }
 
-          this.input.on("pointerup", () => {
-            gameState.play = true;
-            gameState.deadAnimationPlayed = false;
-            gameState.remainingLives = 2;
-            this.scene.restart();
-          });
-          this.add.text(635, 280, "Click to Restart", {
-            fontSize: "25px",
-            fill: "#FFFFFF",
-          });
         } else if (gameState.play) {
           this.initialTime--;
           text.setText("Countdown: " + formatTime(this.initialTime));
