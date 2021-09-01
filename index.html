@@ -257,6 +257,21 @@
           loop: false,
         });
 
+        // creating timer
+        this.initialTime = 10;
+        text = this.add.text(
+          32,
+          32,
+          'Countdown: ' + formatTime(this.initialTime)
+        );
+
+        timedEvent = this.time.addEvent({
+          delay: 1000,
+          callback: onEvent,
+          callbackScope: this,
+          loop: true,
+        });
+
         platforms = this.physics.add.staticGroup();
         objects = this.physics.add.staticGroup();
 
@@ -705,6 +720,27 @@
             // Replace line below with a real tween
             //player.y = 550;
           }
+        }
+      }
+
+      function formatTime(number) {
+        number--;
+        return number;
+      }
+
+      function onEvent() {
+        //Logic to end game once timer ends
+        if (this.initialTime === 1) {
+          gameState.play = false;
+          this.physics.pause();
+
+          this.add.text(550, 175, 'Congrats, you made it out alive!', {
+            fontSize: '30px',
+            fill: '#FFFFFF',
+          });
+        } else {
+          this.initialTime--;
+          text.setText('Countdown: ' + formatTime(this.initialTime));
         }
       }
     </script>
