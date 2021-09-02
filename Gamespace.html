@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zombie Dash</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var config = {
+        type: Phaser.AUTO,
+        width: 1500,
+        height: 600,
+        physics: {
+          default: "arcade",
+          arcade: {
+            gravity: { y: 300 },
+            debug: false,
+          },
+        },
+        scene: {
+          preload: preload,
+          create: create,
+          update: update
+        },
+      };
+
+      let player;
+      let platforms;
+
+      var game = new Phaser.Game(config);
+
+      const gameState = {};
+
+      function preload() {
+        this.load.image("sky", "assets/png/2/layers/l1_background.png");
+        this.load.image("hills", "assets/png/2/layers/l2_hills.png");
+        this.load.image("clouds", "assets/png/2/layers/l3_clouds.png");
+        this.load.image("ruin", "assets/png/2/layers/l4_ruin.png");
+        this.load.image("ground", "assets/png/2/layers/l5_ground.png");
+        this.load.image("houses", "assets/png/2/layers/l6_houses.png");
+        this.load.image("ground", "assets/platform.png");
+        // this.load.image("star", "assets/star.png");
+        // this.load.image("bomb", "assets/bomb.png");
+        // this.load.spritesheet("dude", "assets/dude.png", {
+        //   frameWidth: 32,
+        //   frameHeight: 48,
+        // });
+        this.load.multiatlas('hero', 'assets/hero.json', "assets");
+        this.load.multiatlas('male', 'assets/male.json', "assets");
+        this.load.multiatlas('female', 'assets/female.json', "assets");
+        this.load.audio('zombie-dance', ['assets/audio/zombie-dance.mp3', 'assets/audio/zombie-dance.ogg'])
+      }
+
+      function create() {
+        this.add.image(700, 300, "sky");
+        this.add.image(700, 700, "hills");
+        this.add.image(700, 300, "clouds");
+        this.add.image(700, 300, "ruin");
+        this.add.image(700, 175, "houses");
+        this.add.image(700, 300, "ground");
+
+        this.backgroundMusic = this.sound.add('zombie-dance', { volume: 0.8, loop: true });
+        this.backgroundMusic.play();
+        
+        platforms = this.physics.add.staticGroup();
+
+        // platforms.create(400, 568, "ground").setScale(2).refreshBody();
+
+        // platforms.create(600, 400, "ground");
+        // platforms.create(50, 250, "ground");
+        // platforms.create(750, 220, "ground");
+
+        // player = this.physics.add.sprite(200, 450, "dude");
+        // player.setBounce(0.2);
+        // player.setCollideWorldBounds(true);
+
+        // Add 'player' sprite to scene
+        player = this.physics.add.sprite(20, 400, 'hero', 'idle/idle01.png');
+        player.setScale(0.2);
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
+
+        // Add 'male' zombie sprite to scene
+        let zombieMale
+        zombieMale = this.physics.add.sprite(300, 400, 'male', 'male-idle/idle01.png');
+        zombieMale.setScale(0.2);
+        zombieMale.setBounce(0.2);
+        zombieMale.setCollideWorldBounds(true);
+        zombieMale.flipX = true;
+
+        // Add 'female' zombie sprite to scene
+        let zombieFemale
+        zombieFemale = this.physics.add.sprite(400, 400, 'female', 'female-idle/idle01.png');
+        zombieFemale.setScale(0.2);
+        zombieFemale.setBounce(0.2);
+        zombieFemale.setCollideWorldBounds(true);
+        zombieFemale.flipX = true;
+
+        // 'player-idle' animation
+        let idleFrameNames = this.anims.generateFrameNames('hero', {
+          start: 1, end: 10, zeroPad: 2,
+          prefix: 'idle/idle', suffix: '.png'
+        })
+        console.log(JSON.stringify(idleFrameNames));
+        this.anims.create({ key: 'playerIdle', frames: idleFrameNames, frameRate: 10, repeat: -1 });
+        player.anims.play('playerIdle');
+
+        // 'player-run' animation
+        let runFrameNames = this.anims.generateFrameNames('hero', {
+          start: 1, end: 10, zeroPad: 2,
+          prefix: 'run/run', suffix: '.png'
+        })
+        this.anims.create({
+          key: "player-run",
+          frames: runFrameNames,
+          frameRate: 10,
+          repeat: -1,
+        });
+
+
+        // 'player-jump' animation
+        let jumpFrameNames = this.anims.generateFrameNames('hero', {
+          start: 1, end: 12, zeroPad: 2,
+          prefix: 'jump/jump', suffix: '.png'
+        })
+
+        this.anims.create({
+          key: 'player-jump',
+          frames: jumpFrameNames,
+          frameRate: 12,
+          repeat: 0
+        })
+
+        // 'player-dead' animation
+        let deadFrameNames = this.anims.generateFrameNames('hero', {
+          start: 1, end: 10, zeroPad: 2,
+          prefix: 'dead/dead', suffix: '.png'
+        })
+
+        this.anims.create({
+          key: 'player-dead',
+          frames: deadFrameNames,
+          frameRate: 12,
+          repeat: 0
+        })
+
+        // 'male-idle' zombie animation
+        let idleMaleFrameNames = this.anims.generateFrameNames('male', {
+          start: 1, end: 15, zeroPad: 2,
+          prefix: 'male-idle/idle', suffix: '.png'
+        })
+        this.anims.create({ key: 'male-idle', frames: idleMaleFrameNames, frameRate: 10, repeat: -1 });
+
+        // 'male-walk' zombie animation
+        let maleWalkFrameNames = this.anims.generateFrameNames('male', {
+          start: 1, end: 10, zeroPad: 2,
+          prefix: 'male-walk/walk', suffix: '.png'
+        })
+        this.anims.create({
+          key: "male-walk",
+          frames: maleWalkFrameNames,
+          frameRate: 10,
+          repeat: -1,
+        });
+        zombieMale.anims.play('male-walk')
+
+        // 'female-walk' zombie animation
+        let femaleWalkFrameNames = this.anims.generateFrameNames('female', {
+          start: 1, end: 10, zeroPad: 2,
+          prefix: 'female-walk/walk', suffix: '.png'
+        })
+        this.anims.create({
+          key: 'female-walk',
+          frames: femaleWalkFrameNames,
+          frameRate: 10,
+          repeat: -1
+        });
+        zombieFemale.anims.play('female-walk')
+
+
+        this.physics.add.collider(player, platforms);
+
+        gameState.cursors = this.input.keyboard.createCursorKeys();
+
+      }
+
+      function update() {
+        if (gameState.cursors.left.isDown) {
+          player.setVelocityX(-160);
+          player.flipX = true;
+          player.anims.play("player-run", true);
+        } else if (gameState.cursors.right.isDown) {
+          player.setVelocityX(160);
+          player.anims.play("player-run", true);
+          player.flipX = false
+        } else {
+          player.setVelocityX(0);
+          player.anims.play("playerIdle", true);
+          player.flipX = false;
+        }
+
+        if (gameState.cursors.up.isDown && player.body.touching.down) {
+          player.setVelocityY(-330);
+        }
+      }
+    </script>
+  </body>
+</html>

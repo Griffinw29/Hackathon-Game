@@ -357,7 +357,7 @@
         });
 
         // creating timer
-        this.initialTime = 15;
+        this.initialTime = 10;
         text = this.add.text(
           32,
           32,
@@ -922,6 +922,8 @@
         if (this.initialTime === 1) {
           this.physics.pause();
 
+          this.backgroundMusic.stop();
+
           this.add.text(550, 175, 'Congrats, you made it out alive!', {
             fontSize: '30px',
             fill: '#FFFFFF',
@@ -930,7 +932,7 @@
           this.input.on('pointerup', () => {
             gameState.play = true;
             gameState.deadAnimationPlayed = false;
-            gameState.remainingLives = 2;
+            // gameState.remainingLives = 2;
             this.scene.restart();
           });
           this.add.text(635, 280, 'Click to Restart', {
