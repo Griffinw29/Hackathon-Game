@@ -257,8 +257,8 @@
           "assets/audio/victory.ogg"
         ]);
         this.load.audio("game-over", [
-          "assets/audio/gameOver.mp3",
-          "assets/audio/gameOver.ogg"
+          "assets/audio/gameOverSong.mp3",
+          "assets/audio/gameOverSong.ogg"
         ]);
 
         let progressBar = this.add.graphics();
@@ -429,6 +429,18 @@
           volume: 1,
           loop: false,
         });
+        this.chime = this.sound.add('chime', {
+          volume: 1,
+          loop: false,
+        });
+        this.victory = this.sound.add('victory', {
+          volume: 1,
+          loop: false,
+        });
+        this.gameOverSong = this.sound.add('gameOverSong', {
+          volume: 1,
+          loop: false,
+        })
 
         // creating timer
         this.initialTime = 60;
@@ -890,6 +902,7 @@
         });
 
         const pickupNuke = (player, nuclear) => {
+          this.chime.play();
           gameState.nukes = gameState.nukes + 1;
           //hide powerup when hit by player
           powerup.killAndHide(nuclear);
