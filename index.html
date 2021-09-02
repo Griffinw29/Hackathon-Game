@@ -50,6 +50,7 @@
         musicPlaying: false,
         zombiesCreated: 0,
         delay: 3000,
+        fireballCreation: 10000,
         deadAnimationPlayed: false,
         remainingLives: 2,
         level: 1,
@@ -797,6 +798,25 @@
         const fireballs = this.physics.add.group();
 
         function fireballsGen() {
+          switch(gameState.level) {
+            case 1:
+              gameState.fireballCreation = 10000;
+              break;
+            case 2:
+              gameState.fireballCreation = 8000;
+              break;
+            case 3:
+              gameState.fireballCreation = 6000;
+              break;
+            case 4:
+              gameState.fireballCreation = 4000;
+              break;
+            case 5:
+              gameState.fireballCreation = 2000;
+              break;
+            default:
+              gameState.fireballCreation = 1000;
+          }
           if (gameState.play) {
             // Set Random Fireball Source Location, Size
             let fireballX = Phaser.Math.Between(0, 1500);
@@ -812,7 +832,7 @@
         const fireBallGenLoop = this.time.addEvent({
           // Adjust Rate of Fireball Creation
           // delay: gameState.delay*4,
-          delay: 1000,
+          delay: gameState.fireballCreation,
           callback: fireballsGen,
           callbackScope: this,
           loop: true,
