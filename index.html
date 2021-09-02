@@ -10,6 +10,11 @@
       body {
         margin: 0;
       }
+      canvas {
+        display: block;
+        margin: auto;
+        padding: 50px;
+      }
     </style>
   </head>
   <body>
@@ -50,28 +55,28 @@
         level: 1,
         nukePositions: [
           {
-            x: 450,
-            y: 300
+            x: 750,
+            y: 150,
           },
           {
             x: 750,
-            y: 200
+            y: 200,
           },
           {
             x: 1400,
-            y: 300
+            y: 300,
           },
           {
             x: 1400,
-            y: 50
+            y: 50,
           },
           {
             x: 100,
-            y: 100
-          }
+            y: 100,
+          },
         ],
         nukes: 0,
-        timesUp: false
+        timesUp: false,
       };
 
       function preload() {
@@ -304,18 +309,18 @@
 
       function create() {
         // Add Background
+
         this.add.image(700, 300, "sky");
         this.add.image(700, 700, "hills");
         this.add.image(700, 300, "clouds");
         this.add.image(700, 300, "ruin");
+        this.add.image(550, 300, "zombiemale");
         this.add.image(700, 175, "houses");
         // this.add.image(700, 300, "ground");
-        this.add.image(530, 500, "zombie-group").setScale(0.2);
+        //this.add.image(530, 500, "zombie-group").setScale(0.2);
 
-        logo = this.add.image(750, 300, "zombiemale");
-        logo.setScale(0.75);
-
-        this.add.image(550, 300, "zombiemale");
+        // logo = this.add.image(750, 300, "zombiemale");
+        // logo.setScale(0.75);
 
         // Add Music
         console.log(gameState.musicPlaying);
@@ -329,7 +334,6 @@
           gameState.musicPlaying = true;
           console.log(gameState.musicPlaying);
         } else {
-
         }
         this.noise1 = this.sound.add("male-noise-1", {
           volume: 1.5,
@@ -413,10 +417,11 @@
         text = this.add.text(
           32,
           32,
-          "Countdown: " + formatTime(this.initialTime), {
-            fontSize: '36px',
-            stroke: '#000000',
-            strokeThickness: '4',
+          "Countdown: " + formatTime(this.initialTime),
+          {
+            fontSize: "36px",
+            stroke: "#000000",
+            strokeThickness: "4",
           }
         );
 
@@ -437,13 +442,20 @@
         let whichNuke = gameState.level - 1;
         let totalPositions = gameState.nukePositions.length;
         function getRandom(min, max) {
-              return Math.random() * (max - min) + min;
-            }
+          return Math.random() * (max - min) + min;
+        }
         if (gameState.level > totalPositions) {
           whichNuke = Math.floor(getRandom(0, totalPositions));
           console.log(whichNuke);
         }
-        powerup.create(gameState.nukePositions[whichNuke].x, gameState.nukePositions[whichNuke].y, "nuclear").setScale(1).refreshBody();
+        powerup
+          .create(
+            gameState.nukePositions[whichNuke].x,
+            gameState.nukePositions[whichNuke].y,
+            "nuclear"
+          )
+          .setScale(1)
+          .refreshBody();
 
         //add objects to game page
         objects.create(750, 520, "dumpster").setScale(0.2).refreshBody();
@@ -454,14 +466,15 @@
         crates.create(400, 560, "Crate").setScale(0.75).refreshBody();
         crates.create(500, 560, "Crate").setScale(0.75).refreshBody();
         crates.create(450, 400, "Crate").setScale(0.75).refreshBody();
-        crates.create(700, 560, "Crate").setScale(0.75).refreshBody();
+        crates.create(1020, 560, "Crate").setScale(0.75).refreshBody();
+        crates.create(1100, 560, "Crate").setScale(0.75).refreshBody();
 
         //Add 'platforms' to page
         platforms.create(1500, 600, "platform").setScale(10, 0.2).refreshBody();
         platforms.create(100, 200, "tile-platform").setScale(1).refreshBody();
         platforms.create(1500, 150, "tile-platform").setScale(1).refreshBody();
         platforms.create(750, 100, "tile-platform").setScale(0.5).refreshBody();
-        platforms.create(1350, 400, "tile-platform").setScale(1).refreshBody();
+        platforms.create(1350, 450, "tile-platform").setScale(1).refreshBody();
         platforms
           .create(750, 300, "tile-platform")
           .setScale(0.85)
@@ -514,8 +527,6 @@
           fontSize: "30px",
           fill: "#FFFFFF",
         });
-
-
 
         // Add 'player' sprite to scene
         player = this.physics.add.sprite(200, 400, "hero", "idle/idle01.png");
@@ -847,8 +858,7 @@
           powerup.killAndHide(nuclear);
           //disable the body
           nuclear.body.enable = false;
-
-        }
+        };
 
         gameState.nukeBoom = () => {
           if (gameState.nukes > 0) {
@@ -861,7 +871,9 @@
             //clear all zombies from game
             //zombies.clear(true);
             // console.log(zombies.children.entries);
-            zombies.children.entries.forEach((zombie) => this.killZombie(zombie));
+            zombies.children.entries.forEach((zombie) =>
+              this.killZombie(zombie)
+            );
           }
         };
 
@@ -966,7 +978,7 @@
               player.anims.play("player-jump", true);
             }
 
-          // Player in Midair
+            // Player in Midair
           } else if (!player.body.touching.down) {
             player.anims.play("player-jump", true);
 
@@ -984,9 +996,7 @@
           ) {
             player.anims.play("player-jump", true);
             player.setVelocityY(-330);
-          }
-
-          else if (gameState.cursors.shift.isDown) {
+          } else if (gameState.cursors.shift.isDown) {
             gameState.nukeBoom();
           }
 
@@ -1033,14 +1043,11 @@
               fill: "#FFFFFF",
             });
           }
-
         } else if (gameState.play) {
           this.initialTime--;
           text.setText("Countdown: " + formatTime(this.initialTime));
         }
       }
-
-
     </script>
   </body>
 </html>
