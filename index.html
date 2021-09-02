@@ -10,6 +10,15 @@
       body {
         margin: 0;
       }
+      canvas {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        margin: auto;
+        border-radius: 100px rgb(136, 136, 136);
+      }
     </style>
   </head>
   <body>
@@ -42,19 +51,67 @@
       // Set up Initial Game State
       const gameState = {
         play: true,
+        musicPlaying: false,
         zombiesCreated: 0,
-        delay: 1000,
+        delay: 3000,
         deadAnimationPlayed: false,
         remainingLives: 2,
         level: 1,
+        nukePositions: [
+          {
+            x: 450,
+            y: 300,
+          },
+          {
+            x: 750,
+            y: 200,
+          },
+          {
+            x: 1400,
+            y: 300,
+          },
+          {
+            x: 1400,
+            y: 50,
+          },
+          {
+            x: 100,
+            y: 100,
+          },
+        ],
+        nukes: 0,
+        timesUp: false,
       };
 
       function preload() {
         // Load Background
+
         this.load.image('blackness', 'assets/png/2/blackness.png');
         this.load.image('sky', 'assets/png/2/layers/l1_background.png');
         this.load.image('hills', 'assets/png/2/layers/l2_hills.png');
         this.load.image('clouds', 'assets/png/2/layers/l3_clouds.png');
+        this.load.image('ruin', 'assets/png/2/layers/l4_ruin.png');
+        this.load.image('ground', 'assets/png/2/layers/l5_ground.png');
+        this.load.image('houses', 'assets/png/2/layers/l6_houses.png');
+        this.load.image('ground', 'assets/platform.png');
+
+        this.load.image('blackness', 'assets/png/2/blackness.png');
+        this.load.image('sky', 'assets/png/2/layers/l1_background.png');
+        this.load.image('hills', 'assets/png/2/layers/l2_hills.png');
+        this.load.image('clouds', 'assets/png/2/layers/l3_clouds.png');
+        this.load.image('ruin', 'assets/png/2/layers/l4_ruin.png');
+        this.load.image('ground', 'assets/png/2/layers/l5_ground.png');
+        this.load.image('houses', 'assets/png/2/layers/l6_houses.png');
+        this.load.image('ground', 'assets/platform.png');
+
+        this.load.image('blackness', 'assets/png/2/blackness.png');
+        this.load.image('sky', 'assets/png/2/layers/l1_background.png');
+        this.load.image('hills', 'assets/png/2/layers/l2_hills.png');
+        this.load.image('clouds', 'assets/png/2/layers/l3_clouds.png');
+        this.load.image(
+          'zombiemale',
+          'assets/zombies-sprite/zombie-male/male-idle/idle01.png'
+        );
         this.load.image('ruin', 'assets/png/2/layers/l4_ruin.png');
         this.load.image('ground', 'assets/png/2/layers/l5_ground.png');
         this.load.image('houses', 'assets/png/2/layers/l6_houses.png');
@@ -189,76 +246,70 @@
           'assets/audio/boom.mp3',
           'assets/audio/boom.ogg',
         ]);
+
+        let progressBar = this.add.graphics();
+        let progressBox = this.add.graphics();
+        let width = this.cameras.main.width;
+        let height = this.cameras.main.height;
+        let loadingText = this.make.text({
+          x: 750,
+          y: 250,
+          text: 'Loading Brains...I mean yeah, come on in...',
+          style: {
+            font: '20px monospace',
+            fill: '#ffffff',
+          },
+        });
+        let percentText = this.make.text({
+          x: 750,
+          y: 100,
+          text: '0%',
+          style: {
+            font: '18px monospace',
+            fill: '#ffffff',
+          },
+        });
+        let assetText = this.make.text({
+          x: 700,
+          y: 350,
+          text: '',
+          style: {
+            font: '20px monospace',
+            fill: '#ffffff',
+          },
+        });
+        loadingText.setOrigin(0.5, 0.5);
+        progressBox.fillStyle(0x222222, 0.8);
+        progressBox.fillRect(240, 270, 320, 50);
+
+        // for (let i = 0; i < 700; i++) {
+        //   this.load.image(
+        //     "zombiemale" + i,
+        //     "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
+        //   );
+        // }
+
+        this.load.on('progress', function (value) {
+          percentText.setText(parseInt(value * 100) + '%');
+          progressBar.clear();
+          progressBar.fillStyle(0xffffff, 1);
+          progressBar.fillRect(250, 280, 300 * value, 30);
+
+          // console.log(value);
+        });
+
+        this.load.on('fileprogress', function (file) {
+          assetText.setText('Loading: ' + file.key);
+          // console.log(file.src);
+        });
+
+        this.load.on('complete', function (complete) {
+          assetText.destroy();
+          percentText.destroy();
+          progressBar.destroy();
+          progressBox.destroy();
+        });
       }
-
-      // function preload() {
-      //   let progressBar = this.add.graphics();
-      //   let progressBox = this.add.graphics();
-      //   let width = this.cameras.main.width;
-      //   let height = this.cameras.main.height;
-      //   let loadingText = this.make.text({
-      //     x: width / 2,
-      //     y: height / 2 - 50,
-      //     text: "Loading Brains...I mean yeah, come on in...",
-      //     style: {
-      //       font: "20px monospace",
-      //       fill: "#ffffff",
-      //     },
-      //   });
-      //   let percentText = this.make.text({
-      //     x: width / 2,
-      //     y: height / 2 - 5,
-      //     text: "0%",
-      //     style: {
-      //       font: "18px monospace",
-      //       fill: "#ffffff",
-      //     },
-      //   });
-      //   let assetText = this.make.text({
-      //     x: width / 2,
-      //     y: height / 2 - 50,
-      //     text: "Everything's on fire...I mean yeah, come on in...",
-      //     style: {
-      //       font: "20px monospace",
-      //       fill: "#ffffff",
-      //     },
-      //   });
-      //   loadingText.setOrigin(0.5, 0.5);
-      //   progressBox.fillStyle(0x222222, 0.8);
-      //   progressBox.fillRect(240, 270, 320, 50);
-
-      //   this.load.image(
-      //     "zombiemale",
-      //     "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
-      //   );
-      //   for (let i = 0; i < 700; i++) {
-      //     this.load.image(
-      //       "zombiemale" + i,
-      //       "assets/zombies-sprite/zombie-male/male-idle/idle01.png"
-      //     );
-      //   }
-
-      //   this.load.on("progress", function (value) {
-      //     percentText.setText(parseInt(value * 100) + "%");
-      //     progressBar.clear();
-      //     progressBar.fillStyle(0xffffff, 1);
-      //     progressBar.fillRect(250, 280, 300 * value, 30);
-
-      //     console.log(value);
-      //   });
-
-      //   this.load.on("fileprogress", function (file) {
-      //     assetText.setText("Loading Brains: " + file.key);
-      //     console.log(file.src);
-      //   });
-
-      //   this.load.on("complete", function (complete) {
-      //     assetText.destroy();
-      //     percentText.destroy();
-      //     progressBar.destroy();
-      //     progressBox.destroy();
-      //   });
-      // }
 
       function create() {
         // Add Background
@@ -273,12 +324,21 @@
         logo = this.add.image(750, 300, 'zombiemale');
         logo.setScale(0.75);
 
+        this.add.image(550, 300, 'zombiemale');
+
         // Add Music
-        this.backgroundMusic = this.sound.add('zombie-dance', {
-          volume: 0.8,
-          loop: true,
-        });
-        this.backgroundMusic.play();
+        console.log(gameState.musicPlaying);
+        if (gameState.musicPlaying === false) {
+          this.backgroundMusic = this.sound.add('zombie-dance', {
+            volume: 0.8,
+            loop: true,
+          });
+          gameState.globalMusic = this.backgroundMusic;
+          this.backgroundMusic.play();
+          gameState.musicPlaying = true;
+          console.log(gameState.musicPlaying);
+        } else {
+        }
         this.noise1 = this.sound.add('male-noise-1', {
           volume: 1.5,
           loop: false,
@@ -357,11 +417,16 @@
         });
 
         // creating timer
-        this.initialTime = 10;
+        this.initialTime = 60;
         text = this.add.text(
           32,
           32,
-          'Countdown: ' + formatTime(this.initialTime)
+          'Countdown: ' + formatTime(this.initialTime),
+          {
+            fontSize: '36px',
+            stroke: '#000000',
+            strokeThickness: '4',
+          }
         );
 
         timedEvent = this.time.addEvent({
@@ -378,7 +443,23 @@
         powerup = this.physics.add.staticGroup();
 
         //add powerups to game
-        powerup.create(450, 300, 'nuclear').setScale(1).refreshBody();
+        let whichNuke = gameState.level - 1;
+        let totalPositions = gameState.nukePositions.length;
+        function getRandom(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+        if (gameState.level > totalPositions) {
+          whichNuke = Math.floor(getRandom(0, totalPositions));
+          console.log(whichNuke);
+        }
+        powerup
+          .create(
+            gameState.nukePositions[whichNuke].x,
+            gameState.nukePositions[whichNuke].y,
+            'nuclear'
+          )
+          .setScale(1)
+          .refreshBody();
 
         //add objects to game page
         objects.create(750, 520, 'dumpster').setScale(0.2).refreshBody();
@@ -440,6 +521,12 @@
 
         // Add 'Remaining Lives' to Screen
         this.add.text(50, 175, `Lives: ${gameState.remainingLives}`, {
+          fontSize: '30px',
+          fill: '#FFFFFF',
+        });
+
+        // Add 'Level' to Screen
+        this.add.text(50, 140, `Level: ${gameState.level}`, {
           fontSize: '30px',
           fill: '#FFFFFF',
         });
@@ -709,7 +796,7 @@
 
         // Establish Zombie Creation Rate
         const zombieGenLoop = this.time.addEvent({
-          delay: gameState.delay,
+          delay: gameState.delay / gameState.level,
           callback: zombieGen,
           callbackScope: this,
           loop: true,
@@ -768,22 +855,32 @@
           this.killZombie(zombie);
         });
 
-        const powerupHit = (player, nuclear) => {
-          // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
-          this.boom.play();
-          this.cameras.main.shake(1000, 0.02);
+        const pickupNuke = (player, nuclear) => {
+          gameState.nukes = gameState.nukes + 1;
           //hide powerup when hit by player
           powerup.killAndHide(nuclear);
           //disable the body
           nuclear.body.enable = false;
-
-          //clear all zombies from game
-          //zombies.clear(true);
-          console.log(zombies.children.entries);
-          zombies.children.entries.forEach((zombie) => this.killZombie(zombie));
         };
 
-        this.physics.add.overlap(player, powerup, powerupHit);
+        gameState.nukeBoom = () => {
+          if (gameState.nukes > 0) {
+            gameState.nukes = gameState.nukes - 1;
+            console.log(gameState.nukes);
+            // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
+            this.boom.play();
+            this.cameras.main.shake(1000, 0.02);
+
+            //clear all zombies from game
+            //zombies.clear(true);
+            // console.log(zombies.children.entries);
+            zombies.children.entries.forEach((zombie) =>
+              this.killZombie(zombie)
+            );
+          }
+        };
+
+        this.physics.add.overlap(player, powerup, pickupNuke);
 
         // Reusable Function for Zombie Death
         this.killZombie = function (zombie) {
@@ -818,6 +915,7 @@
           // Game Stops
           gameState.play = false;
           this.backgroundMusic.stop();
+          gameState.musicPlaying = false;
           this.noise1.play();
           this.physics.pause();
 
@@ -837,6 +935,8 @@
               gameState.play = true;
               gameState.deadAnimationPlayed = false;
               gameState.remainingLives = 2;
+              gameState.level = 1;
+              gameState.nukes = 0;
               this.scene.restart();
             });
           } else {
@@ -851,6 +951,7 @@
             this.input.on('pointerup', () => {
               gameState.play = true;
               gameState.deadAnimationPlayed = false;
+              gameState.nukes = 0;
               this.scene.restart();
             });
           }
@@ -898,6 +999,8 @@
           ) {
             player.anims.play('player-jump', true);
             player.setVelocityY(-330);
+          } else if (gameState.cursors.shift.isDown) {
+            gameState.nukeBoom();
           }
 
           // Player Dead
@@ -920,25 +1023,29 @@
       function onEvent() {
         //Logic to end game once timer ends
         if (this.initialTime === 1) {
+          gameState.globalMusic.stop();
+          gameState.musicPlaying = false;
           this.physics.pause();
+          if (gameState.timesUp === false) {
+            gameState.timesUp = true;
+            this.add.text(530, 175, 'Congrats, you made it out alive!', {
+              fontSize: '30px',
+              fill: '#FFFFFF',
+            });
 
-          this.backgroundMusic.stop();
-
-          this.add.text(550, 175, 'Congrats, you made it out alive!', {
-            fontSize: '30px',
-            fill: '#FFFFFF',
-          });
-
-          this.input.on('pointerup', () => {
-            gameState.play = true;
-            gameState.deadAnimationPlayed = false;
-            // gameState.remainingLives = 2;
-            this.scene.restart();
-          });
-          this.add.text(635, 280, 'Click to Restart', {
-            fontSize: '25px',
-            fill: '#FFFFFF',
-          });
+            this.input.on('pointerup', () => {
+              gameState.play = true;
+              gameState.deadAnimationPlayed = false;
+              gameState.timesUp = false;
+              gameState.nukes = 0;
+              this.scene.restart();
+            });
+            gameState.level = gameState.level + 1;
+            this.add.text(635, 280, `Click for Level ${gameState.level}`, {
+              fontSize: '25px',
+              fill: '#FFFFFF',
+            });
+          }
         } else if (gameState.play) {
           this.initialTime--;
           text.setText('Countdown: ' + formatTime(this.initialTime));

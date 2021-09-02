@@ -1,11 +1,13 @@
 # Zombie Dash
 A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 
-[Live Website]()
+[zombie-dash.com](https://zombie-dash.com/)
 
 ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/zombies-sprite/zombie-female/female-idle/idle01.png)
 
 ## ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/grave-tiles/png/Objects/Sign.png) Screenshots
+
+![image](https://github.com/ejw773/zombie-dash/blob/main/assets/img/screenshot.jpg)
 
 ## ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/grave-tiles/png/Objects/Crate.png) Assets / Resources
 * Built with [Phaser JS](https://phaser.io/)
