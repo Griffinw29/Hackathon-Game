@@ -60,7 +60,7 @@
         musicPlaying: false,
         zombiesCreated: 0,
         delay: 3000,
-        fireballCreation: 10000,
+        fireballCreation: 6000,
         deadAnimationPlayed: false,
         remainingLives: 2,
         level: 1,
@@ -484,18 +484,24 @@
         objects.create(300, 580, 'Skeleton').setScale(0.75).refreshBody();
 
         //add crates for player to jump on
-        crates.create(400, 560, 'Crate').setScale(0.75).refreshBody();
-        crates.create(500, 560, 'Crate').setScale(0.75).refreshBody();
-        crates.create(450, 400, 'Crate').setScale(0.75).refreshBody();
-        crates.create(1020, 560, 'Crate').setScale(0.75).refreshBody();
-        crates.create(1100, 560, 'Crate').setScale(0.75).refreshBody();
+        crates.create(415, 560, 'Crate').setScale(0.7).refreshBody();
+        crates.create(485, 560, 'Crate').setScale(0.7).refreshBody();
+        crates.create(450, 400, 'Crate').setScale(0.7).refreshBody();
+        crates.create(1030, 560, 'Crate').setScale(0.7).refreshBody();
+        crates.create(1100, 560, 'Crate').setScale(0.7).refreshBody();
 
         //Add 'platforms' to page
+        // "Floor"       
         platforms.create(1500, 600, 'platform').setScale(10, 0.2).refreshBody();
-        platforms.create(100, 200, 'tile-platform').setScale(1).refreshBody();
-        platforms.create(1500, 150, 'tile-platform').setScale(1).refreshBody();
+        // Upper Left Platform
+        platforms.create(150, 200, 'tile-platform').setScale(1).refreshBody();
+        // Upper Right Platform
+        platforms.create(1500, 200, 'tile-platform').setScale(1).refreshBody();
+        // Upper Middle Platform
         platforms.create(750, 100, 'tile-platform').setScale(0.5).refreshBody();
+        // Lower Right Platform
         platforms.create(1350, 450, 'tile-platform').setScale(1).refreshBody();
+        // Middle Platform
         platforms
           .create(750, 300, 'tile-platform')
           .setScale(0.85)
@@ -709,48 +715,61 @@
         function zombieGen() {
           if (gameState.play) {
             // Set Variables for Different Zombies
-            let directionNumber = Math.floor(getRandom(1, 6));
-            let theDirection;
+            let directionNumber = Math.floor(getRandom(1, 8));
             let zombieFlip;
             let startX;
             let startY;
             // Set Zombie Source Direction
             let zombieVelocity;
             switch (directionNumber) {
+              // Top Right
               case 1:
-                theDirection = 'top-right';
                 zombieFlip = true;
                 startX = 1500;
                 startY = 50;
                 zombieVelocity = -50;
                 break;
+              // Bottom Right
               case 2:
-                theDirection = 'bottom-right';
                 zombieFlip = true;
                 startX = 1500;
                 startY = 450;
                 zombieVelocity = -50;
                 break;
+              // Bottom Left
               case 3:
-                theDirection = 'bottom-left';
                 zombieFlip = false;
                 startX = 20;
                 startY = 450;
                 zombieVelocity = 50;
                 break;
+              // Top Left
               case 4:
-                theDirection = 'top-left';
                 zombieFlip = false;
                 startX = 0;
                 startY = 0;
                 zombieVelocity = 50;
                 break;
+              // Top Middle
               case 5:
-                theDirection = 'top-middle';
-                startX = 750;
+                startX = 550;
                 startY = 0;
                 zombieFlip = false;
                 zombieVelocity = 50;
+                break;
+              case 6:
+                // Top Middle Right
+                startX = 800;
+                startY = 0;
+                zombieFlip = true;
+                zombieVelocity = -50
+                break;
+              case 7:
+                // Right Middle
+                zombieFlip = true;
+                startX = 1500;
+                startY = 200;
+                zombieVelocity = -50;
                 break;
               default:
                 theDirection = 'top-right';
