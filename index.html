@@ -65,7 +65,7 @@
         nukePositions: [
           {
             x: 750,
-            y: 150,
+            y: 200,
           },
           {
             x: 750,
@@ -308,13 +308,10 @@
           progressBar.clear();
           progressBar.fillStyle(0xffffff, 1);
           progressBar.fillRect(570, 280, 300 * value, 30);
-
-          // console.log(value);
         });
 
         this.load.on('fileprogress', function (file) {
           assetText.setText('Loading: ' + file.key);
-          // console.log(file.src);
         });
 
         this.load.on('complete', function (complete) {
@@ -334,14 +331,8 @@
         this.add.image(700, 300, 'ruin');
         this.add.image(550, 300, 'zombiemale');
         this.add.image(700, 175, 'houses');
-        // this.add.image(700, 300, "ground");
-        //this.add.image(530, 500, "zombie-group").setScale(0.2);
-
-        // logo = this.add.image(750, 300, "zombiemale");
-        // logo.setScale(0.75);
 
         // Add Music
-        console.log(gameState.musicPlaying);
         if (gameState.musicPlaying === false) {
           this.backgroundMusic = this.sound.add('zombie-dance', {
             volume: 0.8,
@@ -350,7 +341,6 @@
           gameState.globalMusic = this.backgroundMusic;
           this.backgroundMusic.play();
           gameState.musicPlaying = true;
-          console.log(gameState.musicPlaying);
         } else {
         }
         this.noise1 = this.sound.add('male-noise-1', {
@@ -476,7 +466,6 @@
         }
         if (gameState.level > totalPositions) {
           whichNuke = Math.floor(getRandom(0, totalPositions));
-          console.log(whichNuke);
         }
         powerup
           .create(
@@ -913,14 +902,11 @@
         gameState.nukeBoom = () => {
           if (gameState.nukes > 0) {
             gameState.nukes = gameState.nukes - 1;
-            console.log(gameState.nukes);
             // From: https://freesound.org/people/Iwiploppenisse/sounds/156031/
             this.boom.play();
             this.cameras.main.shake(1000, 0.02);
 
             //clear all zombies from game
-            //zombies.clear(true);
-            // console.log(zombies.children.entries);
             zombies.children.entries.forEach((zombie) =>
               this.killZombie(zombie)
             );
@@ -968,6 +954,7 @@
 
           // Determine if Game Over
           if (gameState.remainingLives === 0) {
+            this.gameOverSong.play();
             this.add.text(490, 280, "Game Over", {
               fontSize: "100px",
               fill: "#FFFFFF",
@@ -1074,6 +1061,7 @@
           gameState.musicPlaying = false;
           this.physics.pause();
           if (gameState.timesUp === false) {
+            this.victory.play();
             gameState.timesUp = true;
             this.add.text(530, 175, 'Congrats, you made it out alive!', {
               fontSize: '30px',
