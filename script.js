@@ -1,6 +1,10 @@
-import nukePositions from './src/nukePositions.js'
-import zombieSources from './src/zombieSources.js'
+import nukePositions from './src/nukePositions.js';
+import zombieSources from './src/zombieSources.js';
 import arrayRandomizer from './src/arrayRandomizer.js';
+import formatTime from './src/formatTimeComponent.js';
+import gameState from './src/gameState.js';
+import fireballsGen from './src/fireballsGen.js';
+// import loadStuff from './loadStuff.js';
 
 let config = {
   type: Phaser.AUTO,
@@ -31,21 +35,9 @@ let config = {
 
   var game = new Phaser.Game(config);
 
-  // Set up Initial Game State
-  const gameState = {
-    play: true,
-    musicPlaying: false,
-    zombiesCreated: 0,
-    delay: 3000,
-    fireballCreation: 6000,
-    deadAnimationPlayed: false,
-    remainingLives: 2,
-    level: 1,
-    nukes: 0,
-    timesUp: false,
-  };
-
   function preload() {
+
+   // loadStuff();
     // Load Background
 
     this.load.image('blackness', 'assets/png/2/blackness.png');
@@ -739,40 +731,8 @@ let config = {
     });
 
     // Generate Fireballs
-    const fireballs = this.physics.add.group();
+    gameState.fireballs = this.physics.add.group();
 
-    function fireballsGen() {
-      switch (gameState.level) {
-        case 1:
-          gameState.fireballCreation = 10000;
-          break;
-        case 2:
-          gameState.fireballCreation = 8000;
-          break;
-        case 3:
-          gameState.fireballCreation = 6000;
-          break;
-        case 4:
-          gameState.fireballCreation = 4000;
-          break;
-        case 5:
-          gameState.fireballCreation = 2000;
-          break;
-        default:
-          gameState.fireballCreation = 1000;
-      }
-      if (gameState.play) {
-        // Set Random Fireball Source Location, Size
-        let fireballX = Phaser.Math.Between(0, 1500);
-        let thisFireball = fireballs.create(fireballX, -100, 'fireball');
-        thisFireball.setScale(0.05);
-
-        // Adjust Fireball Bounding Box
-        thisFireball.body.setCircle(300);
-        thisFireball.body.offset.y = 1800;
-        thisFireball.body.offset.x = 350;
-      }
-    }
     const fireBallGenLoop = this.time.addEvent({
       // Adjust Rate of Fireball Creation
       // delay: gameState.delay*4,
@@ -798,14 +758,14 @@ let config = {
     });
 
     // Fireball Hits Player
-    this.physics.add.collider(player, fireballs, (player, fireball) => {
+    this.physics.add.collider(player, gameState.fireballs, (player, fireball) => {
       this.bonk2.play();
       fireball.destroy();
       this.playerHit();
     });
 
     // Fireball Hits Zombie
-    this.physics.add.collider(zombies, fireballs, (zombie, fireball) => {
+    this.physics.add.collider(zombies, gameState.fireballs, (zombie, fireball) => {
       fireball.destroy();
       this.killZombie(zombie);
     });
@@ -969,11 +929,6 @@ let config = {
     }
   }
 
-
-  function formatTime(number) {
-    number--;
-    return number;
-  }
 
   function onEvent() {
     //Logic to end game once timer ends
