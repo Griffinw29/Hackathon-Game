@@ -1,7 +1,7 @@
 # Zombie Dash
 A 2D Game Made for the August 2021 [Mintbean](https://mintbean.io/) Hackaton
 
-* 2021 Mintbean Star Winner * 
+##2021 Mintbean Star Winner
 
 ![image](https://github.com/Griffinw29/Hackathon-Game/blob/master/assets/png/mintbean_star.png)
 
